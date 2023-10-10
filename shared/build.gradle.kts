@@ -28,8 +28,10 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.ui)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
                 implementation("org.kodein.di:kodein-di:$Kodein")
 
@@ -42,6 +44,9 @@ kotlin {
                 implementation("dev.gitlive:firebase-database:$Firebase")
                 implementation("dev.gitlive:firebase-firestore:$Firebase")
                 implementation("dev.gitlive:firebase-crashlytics:$Firebase")
+
+                api("moe.tlaster:precompose:1.5.3")
+                api("moe.tlaster:precompose-viewmodel:1.5.3")
             }
         }
         val androidMain by getting {

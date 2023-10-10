@@ -1,5 +1,6 @@
 package com.homehuddle.common.base.di
 
+import com.homehuddle.common.router.Router
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +18,7 @@ object SharedDI {
     }
 
     internal val di = DI {
-       // bind<Router>() with singleton { Router() }
+        bind<Router>() with singleton { Router() }
         bind<CoroutineDispatcher>() with singleton { Dispatchers.Default }
         bind<CoroutineScope>() with singleton {
             CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -32,7 +33,7 @@ object SharedDI {
         }
         bind<Strings>() with singleton { En_Strings }*/
 
-      //  import(coreDi)
-      //  import(viewModelsDi)
+        import(coreDi)
+        import(viewModelsDi)
     }
 }
