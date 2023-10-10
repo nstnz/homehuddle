@@ -1,5 +1,6 @@
 package com.homehuddle.common.base.di
 
+import com.homehuddle.common.feature.general.login.LoginScreenViewModel
 import com.homehuddle.common.feature.general.splash.SplashScreenViewModel
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenViewModel
 import org.kodein.di.DI
@@ -22,7 +23,7 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
     bind<WelcomeScreenViewModel>() with scoped(welcomeScope).multiton {
         WelcomeScreenViewModel(instance())
     }
-    bind<WelcomeScreenViewModel>() with scoped(loginScope).multiton {
-        WelcomeScreenViewModel(instance())
+    bind<LoginScreenViewModel>() with scoped(loginScope).multiton {
+        LoginScreenViewModel(instance(), instance())
     }
 }

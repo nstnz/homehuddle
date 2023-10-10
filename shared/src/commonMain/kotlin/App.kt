@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.homehuddle.common.base.di.SharedDI
+import com.homehuddle.common.feature.general.login.LoginScreenHolder
 import com.homehuddle.common.feature.general.splash.SplashScreenHolder
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenHolder
 import com.homehuddle.common.router.Arg1
@@ -44,7 +45,7 @@ fun App() {
                     when (route) {
                         Routes.Splash -> SplashScreenHolder()
                         Routes.Welcome -> WelcomeScreenHolder()
-                        Routes.Login -> SplashScreenHolder()
+                        Routes.Login -> LoginScreenHolder()
                         Routes.Main -> SplashScreenHolder()
                     }
                 }

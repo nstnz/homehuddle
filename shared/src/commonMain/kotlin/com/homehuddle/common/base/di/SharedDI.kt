@@ -1,13 +1,15 @@
 package com.homehuddle.common.base.di
 
 import com.homehuddle.common.router.Router
-import io.ktor.client.*
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
-import org.kodein.di.*
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.singleton
 import kotlin.native.concurrent.ThreadLocal
 
 @ThreadLocal

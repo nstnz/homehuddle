@@ -1,6 +1,8 @@
 val Ktor = "2.3.5"
 val Kodein = "7.16.0"
 val Firebase = "1.10.0"
+val Storage = "1.1.0"
+val Precompose = "1.5.3"
 
 plugins {
     kotlin("multiplatform")
@@ -45,8 +47,10 @@ kotlin {
                 implementation("dev.gitlive:firebase-firestore:$Firebase")
                 implementation("dev.gitlive:firebase-crashlytics:$Firebase")
 
-                api("moe.tlaster:precompose:1.5.3")
-                api("moe.tlaster:precompose-viewmodel:1.5.3")
+                api("moe.tlaster:precompose:$Precompose")
+                api("moe.tlaster:precompose-viewmodel:$Precompose")
+
+                implementation("com.russhwolf:multiplatform-settings:$Storage")
             }
         }
         val androidMain by getting {
