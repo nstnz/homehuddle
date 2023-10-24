@@ -23,7 +23,7 @@ import com.homehuddle.common.design.navbar.NavigationBarComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.TripCardComponent
-import com.homehuddle.common.design.specific.TripPostCardComponent
+import com.homehuddle.common.design.specific.TripPostCompactCardComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.background2
 import com.homehuddle.common.design.theme.noEffectsClickable
@@ -67,7 +67,7 @@ internal fun MainScreen(
                                 ownedByUser = true
                             )
                         } else {
-                            TripPostCardComponent(
+                            TripPostCompactCardComponent(
                                 trip = mockTrip(),
                                 user = mockUser(),
                                 tripPost = mockTripPost()

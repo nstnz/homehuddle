@@ -35,7 +35,7 @@ internal fun TripPostCompactCardComponent(
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
-            .padding(vertical = AppTheme.indents.x2)
+            .padding(bottom = AppTheme.indents.x2)
     ) {
         if (tripPost.text.isNotEmpty()) {
             Text(

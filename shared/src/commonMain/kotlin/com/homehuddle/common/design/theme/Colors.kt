@@ -28,7 +28,7 @@ internal fun Colors.accent5(): Color = Color(0xFFEE3449)
 
 @Composable
 @ReadOnlyComposable
-internal fun Colors.background1(): Color = Color(0xFFF6F6F9)
+internal fun Colors.background1(): Color = Color(0xFF513174)
 
 @Composable
 @ReadOnlyComposable

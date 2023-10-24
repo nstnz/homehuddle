@@ -18,30 +18,10 @@ fun mockTripPost() = TripPost(
     "Lorem ipsum skldjflskdf lsjdf;l jsl;dfjs; fjsldf jsdfbjhsbdfk s",
     photos = listOf("", ""),
     expenses = listOf(
-        TripExpense(
-            id = "",
-            description = "Bought some food",
-            sum = 1028.0,
-            currencyCode = "USD"
-        ),
-        TripExpense(
-            id = "",
-            description = "Bought some food",
-            sum = 1028.0,
-            currencyCode = "USD"
-        ),
-        TripExpense(
-            id = "",
-            description = "Bought some food",
-            sum = 1028.0,
-            currencyCode = "USD"
-        ),
-        TripExpense(
-            id = "",
-            description = "Bought some food",
-            sum = 1028.0,
-            currencyCode = "USD"
-        ),
+        mockTripExpense(),
+        mockTripExpense(),
+        mockTripExpense(),
+        mockTripExpense(),
     ),
     fromToRoute = listOf(
         TripPoint(
@@ -56,4 +36,11 @@ fun mockTripPost() = TripPost(
             lon = 1.0
         ),
     )
+)
+
+fun mockTripExpense() = TripExpense(
+    id = "",
+    description = "Bought some food",
+    sum = 1028.0,
+    currencyCode = "USD"
 )

@@ -48,7 +48,7 @@ internal fun TripPostCardComponent(
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
-            .padding(vertical = AppTheme.indents.x2)
+            .padding(bottom = AppTheme.indents.x2)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(

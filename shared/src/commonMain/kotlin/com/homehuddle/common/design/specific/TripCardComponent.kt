@@ -13,23 +13,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChatBubbleOutline
-import androidx.compose.material.icons.rounded.CreditCard
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.Hiking
-import androidx.compose.material.icons.rounded.OutlinedFlag
 import androidx.compose.material.icons.rounded.PersonOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
-import com.homehuddle.common.design.theme.accent1
 import com.homehuddle.common.design.theme.ignoreHorizontalParentPadding
 import com.homehuddle.common.design.theme.textDarkDefault
 import com.homehuddle.common.design.theme.textDarkDisabled
@@ -43,40 +38,16 @@ internal fun TripCardComponent(
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
-            .padding(vertical = AppTheme.indents.x2)
+            .padding(bottom = AppTheme.indents.x2)
     ) {
         Text(
             text = trip.name,
-            style = AppTheme.typography.body1,
+            style = AppTheme.typography.body1Bold,
             color = AppTheme.colors.textDarkDefault()
         )
 
         SpacerComponent { x0_5 }
-        Row(modifier.fillMaxWidth()) {
-            Column {
-                TripInfoComponent(
-                    text = "1500 km",
-                    icon = Icons.Rounded.Hiking
-                )
-                TripInfoComponent(
-                    text = "$200",
-                    icon = Icons.Rounded.CreditCard
-                )
-                TripInfoComponent(
-                    text = "5 countries",
-                    icon = Icons.Rounded.OutlinedFlag
-                )
-            }
-            SpacerComponent { x3 }
-            Column((Modifier.weight(1f)), horizontalAlignment = Alignment.End) {
-                Text(
-                    text = "from 11 october till kkksksk jdlfksjdl kfjsdlffsd",
-                    style = AppTheme.typography.body3,
-                    color = AppTheme.colors.textDarkDisabled(),
-                    textAlign = TextAlign.End
-                )
-            }
-        }
+        TripSummaryComponent(trip)
         SpacerComponent { x2 }
         Text(
             text = trip.description,
@@ -147,26 +118,5 @@ private fun PhotosComponent(
             )
         }
         SpacerComponent { x0_5 }
-    }
-}
-
-@Composable
-internal fun TripInfoComponent(
-    icon: ImageVector,
-    text: String
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            imageVector = icon,
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(AppTheme.colors.accent1()),
-            modifier = Modifier.size(AppTheme.indents.x2)
-        )
-        SpacerComponent { x1 }
-        Text(
-            text = text,
-            style = AppTheme.typography.body3,
-            color = AppTheme.colors.textDarkDisabled()
-        )
     }
 }

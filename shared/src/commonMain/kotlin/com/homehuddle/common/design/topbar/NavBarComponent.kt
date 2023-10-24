@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.noEffectsClickable
-import com.homehuddle.common.design.theme.textDarkDefault
 import com.homehuddle.common.design.theme.textLightDefault
 import com.homehuddle.common.design.theme.transparent
 
@@ -31,12 +30,14 @@ internal fun DefaultNavComponent(
     title: String = "",
     showBackButton: Boolean = true,
     showAddButton: Boolean = false,
-    color: Color = AppTheme.colors.transparent()
+    bgColor: Color = AppTheme.colors.transparent(),
+    elementsColor: Color = AppTheme.colors.textLightDefault()
 ) {
     NavBarComponents(
         modifier = Modifier.height(AppTheme.indents.x8)
-            .background(color),
+            .background(bgColor),
         title = title,
+        titleColor = elementsColor,
         navigationIcon = if (showBackButton) {
             {
                 Box(
@@ -48,7 +49,7 @@ internal fun DefaultNavComponent(
                         imageVector = Icons.Rounded.ArrowBack,
                         contentDescription = null,
                         modifier = Modifier.size(AppTheme.indents.x3),
-                        colorFilter = ColorFilter.tint(AppTheme.colors.textDarkDefault())
+                        colorFilter = ColorFilter.tint(elementsColor)
                     )
                 }
             }
@@ -66,7 +67,7 @@ internal fun DefaultNavComponent(
                         imageVector = Icons.Rounded.Add,
                         contentDescription = null,
                         modifier = Modifier.size(AppTheme.indents.x3),
-                        colorFilter = ColorFilter.tint(AppTheme.colors.textDarkDefault())
+                        colorFilter = ColorFilter.tint(elementsColor)
                     )
                 }
             }
