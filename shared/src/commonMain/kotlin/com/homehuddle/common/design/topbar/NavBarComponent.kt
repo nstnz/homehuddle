@@ -1,55 +1,94 @@
 package com.homehuddle.common.design.topbar
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
-import com.homehuddle.common.design.image.IconType
-import com.homehuddle.common.design.image.SimpleIcon
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.noEffectsClickable
+import com.homehuddle.common.design.theme.textDarkDefault
 import com.homehuddle.common.design.theme.textLightDefault
+import com.homehuddle.common.design.theme.transparent
 
 @Composable
 internal fun DefaultNavComponent(
     onBackClick: () -> Unit = {},
+    onAddClick: () -> Unit = {},
     title: String = "",
     showBackButton: Boolean = true,
+    showAddButton: Boolean = false,
+    color: Color = AppTheme.colors.transparent()
 ) {
-    NavBarComponent(
-        modifier = Modifier.height(AppTheme.indents.x8),
+    NavBarComponents(
+        modifier = Modifier.height(AppTheme.indents.x8)
+            .background(color),
         title = title,
-        navigationIcon = {
-            if (showBackButton) {
-                /*SimpleIcon(
-                    tint = AppTheme.colors.textLightDefault(),
-                    type = IconType.IcClose,
-                    modifier = Modifier.size(AppTheme.indents.x6)
+        navigationIcon = if (showBackButton) {
+            {
+                Box(
+                    Modifier.height(AppTheme.indents.x8).width(AppTheme.indents.x6)
                         .noEffectsClickable { onBackClick() },
-                )*/
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Image(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = null,
+                        modifier = Modifier.size(AppTheme.indents.x3),
+                        colorFilter = ColorFilter.tint(AppTheme.colors.textDarkDefault())
+                    )
+                }
             }
+        } else {
+            null
+        },
+        rightIcon = if (showAddButton) {
+            {
+                Box(
+                    Modifier.height(AppTheme.indents.x8).width(AppTheme.indents.x6)
+                        .noEffectsClickable { onAddClick() },
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Image(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = null,
+                        modifier = Modifier.size(AppTheme.indents.x3),
+                        colorFilter = ColorFilter.tint(AppTheme.colors.textDarkDefault())
+                    )
+                }
+            }
+        } else {
+            null
         }
     )
 }
 
 @Composable
-internal fun NavBarComponent(
+internal fun NavBarComponents(
     title: String,
-    modifier: Modifier = Modifier,
     titleColor: Color = AppTheme.colors.textLightDefault(),
+    modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
+    rightIcon: @Composable (() -> Unit)? = null,
 ) {
     NavBarComponent(
         title = {
             Text(
                 text = title,
-                style = AppTheme.typography.large3,
+                style = AppTheme.typography.large1,
                 color = titleColor,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -57,6 +96,7 @@ internal fun NavBarComponent(
         },
         modifier = modifier,
         navigationIcon = navigationIcon,
+        rightIcon = rightIcon
     )
 }
 
@@ -65,6 +105,7 @@ private fun NavBarComponent(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
+    rightIcon: @Composable (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier.padding(horizontal = AppTheme.indents.x2),
@@ -77,5 +118,6 @@ private fun NavBarComponent(
         ) {
             title()
         }
+        rightIcon?.invoke()
     }
 }

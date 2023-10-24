@@ -1,39 +1,49 @@
 package com.homehuddle.common.design.navbar
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Feed
+import androidx.compose.material.icons.rounded.ImportContacts
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import com.homehuddle.common.design.image.AnimationType
-import com.homehuddle.common.design.spacer.SpacerComponent
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import com.homehuddle.common.design.theme.AppTheme
-import com.homehuddle.common.design.theme.InOuterShadow
-import com.homehuddle.common.design.theme.accent2
-import com.homehuddle.common.design.theme.accent3
+import com.homehuddle.common.design.theme.background2
 import com.homehuddle.common.design.theme.noEffectsClickable
+import com.homehuddle.common.design.theme.textDarkDefault
+import com.homehuddle.common.design.theme.textDarkDisabled
 
 @Composable
 internal fun NavigationBarComponent(
-    mainTabSelected: Boolean = false,
-    booksTabSelected: Boolean = false,
+    personalTabSelected: Boolean = false,
+    feedTabSelected: Boolean = false,
     settingsTabSelected: Boolean = false,
-    mainTabClick: () -> Unit,
-    booksTabClick: () -> Unit,
+    searchTabSelected: Boolean = false,
+    personalTabClick: () -> Unit,
+    feedTabClick: () -> Unit,
     settingsTabClick: () -> Unit,
+    searchTabClick: () -> Unit,
 ) {
     NavigationBarComponent(
         items = listOf(
-            BooksNavigationItem(selected = booksTabSelected, onClick = booksTabClick),
-            MainNavigationItem(selected = mainTabSelected, onClick = mainTabClick),
+            PersonalNavigationItem(selected = personalTabSelected, onClick = personalTabClick),
+            FeedNavigationItem(selected = feedTabSelected, onClick = feedTabClick),
+            SearchNavigationItem(selected = searchTabSelected, onClick = searchTabClick),
             SettingsNavigationItem(selected = settingsTabSelected, onClick = settingsTabClick),
         )
     )
@@ -45,14 +55,27 @@ private fun NavigationBarComponent(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Bottom
+            .fillMaxWidth()
+            .padding(horizontal = AppTheme.indents.x3)
+            .padding(bottom = AppTheme.indents.x3)
+            .height(AppTheme.indents.x8)
+            .shadow(
+                24.dp,
+                RoundedCornerShape(50),
+                clip = false,
+                spotColor = AppTheme.colors.textDarkDisabled().copy(alpha = 0.5f)
+            )
+            .background(AppTheme.colors.background2(), RoundedCornerShape(50))
+            .padding(vertical = AppTheme.indents.x2, horizontal = AppTheme.indents.x3),
+        verticalAlignment = CenterVertically
     ) {
         BottomNavigationItem(items[0])
         Spacer(Modifier.weight(1f))
         BottomNavigationItem(items[1])
         Spacer(Modifier.weight(1f))
         BottomNavigationItem(items[2])
+        Spacer(Modifier.weight(1f))
+        BottomNavigationItem(items[3])
     }
 }
 
@@ -63,36 +86,14 @@ private fun BottomNavigationItem(
 ) {
     Column(Modifier
         .noEffectsClickable { item.onClick() }) {
-        InOuterShadow(
-            modifier = Modifier,
-            cornersRadius = AppTheme.indents.x3,
-            addDarkness = true,
-            color = if (item is MainNavigationItem) AppTheme.colors.accent2() else AppTheme.colors.accent3(),
-        ) {
-            Box(
-                Modifier
-                    .size(if (item.selected) AppTheme.indents.x10 else AppTheme.indents.x8_5)
-                    .background(
-                        if (item is MainNavigationItem) AppTheme.colors.accent2() else AppTheme.colors.accent3(),
-                        AppTheme.shapes.x3
-                    )
-            ) {
-                /*AnimatedComponent(
-                    type = item.icon,
-                    modifier = Modifier.align(Alignment.Center)
-                        .fillMaxSize(),
-                    isPlaying = item.selected
-                )*/
-            }
-        }
 
-        SpacerComponent { x0_5 }
-
-        Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = item.text,
-            color = if (item is MainNavigationItem) AppTheme.colors.accent2() else AppTheme.colors.accent3(),
-            style = AppTheme.typography.body2
+        Image(
+            imageVector = item.icon,
+            contentDescription = null,
+            modifier = Modifier.size(AppTheme.indents.x3),
+            colorFilter = ColorFilter.tint(
+                if (item.selected) AppTheme.colors.textDarkDefault() else AppTheme.colors.textDarkDisabled()
+            )
         )
     }
 }
@@ -100,27 +101,34 @@ private fun BottomNavigationItem(
 internal interface NavigationItem {
     val selected: Boolean
     val onClick: () -> Unit
-    val icon: AnimationType
+    val icon: ImageVector
     val text: String
 }
 
-private data class MainNavigationItem(
+private data class PersonalNavigationItem(
     override val selected: Boolean,
     override val onClick: () -> Unit = {},
-    override val icon: AnimationType = AnimationType.MainMenuIcon,
-    override val text: String = "Home"
+    override val icon: ImageVector = Icons.Rounded.ImportContacts,
+    override val text: String = "Personal"
 ) : NavigationItem
 
-private data class BooksNavigationItem(
+private data class FeedNavigationItem(
     override val selected: Boolean,
     override val onClick: () -> Unit = {},
-    override val icon: AnimationType = AnimationType.BooksIcon,
-    override val text: String = "Books"
+    override val icon: ImageVector = Icons.Rounded.Feed,
+    override val text: String = "Feed"
 ) : NavigationItem
 
 private data class SettingsNavigationItem(
     override val selected: Boolean,
     override val onClick: () -> Unit = {},
-    override val icon: AnimationType = AnimationType.SettingsIcon,
+    override val icon: ImageVector = Icons.Rounded.Settings,
     override val text: String = "Settings"
+) : NavigationItem
+
+private data class SearchNavigationItem(
+    override val selected: Boolean,
+    override val onClick: () -> Unit = {},
+    override val icon: ImageVector = Icons.Rounded.Search,
+    override val text: String = "Search"
 ) : NavigationItem

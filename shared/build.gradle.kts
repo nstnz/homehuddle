@@ -8,6 +8,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization")
 }
 
 kotlin {
@@ -59,6 +60,9 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.1")
 
+                implementation(compose.preview)
+                implementation(compose.uiTooling)
+
                 implementation("io.ktor:ktor-client-logging-jvm:$Ktor")
                 implementation("io.ktor:ktor-client-json-jvm:$Ktor")
                 implementation("io.ktor:ktor-client-android:$Ktor")
@@ -88,6 +92,13 @@ android {
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

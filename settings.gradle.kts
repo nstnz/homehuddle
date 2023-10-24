@@ -26,6 +26,7 @@ pluginManagement {
         id("org.jetbrains.compose").version(composeVersion)
         id("com.google.gms.google-services").version("4.4.0")
         id("com.google.firebase.crashlytics").version("2.9.9")
+        kotlin("plugin.serialization").version("1.8.20")
     }
 }
 

@@ -8,6 +8,7 @@ import com.homehuddle.common.base.di.SharedDI
 import com.homehuddle.common.feature.general.login.LoginScreenHolder
 import com.homehuddle.common.feature.general.splash.SplashScreenHolder
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenHolder
+import com.homehuddle.common.feature.personal.main.MainScreenHolder
 import com.homehuddle.common.router.Arg1
 import com.homehuddle.common.router.Arg2
 import com.homehuddle.common.router.Arg3
@@ -46,7 +47,7 @@ fun App() {
                         Routes.Splash -> SplashScreenHolder()
                         Routes.Welcome -> WelcomeScreenHolder()
                         Routes.Login -> LoginScreenHolder()
-                        Routes.Main -> SplashScreenHolder()
+                        Routes.Main -> MainScreenHolder()
                     }
                 }
                 scene(route.name) {

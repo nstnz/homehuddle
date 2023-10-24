@@ -12,7 +12,8 @@ internal class AnonymousAuthUseCase(
 ) {
 
     suspend operator fun invoke(): Boolean = withContext(dispatcher) {
-        val result = Firebase.auth.signInAnonymously().user != null
+        val user = Firebase.auth.signInAnonymously().user
+        val result = user != null
         repository.setLoggedIn(result)
         return@withContext result
     }
