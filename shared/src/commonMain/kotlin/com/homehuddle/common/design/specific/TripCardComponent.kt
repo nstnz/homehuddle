@@ -1,29 +1,26 @@
 package com.homehuddle.common.design.specific
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.Trip
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.UserModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.ignoreHorizontalParentPadding
 import com.homehuddle.common.design.theme.textDarkDefault
-import com.homehuddle.common.design.theme.textDarkDisabled
 
 @Composable
 internal fun TripCardComponent(
-    trip: Trip,
-    ownedByUser: Boolean,
+    trip: TripModel,
+    user: UserModel,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -49,13 +46,13 @@ internal fun TripCardComponent(
         SpacerComponent { x1 }
         PhotosComponent(trip)
         SpacerComponent { x3 }
-        TripSocialComponent(12,124, canSubscribe = true, canLike = true)
+        TripSocialComponent(12, 124, canSubscribe = true, canLike = true)
     }
 }
 
 @Composable
 private fun PhotosComponent(
-    trip: Trip
+    trip: TripModel
 ) {
     Row(
         modifier = Modifier
@@ -63,11 +60,8 @@ private fun PhotosComponent(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5)
     ) {
         SpacerComponent { x0_5 }
-        repeat(5) {
-            Box(
-                Modifier.size(160.dp)
-                    .background(AppTheme.colors.textDarkDisabled(), AppTheme.shapes.x1_5)
-            )
+        trip.photos.forEach {
+            TripPhotoComponent(160.dp, AppTheme.indents.x1_5)
         }
         SpacerComponent { x0_5 }
     }

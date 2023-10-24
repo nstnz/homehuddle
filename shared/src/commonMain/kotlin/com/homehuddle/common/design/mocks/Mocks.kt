@@ -1,20 +1,33 @@
 package com.homehuddle.common.design.mocks
 
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.base.data.model.TripExpense
-import com.homehuddle.common.base.data.model.TripPoint
-import com.homehuddle.common.base.data.model.TripPost
-import com.homehuddle.common.base.data.model.User
+import com.homehuddle.common.base.domain.general.model.TripExpenseModel
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPointModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
+import com.homehuddle.common.base.domain.general.model.UserModel
 
-fun mockTrip() = Trip("sdfsdf", "My trip", "Description")
-
-fun mockUser() = User(
-    "", "User"
+fun mockTrip() = TripModel(
+    "sdfsdf",
+    "Name",
+    user = mockUser(),
+    "My trip",
+    posts = listOf(
+        mockTripPost(),
+        mockTripPost(),
+        mockTripPost(),
+        mockTripPost(),
+        mockTripPost(),
+    )
 )
 
-fun mockTripPost() = TripPost(
+fun mockUser() = UserModel(
+    "", "User", isMe = true, currencyCode = "USD"
+)
+
+fun mockTripPost() = TripPostModel(
     "sdfsdf",
     "",
+    user = mockUser(),
     "Lorem ipsum skldjflskdf lsjdf;l jsl;dfjs; fjsldf jsdfbjhsbdfk s",
     photos = listOf("", ""),
     expenses = listOf(
@@ -23,24 +36,29 @@ fun mockTripPost() = TripPost(
         mockTripExpense(),
         mockTripExpense(),
     ),
-    fromToRoute = listOf(
-        TripPoint(
-            id = "",
-            description = "Description",
-            lat = 12.0,
-            lon = 1.0
-        ),TripPoint(
-            id = "",
-            description = "Description",
-            lat = 12.0,
-            lon = 1.0
-        ),
-    )
+    points = listOf(
+        mockTripPoint(),
+        mockTripPoint(),
+        mockTripPoint(),
+    ),
+    date = "10.10.1010",
+    timestamp = 10000231L
 )
 
-fun mockTripExpense() = TripExpense(
+fun mockTripExpense() = TripExpenseModel(
     id = "",
     description = "Bought some food",
     sum = 1028.0,
-    currencyCode = "USD"
+    formattedSum = "1000 USD",
+    tripPostId = "",
+    date = "10.10.1010",
+    timestamp = 10000231L
+)
+
+fun mockTripPoint() = TripPointModel(
+    id = "",
+    description = "Description",
+    lat = 12.0,
+    lon = 1.0,
+    tripPostId = ""
 )

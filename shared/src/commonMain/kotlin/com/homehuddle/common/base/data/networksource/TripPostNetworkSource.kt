@@ -1,42 +1,42 @@
 package com.homehuddle.common.base.data.networksource
 
-import com.homehuddle.common.base.data.mapper.mapToTrip
-import com.homehuddle.common.base.data.model.Trip
+import com.homehuddle.common.base.data.mapper.mapToTripPost
+import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.domain.utils.safeGet
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.firestore
 import dev.gitlive.firebase.firestore.where
 
-internal class TripNetworkSource() {
+internal class TripPostNetworkSource() {
 
-    private val name = "trips"
+    private val name = "tripposts"
 
     private val storage by lazy {
         Firebase.firestore
     }
 
-    suspend fun createTrip(trip: Trip) {
+    suspend fun createTripPost(tripPost: TripPost) {
         storage.collection(name)
-            .document(trip.id)
-            .set(trip)
+            .document(tripPost.id)
+            .set(tripPost)
     }
 
-    suspend fun getTrip(id: String): Trip? {
+    suspend fun getTripPost(id: String): TripPost? {
         return storage.collection(name)
             .document(id)
             .safeGet()
-            ?.mapToTrip()
+            ?.mapToTripPost()
     }
 
-    suspend fun getTrips(userId: String?): List<Trip> {
+    suspend fun getTripPosts(tripId: String?): List<TripPost> {
         return storage.collection(name)
-            .where("userId", userId)
+            .where("tripId", tripId)
             .safeGet()
-            ?.documents?.mapNotNull { it.mapToTrip() }
+            ?.documents?.mapNotNull { it.mapToTripPost() }
             .orEmpty()
     }
 
-    suspend fun deleteTrip(id: String) {
+    suspend fun deleteTripPost(id: String) {
         storage.collection(name)
             .document(id)
             .delete()

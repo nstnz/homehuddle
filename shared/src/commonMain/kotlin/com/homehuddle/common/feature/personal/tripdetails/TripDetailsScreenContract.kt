@@ -1,18 +1,18 @@
 package com.homehuddle.common.feature.personal.tripdetails
 
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.base.data.model.TripPost
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.ui.Intent
 import com.homehuddle.common.base.ui.SingleEvent
 import com.homehuddle.common.base.ui.State
 
 internal data class TripDetailsScreenState(
-    val trip: Trip? = null,
+    val trip: TripModel? = null,
     val selectedTab: TripDetailsTab = TripDetailsTab.All
 ) : State {
 
-    val posts: List<TripPost>
-        get() = listOf()
+    val posts: List<TripPostModel>
+        get() = trip?.posts.orEmpty()
 }
 
 internal sealed interface TripDetailsScreenIntent : Intent {

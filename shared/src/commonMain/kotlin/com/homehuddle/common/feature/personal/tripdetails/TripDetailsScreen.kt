@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -20,11 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.design.mocks.mockTripExpense
+import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.design.mocks.mockTripPost
-import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.scaffold.GradientScaffold
+import com.homehuddle.common.design.spacer.DividerComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.TripDailyExpensesComponent
 import com.homehuddle.common.design.specific.TripPhotoComponent
@@ -122,20 +119,18 @@ internal fun TripDetailsScreen(
 }
 
 @Composable
-private fun AllExpensesComponent(trip: Trip) {
+private fun AllExpensesComponent(trip: TripModel) {
     LazyColumn(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
     ) {
-        items(10) {
+        val expenses = trip.expenses.groupBy { it.date }
+        items(expenses.size) {
+            val date = expenses.keys.toList()[it]
+            val values = expenses.values.toList()[it]
             TripDailyExpensesComponent(
-                date = "10.1000.1039211",
-                expenses = listOf(
-                    mockTripExpense(),
-                    mockTripExpense(),
-                    mockTripExpense(),
-                    mockTripExpense(),
-                ),
+                date = date,
+                expenses = values,
             )
         }
         item {
@@ -145,7 +140,7 @@ private fun AllExpensesComponent(trip: Trip) {
 }
 
 @Composable
-private fun AllPhotosComponent(trip: Trip) {
+private fun AllPhotosComponent(trip: TripModel) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize()
             .padding(horizontal = AppTheme.indents.x3),
@@ -160,7 +155,7 @@ private fun AllPhotosComponent(trip: Trip) {
 }
 
 @Composable
-private fun AllPostsComponent(trip: Trip) {
+private fun AllPostsComponent(trip: TripModel) {
     LazyColumn(
         Modifier.fillMaxSize()
             .padding(horizontal = AppTheme.indents.x3),
@@ -169,16 +164,9 @@ private fun AllPostsComponent(trip: Trip) {
         items(10) {
             TripPostCompactCardComponent(
                 trip = trip,
-                user = mockUser(),
                 tripPost = mockTripPost()
             )
-            Spacer(
-                Modifier.fillMaxWidth().height(AppTheme.indents.x0_125)
-                    .background(
-                        AppTheme.colors.textDarkDisabled()
-                            .copy(alpha = 0.1f)
-                    )
-            )
+            DividerComponent()
         }
         item {
             SpacerComponent { x3 }

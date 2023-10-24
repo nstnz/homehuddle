@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.TripPost
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.SpacerComponent
@@ -123,15 +123,15 @@ internal fun TripPostScreen(
 }
 
 @Composable
-private fun AllExpensesComponent(tripPost: TripPost) {
+private fun AllExpensesComponent(tripPost: TripPostModel) {
     TripDailyExpensesComponent(
-        date = "10.1000.1039211",
+        date = tripPost.date,
         expenses = tripPost.expenses,
     )
 }
 
 @Composable
-private fun AllPhotosComponent(tripPost: TripPost) {
+private fun AllPhotosComponent(tripPost: TripPostModel) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize()
             .padding(horizontal = AppTheme.indents.x3),

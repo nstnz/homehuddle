@@ -1,7 +1,7 @@
 package com.homehuddle.common.base.data.mapper
 
-import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.base.data.model.User
+import com.homehuddle.common.base.domain.general.model.UserModel
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 
 internal fun DocumentSnapshot.mapToUser(): User? =
@@ -9,14 +9,16 @@ internal fun DocumentSnapshot.mapToUser(): User? =
         User(
             id = this.id,
             name = this.get("name"),
+            currencyCode = this.get("currencyCode"),
         )
     }
 
-internal fun DocumentSnapshot.mapToTrip(): Trip? =
-    this.exists.takeIf { true }?.let {
-        Trip(
+internal fun User?.mapToUserModel(isMe: Boolean): UserModel? =
+    this?.let {
+        UserModel(
             id = this.id,
-            name = this.get("name"),
-            description = this.get("description"),
+            name = this.name,
+            currencyCode = this.currencyCode,
+            isMe = isMe
         )
     }

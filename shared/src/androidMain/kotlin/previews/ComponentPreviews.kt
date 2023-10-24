@@ -16,7 +16,7 @@ private fun MyTripCardPreview() {
     AppTheme {
         TripCardComponent(
             trip = mockTrip(),
-            ownedByUser = true
+            user = mockUser()
         )
     }
 }
@@ -40,7 +40,6 @@ private fun TripPostCompactCardPreview() {
         TripPostCompactCardComponent(
             trip = mockTrip(),
             tripPost = mockTripPost(),
-            user = mockUser()
         )
     }
 }

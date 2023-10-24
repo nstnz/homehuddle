@@ -17,16 +17,20 @@ internal class UserRepository(
     fun setLoggedIn(value: Boolean) =
         userLocalSource.setLoggedIn(value)
 
+    fun isMe(userId: String) = userId == userLocalSource.getUserId()
+
+    fun getMe() = userMemorySource.getUser()
+
     suspend fun getUser(userId: String) =
-        userMemorySource.getUser() ?: userNetworkSource.getUser(userId)?.also {
-            userLocalSource.setUserId(it.id)
-            userLocalSource.setUserName(it.name)
+        if (isMe(userId)) {
+            getMe()
+        } else {
+            userNetworkSource.getUser(userId)
         }
 
-    suspend fun saveUser(user: User) =
+    suspend fun saveMe(user: User) =
         userNetworkSource.createUser(user).also {
-            userLocalSource.setUserId(user.id)
-            userLocalSource.setUserName(user.name)
+            userLocalSource.setUser(user)
             userMemorySource.setUser(user)
         }
 }

@@ -1,14 +1,14 @@
 package com.homehuddle.common.feature.personal.trippost
 
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.base.data.model.TripPost
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.ui.Intent
 import com.homehuddle.common.base.ui.SingleEvent
 import com.homehuddle.common.base.ui.State
 
 internal data class TripPostScreenState(
-    val trip: Trip? = null,
-    val tripPost: TripPost? = null,
+    val trip: TripModel? = null,
+    val tripPost: TripPostModel? = null,
     val selectedTab: TripPostTab = TripPostTab.All
 ) : State
 

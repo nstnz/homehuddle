@@ -2,6 +2,7 @@ package com.homehuddle.common.base.data.networksource
 
 import com.homehuddle.common.base.data.mapper.mapToUser
 import com.homehuddle.common.base.data.model.User
+import com.homehuddle.common.base.domain.utils.safeGet
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.firestore
 
@@ -16,8 +17,8 @@ internal class UserNetworkSource() {
     suspend fun getUser(userId: String): User? {
         return storage.collection(name)
             .document(userId)
-            .get()
-            .mapToUser()
+            .safeGet()
+            ?.mapToUser()
     }
 
     suspend fun createUser(user: User) {

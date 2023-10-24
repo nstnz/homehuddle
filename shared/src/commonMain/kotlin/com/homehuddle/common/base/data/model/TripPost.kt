@@ -9,17 +9,7 @@ data class TripPost(
     val text: String,
     val photos: List<String>,
     val expenses: List<TripExpense>,
-    val point: TripPoint? = null,
-    val fromToRoute: List<TripPoint>? = null,
-    val customRoute: List<TripPoint>? = null,
-) {
-
-    val hasPoints: Boolean
-        get() = point != null || !fromToRoute.isNullOrEmpty() || !customRoute.isNullOrEmpty()
-
-    val hasPhotos: Boolean
-        get() = photos.isNotEmpty()
-
-    val hasExpenses: Boolean
-        get() = expenses.isNotEmpty()
-}
+    val points: List<TripPoint>? = null,
+    val date: String,
+    val timestamp: Long
+)

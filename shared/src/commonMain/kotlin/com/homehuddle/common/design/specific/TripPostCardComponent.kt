@@ -21,9 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.base.data.model.TripPost
-import com.homehuddle.common.base.data.model.User
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
+import com.homehuddle.common.base.domain.general.model.UserModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.textDarkDefault
@@ -31,9 +31,9 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 
 @Composable
 internal fun TripPostCardComponent(
-    trip: Trip,
-    tripPost: TripPost,
-    user: User,
+    trip: TripModel,
+    tripPost: TripPostModel,
+    user: UserModel,
     modifier: Modifier = Modifier,
     showFullInfo: Boolean = false
 ) {
@@ -79,7 +79,7 @@ internal fun TripPostCardComponent(
 
 @Composable
 private fun PhotosComponent(
-    tripPost: TripPost,
+    tripPost: TripPostModel,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -93,14 +93,14 @@ private fun PhotosComponent(
 
 @Composable
 private fun PointsComponent(
-    tripPost: TripPost
+    tripPost: TripPostModel
 ) {
     Row(
         Modifier.fillMaxWidth().padding(vertical = AppTheme.indents.x1_5),
         verticalAlignment = Alignment.CenterVertically
     ) {
         when {
-            tripPost.point != null -> {
+            tripPost.points?.size == 1 -> {
                 Image(
                     imageVector = Icons.Rounded.Place,
                     contentDescription = null,
@@ -109,13 +109,13 @@ private fun PointsComponent(
                 )
                 SpacerComponent { x1 }
                 Text(
-                    text = tripPost.point.description,
+                    text = tripPost.points[0].description,
                     style = AppTheme.typography.body3,
                     color = AppTheme.colors.textDarkDisabled()
                 )
             }
 
-            !tripPost.fromToRoute.isNullOrEmpty() -> {
+            tripPost.points?.size == 2 -> {
                 Image(
                     imageVector = Icons.Rounded.Route,
                     contentDescription = null,
@@ -124,13 +124,13 @@ private fun PointsComponent(
                 )
                 SpacerComponent { x1 }
                 Text(
-                    text = "Trip to " + tripPost.fromToRoute[1].description,
+                    text = "Trip to " + tripPost.points[1].description,
                     style = AppTheme.typography.body3,
                     color = AppTheme.colors.textDarkDisabled()
                 )
             }
 
-            !tripPost.customRoute.isNullOrEmpty() -> {
+            (tripPost.points?.size ?: 0) > 2 -> {
                 Image(
                     imageVector = Icons.Rounded.Map,
                     contentDescription = null,
@@ -139,7 +139,7 @@ private fun PointsComponent(
                 )
                 SpacerComponent { x1 }
                 Text(
-                    text = tripPost.customRoute[0].description + " and more...",
+                    text = tripPost.points?.get(0)?.description + " and more...",
                     style = AppTheme.typography.body3,
                     color = AppTheme.colors.textDarkDisabled()
                 )
@@ -158,7 +158,7 @@ private fun PointsComponent(
 
 @Composable
 private fun ExpensesComponent(
-    tripPost: TripPost
+    tripPost: TripPostModel
 ) {
     Row(
         Modifier.fillMaxWidth().padding(vertical = AppTheme.indents.x1_5),

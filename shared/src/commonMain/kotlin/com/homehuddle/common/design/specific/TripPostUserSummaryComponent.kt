@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.base.data.model.TripPost
-import com.homehuddle.common.base.data.model.User
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
+import com.homehuddle.common.base.domain.general.model.UserModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
@@ -24,9 +24,9 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 
 @Composable
 internal fun TripPostUserSummaryComponent(
-    trip: Trip,
-    tripPost: TripPost,
-    user: User,
+    trip: TripModel,
+    tripPost: TripPostModel,
+    user: UserModel,
     modifier: Modifier = Modifier,
     textColor: Color = AppTheme.colors.textDarkDefault(),
     accentColor: Color = AppTheme.colors.accent1(),
@@ -61,7 +61,7 @@ internal fun TripPostUserSummaryComponent(
                 )
             }
             Text(
-                text = "10.15.1243",
+                text = tripPost.date,
                 style = hintTextStyle,
                 color = hintColor
             )

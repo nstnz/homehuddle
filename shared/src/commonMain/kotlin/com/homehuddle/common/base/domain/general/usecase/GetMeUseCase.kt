@@ -6,13 +6,13 @@ import com.homehuddle.common.base.domain.general.model.UserModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-internal class GetUserUseCase(
+internal class GetMeUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val repository: UserRepository
 ) {
 
-    suspend operator fun invoke(userId: String): UserModel? = withContext(dispatcher) {
-        val user = repository.getUser(userId)
-        return@withContext user.mapToUserModel(isMe = repository.isMe(userId))
+    suspend operator fun invoke(): UserModel? = withContext(dispatcher) {
+        val existingUser = repository.getMe()
+        return@withContext existingUser.mapToUserModel(isMe = true)
     }
 }

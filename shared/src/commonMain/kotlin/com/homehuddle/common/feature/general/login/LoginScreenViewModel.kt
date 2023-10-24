@@ -24,7 +24,6 @@ internal class LoginScreenViewModel(
         LoginScreenIntent.Load -> {
             null
         }
-
         LoginScreenIntent.MakeLogin -> {
             if (authUseCase()) {
                 router.navigateToMainScreen()

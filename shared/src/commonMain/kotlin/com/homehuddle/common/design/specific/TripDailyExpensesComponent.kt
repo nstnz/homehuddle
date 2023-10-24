@@ -12,7 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.TripExpense
+import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.textDarkDefault
@@ -20,7 +20,7 @@ import com.homehuddle.common.design.theme.textDarkDefault
 @Composable
 internal fun TripDailyExpensesComponent(
     date: String,
-    expenses: List<TripExpense>,
+    expenses: List<TripExpenseModel>,
     modifier: Modifier = Modifier
 ) {
     Surface(

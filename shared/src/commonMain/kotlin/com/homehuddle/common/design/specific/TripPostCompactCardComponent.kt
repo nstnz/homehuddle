@@ -17,9 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.base.data.model.TripPost
-import com.homehuddle.common.base.data.model.User
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
@@ -28,9 +27,8 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 
 @Composable
 internal fun TripPostCompactCardComponent(
-    trip: Trip,
-    tripPost: TripPost,
-    user: User,
+    trip: TripModel,
+    tripPost: TripPostModel,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -66,14 +64,14 @@ internal fun TripPostCompactCardComponent(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (tripPost.hasPoints) {
                     TripInfoComponent(
-                        text = "1500 km",
+                        text = "${tripPost.distance} km",
                         icon = Icons.Rounded.Hiking
                     )
                     SpacerComponent { x3 }
                 }
                 if (tripPost.hasExpenses) {
                     TripInfoComponent(
-                        text = "$200",
+                        text = "${tripPost.totalSpent} ${trip.user.currencyCode}",
                         icon = Icons.Rounded.CreditCard
                     )
                 }
@@ -84,12 +82,15 @@ internal fun TripPostCompactCardComponent(
             SpacerComponent { x1_5 }
             PhotosComponent(tripPost)
         }
+
+        SpacerComponent { x1 }
+        TripSocialComponent(12, 124, canSubscribe = false, canLike = true)
     }
 }
 
 @Composable
 private fun PhotosComponent(
-    tripPost: TripPost
+    tripPost: TripPostModel
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),

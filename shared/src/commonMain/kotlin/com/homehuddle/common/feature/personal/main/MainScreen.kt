@@ -5,22 +5,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.homehuddle.common.design.mocks.mockTrip
-import com.homehuddle.common.design.mocks.mockTripPost
-import com.homehuddle.common.design.mocks.mockUser
+import com.homehuddle.common.base.domain.utils.Texts
 import com.homehuddle.common.design.navbar.NavigationBarComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
+import com.homehuddle.common.design.spacer.DividerComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.TripCardComponent
 import com.homehuddle.common.design.specific.TripPostCompactCardComponent
@@ -60,23 +58,22 @@ internal fun MainScreen(
                         .padding(horizontal = AppTheme.indents.x3),
                     verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
                 ) {
-                    items(10) {
-                        if (state.tripsSelected) {
+                    if (state.tripsSelected) {
+                        items(state.trips) {
                             TripCardComponent(
-                                trip = mockTrip(),
-                                ownedByUser = true
+                                trip = it,
+                                user = it.user
                             )
-                        } else {
-                            TripPostCompactCardComponent(
-                                trip = mockTrip(),
-                                user = mockUser(),
-                                tripPost = mockTripPost()
-                            )
+                            DividerComponent()
                         }
-                        Spacer(
-                            Modifier.fillMaxWidth().height(AppTheme.indents.x0_125)
-                                .background(AppTheme.colors.textDarkDisabled().copy(alpha = 0.1f))
-                        )
+                    } else {
+                        items(state.posts) { post ->
+                            TripPostCompactCardComponent(
+                                trip = state.trips.first { it.id == post.tripId },
+                                tripPost = post
+                            )
+                            DividerComponent()
+                        }
                     }
                     item {
                         SpacerComponent { x5 + x8 }
@@ -109,13 +106,13 @@ private fun TabsComponent(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x4)
     ) {
         Text(
-            text = "Trips",
+            text = Texts.Trips,
             color = if (state.tripsSelected) AppTheme.colors.textDarkDefault() else AppTheme.colors.textDarkDisabled(),
             style = AppTheme.typography.body2Bold,
             modifier = Modifier.noEffectsClickable { onTripsFilterSelected() }
         )
         Text(
-            text = "Posts",
+            text = Texts.Posts,
             color = if (!state.tripsSelected) AppTheme.colors.textDarkDefault() else AppTheme.colors.textDarkDisabled(),
             style = AppTheme.typography.body2Bold,
             modifier = Modifier.noEffectsClickable { onPostsFilterSelected() }
