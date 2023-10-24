@@ -3,15 +3,14 @@ package com.homehuddle.common.base.data.mapper
 import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.UserModel
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 
-internal fun DocumentSnapshot.mapToTrip(): Trip? =
-    this.exists.takeIf { true }?.let {
+internal fun MutableMap<String, Any>?.mapToTrip(): Trip? =
+    this?.let {
         Trip(
-            id = this.id,
-            name = this.get("name"),
-            description = this.get("description"),
-            userId = this.get("userId"),
+            id = this.get("id").toString(),
+            name = this.get("name").toString(),
+            description = this.get("description").toString(),
+            userId = this.get("userId").toString(),
         )
     }
 

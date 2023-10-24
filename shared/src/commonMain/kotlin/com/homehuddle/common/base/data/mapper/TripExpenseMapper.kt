@@ -2,18 +2,17 @@ package com.homehuddle.common.base.data.mapper
 
 import com.homehuddle.common.base.data.model.TripExpense
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 
-internal fun DocumentSnapshot.mapToTripExpense(): TripExpense? =
-    this.exists.takeIf { true }?.let {
+internal fun MutableMap<String, Any>?.mapToTripExpense(): TripExpense? =
+    this?.let {
         TripExpense(
-            id = this.id,
-            sum = this.get("sum"),
-            tripPostId = this.get("tripPostId"),
-            description = this.get("description"),
-            currencyCode = this.get("currencyCode"),
-            timestamp = this.get("timestamp"),
-            date = this.get("date"),
+            id = this.get("id").toString(),
+            sum = this.get("sum").toString().toDouble(),
+            tripPostId = this.get("tripPostId").toString(),
+            description = this.get("description").toString(),
+            currencyCode = this.get("currencyCode").toString(),
+            timestamp = this.get("timestamp").toString().toLong(),
+            date = this.get("date").toString(),
         )
     }
 

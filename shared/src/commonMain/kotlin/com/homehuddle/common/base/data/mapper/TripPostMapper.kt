@@ -3,18 +3,17 @@ package com.homehuddle.common.base.data.mapper
 import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 
-internal fun DocumentSnapshot.mapToTripPost(): TripPost? =
-    this.exists.takeIf { true }?.let {
+internal fun MutableMap<String, Any>?.mapToTripPost(): TripPost? =
+    this?.let {
         TripPost(
-            id = this.id,
-            tripId = this.get("tripId"),
-            text = this.get("text"),
+            id = this.get("id").toString(),
+            tripId = this.get("tripId").toString(),
+            text = this.get("text").toString(),
             expenses = emptyList(),
             photos = emptyList(),
-            date = this.get("date"),
-            timestamp = this.get("timestamp"),
+            date = this.get("date").toString(),
+            timestamp = this.get("timestamp").toString().toLong(),
         )
     }
 

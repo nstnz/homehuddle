@@ -7,6 +7,6 @@ internal class IsSignedInUseCase(
 ) {
 
     operator fun invoke(): Boolean {
-        return repository.isLoggedIn() && repository.getMe() != null
+        return repository.isLoggedIn()
     }
 }

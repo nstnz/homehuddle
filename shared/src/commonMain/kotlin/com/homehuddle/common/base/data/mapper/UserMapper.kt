@@ -2,14 +2,13 @@ package com.homehuddle.common.base.data.mapper
 
 import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.domain.general.model.UserModel
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 
-internal fun DocumentSnapshot.mapToUser(): User? =
-    this.exists.takeIf { true }?.let {
+internal fun MutableMap<String, Any>?.mapToUser(): User? =
+    this?.let {
         User(
-            id = this.id,
-            name = this.get("name"),
-            currencyCode = this.get("currencyCode"),
+            id = this["id"].toString(),
+            name = this["name"].toString(),
+            currencyCode = this["currencyCode"].toString(),
         )
     }
 

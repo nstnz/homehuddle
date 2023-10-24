@@ -1,6 +1,10 @@
 package com.homehuddle.common.base.di
 
+import FirebaseFirestoreImpl
 import com.homehuddle.common.router.Router
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.firestore
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +24,8 @@ object SharedDI {
     }
 
     internal val di = DI {
+        bind<FirebaseFirestore>() with singleton { Firebase.firestore }
+        bind<FirebaseFirestoreImpl>() with singleton { FirebaseFirestoreImpl() }
         bind<Router>() with singleton { Router() }
         bind<CoroutineDispatcher>() with singleton { Dispatchers.Default }
         bind<CoroutineScope>() with singleton {

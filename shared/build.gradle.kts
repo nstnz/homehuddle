@@ -1,6 +1,6 @@
 val Ktor = "2.3.5"
 val Kodein = "7.16.0"
-val Firebase = "1.10.0"
+val Firebase = "1.10.3"
 val Storage = "1.1.0"
 val Precompose = "1.5.3"
 
@@ -66,6 +66,10 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging-jvm:$Ktor")
                 implementation("io.ktor:ktor-client-json-jvm:$Ktor")
                 implementation("io.ktor:ktor-client-android:$Ktor")
+
+                implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
+                implementation("com.google.firebase:firebase-auth")
+                implementation("com.google.firebase:firebase-firestore")
 
                 implementation("org.kodein.di:kodein-di-framework-android-x:$Kodein")
             }

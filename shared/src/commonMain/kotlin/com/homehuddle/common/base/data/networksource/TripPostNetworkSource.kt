@@ -1,44 +1,29 @@
 package com.homehuddle.common.base.data.networksource
 
+import FirebaseFirestoreImpl
 import com.homehuddle.common.base.data.mapper.mapToTripPost
 import com.homehuddle.common.base.data.model.TripPost
-import com.homehuddle.common.base.domain.utils.safeGet
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.firestore.firestore
-import dev.gitlive.firebase.firestore.where
 
-internal class TripPostNetworkSource() {
+internal class TripPostNetworkSource(
+    private val storage: FirebaseFirestoreImpl
+) {
 
     private val name = "tripposts"
 
-    private val storage by lazy {
-        Firebase.firestore
-    }
-
     suspend fun createTripPost(tripPost: TripPost) {
-        storage.collection(name)
-            .document(tripPost.id)
-            .set(tripPost)
+        storage.createOrUpdate(name, tripPost.id, tripPost)
     }
 
     suspend fun getTripPost(id: String): TripPost? {
-        return storage.collection(name)
-            .document(id)
-            .safeGet()
-            ?.mapToTripPost()
+        return storage.get(name, id)?.mapToTripPost()
     }
 
-    suspend fun getTripPosts(tripId: String?): List<TripPost> {
-        return storage.collection(name)
-            .where("tripId", tripId)
-            .safeGet()
-            ?.documents?.mapNotNull { it.mapToTripPost() }
-            .orEmpty()
+    suspend fun getTripPosts(tripId: String): List<TripPost> {
+        return storage.get(name, "tripId" to tripId)
+            .mapNotNull { it.mapToTripPost() }
     }
 
     suspend fun deleteTripPost(id: String) {
-        storage.collection(name)
-            .document(id)
-            .delete()
+        storage.delete(name, id)
     }
 }

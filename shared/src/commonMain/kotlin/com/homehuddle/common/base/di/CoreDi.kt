@@ -37,11 +37,11 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<CurrencyNetworkSource>() with provider { CurrencyNetworkSource(instance(), instance()) }
     bind<UserLocalSource>() with provider { UserLocalSource() }
     bind<UserMemorySource>() with provider { UserMemorySource() }
-    bind<UserNetworkSource>() with provider { UserNetworkSource() }
-    bind<TripNetworkSource>() with provider { TripNetworkSource() }
-    bind<TripExpenseNetworkSource>() with provider { TripExpenseNetworkSource() }
-    bind<TripPointNetworkSource>() with provider { TripPointNetworkSource() }
-    bind<TripPostNetworkSource>() with provider { TripPostNetworkSource() }
+    bind<UserNetworkSource>() with provider { UserNetworkSource(instance()) }
+    bind<TripNetworkSource>() with provider { TripNetworkSource(instance()) }
+    bind<TripExpenseNetworkSource>() with provider { TripExpenseNetworkSource(instance()) }
+    bind<TripPointNetworkSource>() with provider { TripPointNetworkSource(instance()) }
+    bind<TripPostNetworkSource>() with provider { TripPostNetworkSource(instance()) }
 
     bind<GetUserTripsScenario>() with provider {
         GetUserTripsScenario(

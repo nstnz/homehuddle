@@ -2,16 +2,15 @@ package com.homehuddle.common.base.data.mapper
 
 import com.homehuddle.common.base.data.model.TripPoint
 import com.homehuddle.common.base.domain.general.model.TripPointModel
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 
-internal fun DocumentSnapshot.mapToTripPoint(): TripPoint? =
-    this.exists.takeIf { true }?.let {
+internal fun MutableMap<String, Any>?.mapToTripPoint(): TripPoint? =
+    this?.let {
         TripPoint(
-            id = this.id,
-            tripPostId = this.get("tripPostId"),
-            description = this.get("description"),
-            lat = this.get("lat"),
-            lon = this.get("lon"),
+            id = this.get("id").toString(),
+            tripPostId = this.get("tripPostId").toString(),
+            description = this.get("description").toString(),
+            lat = this.get("lat").toString().toDouble(),
+            lon = this.get("lon").toString().toDouble(),
         )
     }
 
