@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,17 +33,26 @@ import com.homehuddle.common.design.theme.textDarkDefault
 import com.homehuddle.common.design.theme.textDarkDisabled
 import com.homehuddle.common.design.topbar.DefaultNavComponent
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun MainScreen(
     state: MainScreenState,
+    bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
+    ),
     onTripsFilterSelected: () -> Unit = {},
     onPostsFilterSelected: () -> Unit = {},
+    onAddClick: () -> Unit = {},
 ) {
     GradientScaffold(
+        bottomSheetState = bottomSheetState,
+        bottomSheet = { AddNewItemComponent() },
         topBar = {
             DefaultNavComponent(
                 showBackButton = false,
                 showAddButton = true,
+                onAddClick = onAddClick,
             )
         }
     ) {

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import com.homehuddle.common.design.theme.textLightDefault
 import com.homehuddle.common.design.theme.textLightSecondary
 import com.homehuddle.common.design.topbar.DefaultNavComponent
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun TripPostScreen(
     state: TripPostScreenState,

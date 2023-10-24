@@ -1,6 +1,9 @@
 package com.homehuddle.common.router
 
-import moe.tlaster.precompose.navigation.Navigator
+import cafe.adriel.voyager.navigator.Navigator
+import com.homehuddle.common.feature.general.login.LoginScreenHolder
+import com.homehuddle.common.feature.general.welcome.WelcomeScreenHolder
+import com.homehuddle.common.feature.personal.main.MainScreenHolder
 
 internal class Router() {
 
@@ -11,18 +14,18 @@ internal class Router() {
     }
 
     fun back() {
-        navigator.goBack()
+        navigator.pop()
     }
 
     fun navigateToWelcomeScreen() {
-        navigator.navigate(Routes.Welcome)
+        navigator.replace(WelcomeScreenHolder)
     }
 
     fun navigateToMainScreen() {
-        navigator.navigate(Routes.Main)
+        navigator.replace(MainScreenHolder)
     }
 
     fun navigateToLogin() {
-        navigator.navigate(Routes.Login)
+        navigator.replace(LoginScreenHolder)
     }
 }

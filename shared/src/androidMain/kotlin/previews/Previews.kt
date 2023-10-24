@@ -1,3 +1,4 @@
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.homehuddle.common.design.mocks.mockTrip
@@ -39,6 +40,7 @@ private fun LoginScreenPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 private fun MainScreenPreview() {

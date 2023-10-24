@@ -21,7 +21,7 @@ data class Shapes internal constructor(
     val x3_5: CornerBasedShape = RoundedCornerShape(28.dp),
     val x3_75: CornerBasedShape = RoundedCornerShape(30.dp),
     val x4_5: CornerBasedShape = RoundedCornerShape(36.dp),
-    val x4_5_top: CornerBasedShape = RoundedCornerShape(topStart = 36.dp, topEnd = 36.dp),
+    val x4_5_top: CornerBasedShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
     val x4_5_bottom: CornerBasedShape = RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp),
     val x4_top: CornerBasedShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
     val x5: CornerBasedShape = RoundedCornerShape(40.dp),

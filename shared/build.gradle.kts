@@ -3,6 +3,7 @@ val Kodein = "7.16.0"
 val Firebase = "1.10.3"
 val Storage = "1.1.0"
 val Precompose = "1.5.3"
+val Voyager = "1.0.0-rc05"
 
 plugins {
     kotlin("multiplatform")
@@ -47,6 +48,11 @@ kotlin {
                 implementation("dev.gitlive:firebase-database:$Firebase")
                 implementation("dev.gitlive:firebase-firestore:$Firebase")
                 implementation("dev.gitlive:firebase-crashlytics:$Firebase")
+
+                implementation("cafe.adriel.voyager:voyager-navigator:$Voyager")
+                implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:$Voyager")
+                implementation("cafe.adriel.voyager:voyager-tab-navigator:$Voyager")
+                implementation("cafe.adriel.voyager:voyager-transitions:$Voyager")
 
                 api("moe.tlaster:precompose:$Precompose")
                 api("moe.tlaster:precompose-viewmodel:$Precompose")
