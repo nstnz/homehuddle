@@ -1,6 +1,7 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.homehuddle.common.design.mocks.mockTrip
+import com.homehuddle.common.design.mocks.mockTripPost
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.feature.general.login.LoginScreen
 import com.homehuddle.common.feature.general.splash.SplashScreen
@@ -10,6 +11,9 @@ import com.homehuddle.common.feature.personal.main.MainScreenState
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreen
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreenState
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsTab
+import com.homehuddle.common.feature.personal.trippost.TripPostScreen
+import com.homehuddle.common.feature.personal.trippost.TripPostScreenState
+import com.homehuddle.common.feature.personal.trippost.TripPostTab
 
 @Preview
 @Composable
@@ -48,7 +52,18 @@ private fun MainScreenPreview() {
 private fun TripDetailsScreenPreview() {
     AppTheme {
         TripDetailsScreen(
-            TripDetailsScreenState(mockTrip(), selectedTab = TripDetailsTab.Photos)
+            TripDetailsScreenState(mockTrip(), selectedTab = TripDetailsTab.Expenses)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TripPostScreenPreview() {
+    AppTheme {
+        TripPostScreen(
+            TripPostScreenState(mockTrip(), mockTripPost(),
+                selectedTab = TripPostTab.All)
         )
     }
 }

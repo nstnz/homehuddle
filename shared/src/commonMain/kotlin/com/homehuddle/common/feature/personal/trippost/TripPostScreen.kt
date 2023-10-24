@@ -1,36 +1,33 @@
-package com.homehuddle.common.feature.personal.tripdetails
+package com.homehuddle.common.feature.personal.trippost
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.homehuddle.common.base.data.model.Trip
-import com.homehuddle.common.design.mocks.mockTripExpense
-import com.homehuddle.common.design.mocks.mockTripPost
+import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.TripDailyExpensesComponent
 import com.homehuddle.common.design.specific.TripPhotoComponent
-import com.homehuddle.common.design.specific.TripPostCompactCardComponent
+import com.homehuddle.common.design.specific.TripPostCardComponent
+import com.homehuddle.common.design.specific.TripPostUserSummaryComponent
 import com.homehuddle.common.design.specific.TripSocialComponent
-import com.homehuddle.common.design.specific.TripSummaryComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.background2
 import com.homehuddle.common.design.theme.noEffectsClickable
@@ -41,8 +38,8 @@ import com.homehuddle.common.design.theme.textLightSecondary
 import com.homehuddle.common.design.topbar.DefaultNavComponent
 
 @Composable
-internal fun TripDetailsScreen(
-    state: TripDetailsScreenState,
+internal fun TripPostScreen(
+    state: TripPostScreenState,
     onAllFilterSelected: () -> Unit = {},
     onPhotosFilterSelected: () -> Unit = {},
     onMapFilterSelected: () -> Unit = {},
@@ -60,32 +57,34 @@ internal fun TripDetailsScreen(
         Column(
             Modifier.fillMaxSize()
         ) {
-            Text(
-                text = state.trip?.name.orEmpty(),
-                style = AppTheme.typography.body1Bold,
-                color = AppTheme.colors.textLightDefault(),
-                textAlign = TextAlign.End,
-                modifier = Modifier.padding(horizontal = AppTheme.indents.x3)
-            )
             state.trip?.let {
-                SpacerComponent { x1 }
-                TripSummaryComponent(
-                    state.trip,
-                    modifier = Modifier.padding(horizontal = AppTheme.indents.x3),
-                    iconColor = AppTheme.colors.textLightDefault(),
-                    textColor = AppTheme.colors.textLightDefault()
-                )
-                SpacerComponent { x1 }
-                TripSocialComponent(
-                    12, 124,
-                    modifier = Modifier.padding(horizontal = AppTheme.indents.x3),
-                    iconColor = AppTheme.colors.textLightDefault(),
-                    textColor = AppTheme.colors.textLightSecondary(),
-                    textStyle = AppTheme.typography.body2,
-                    iconSize = AppTheme.indents.x3_5,
-                    canSubscribe = true,
-                    canLike = true
-                )
+                state.tripPost?.let {
+                    TripPostUserSummaryComponent(
+                        state.trip, state.tripPost,
+                        user = mockUser(),
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = AppTheme.indents.x3),
+                        textColor = AppTheme.colors.textLightDefault(),
+                        accentColor = AppTheme.colors.textLightDefault(),
+                        hintColor = AppTheme.colors.textLightSecondary(),
+                        textStyle = AppTheme.typography.body1,
+                        hintTextStyle = AppTheme.typography.body3,
+                        accentTextStyle = AppTheme.typography.body1Bold,
+                        imageSize = AppTheme.indents.x7,
+                        padding = AppTheme.indents.x2,
+                    )
+                    SpacerComponent { x1 }
+                    TripSocialComponent(
+                        12, 124,
+                        modifier = Modifier.padding(horizontal = AppTheme.indents.x3),
+                        iconColor = AppTheme.colors.textLightDefault(),
+                        textColor = AppTheme.colors.textLightSecondary(),
+                        textStyle = AppTheme.typography.body2,
+                        iconSize = AppTheme.indents.x3_5,
+                        canSubscribe = false,
+                        canLike = true
+                    )
+                }
             }
             SpacerComponent { x2 }
             Box(
@@ -108,11 +107,13 @@ internal fun TripDetailsScreen(
                         onExpensesFilterSelected
                     )
                     state.trip?.let {
-                        when (state.selectedTab) {
-                            TripDetailsTab.All -> AllPostsComponent(state.trip)
-                            TripDetailsTab.Photos -> AllPhotosComponent(state.trip)
-                            TripDetailsTab.Map -> {}
-                            TripDetailsTab.Expenses -> AllExpensesComponent(state.trip)
+                        state.tripPost?.let {
+                            when (state.selectedTab) {
+                                TripPostTab.All -> AllPostComponent(state)
+                                TripPostTab.Photos -> AllPhotosComponent(state.tripPost)
+                                TripPostTab.Map -> {}
+                                TripPostTab.Expenses -> AllExpensesComponent(state.tripPost)
+                            }
                         }
                     }
                 }
@@ -122,30 +123,15 @@ internal fun TripDetailsScreen(
 }
 
 @Composable
-private fun AllExpensesComponent(trip: Trip) {
-    LazyColumn(
-        Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
-    ) {
-        items(10) {
-            TripDailyExpensesComponent(
-                date = "10.1000.1039211",
-                expenses = listOf(
-                    mockTripExpense(),
-                    mockTripExpense(),
-                    mockTripExpense(),
-                    mockTripExpense(),
-                ),
-            )
-        }
-        item {
-            SpacerComponent { x3 }
-        }
-    }
+private fun AllExpensesComponent(tripPost: TripPost) {
+    TripDailyExpensesComponent(
+        date = "10.1000.1039211",
+        expenses = tripPost.expenses,
+    )
 }
 
 @Composable
-private fun AllPhotosComponent(trip: Trip) {
+private fun AllPhotosComponent(tripPost: TripPost) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize()
             .padding(horizontal = AppTheme.indents.x3),
@@ -153,42 +139,36 @@ private fun AllPhotosComponent(trip: Trip) {
         verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5),
     ) {
-        items(10) {
+        items(tripPost.photos) {
             TripPhotoComponent(160.dp, AppTheme.indents.x1_5)
         }
     }
 }
 
 @Composable
-private fun AllPostsComponent(trip: Trip) {
-    LazyColumn(
-        Modifier.fillMaxSize()
-            .padding(horizontal = AppTheme.indents.x3),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
+private fun AllPostComponent(state: TripPostScreenState) {
+    Column(
+        Modifier.fillMaxWidth().padding(horizontal = AppTheme.indents.x3)
+            .verticalScroll(rememberScrollState())
     ) {
-        items(10) {
-            TripPostCompactCardComponent(
-                trip = trip,
-                user = mockUser(),
-                tripPost = mockTripPost()
-            )
-            Spacer(
-                Modifier.fillMaxWidth().height(AppTheme.indents.x0_125)
-                    .background(
-                        AppTheme.colors.textDarkDisabled()
-                            .copy(alpha = 0.1f)
-                    )
-            )
+        state.trip?.let {
+            state.tripPost?.let {
+                TripPostCardComponent(
+                    trip = state.trip,
+                    tripPost = state.tripPost,
+                    user = mockUser(),
+                    modifier = Modifier.fillMaxWidth(),
+                    showFullInfo = true
+                )
+            }
         }
-        item {
-            SpacerComponent { x3 }
-        }
+
     }
 }
 
 @Composable
 private fun TabsComponent(
-    state: TripDetailsScreenState,
+    state: TripPostScreenState,
     onAllFilterSelected: () -> Unit = {},
     onPhotosFilterSelected: () -> Unit = {},
     onMapFilterSelected: () -> Unit = {},
@@ -201,17 +181,17 @@ private fun TabsComponent(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x4)
     ) {
-        TripDetailsTab.values().forEach {
+        TripPostTab.values().forEach {
             Text(
                 text = it.name,
                 color = if (state.selectedTab == it) AppTheme.colors.textDarkDefault() else AppTheme.colors.textDarkDisabled(),
                 style = AppTheme.typography.body2Bold,
                 modifier = Modifier.noEffectsClickable {
                     when (it) {
-                        TripDetailsTab.All -> onAllFilterSelected()
-                        TripDetailsTab.Photos -> onPhotosFilterSelected()
-                        TripDetailsTab.Map -> onMapFilterSelected()
-                        TripDetailsTab.Expenses -> onExpensesFilterSelected()
+                        TripPostTab.All -> onAllFilterSelected()
+                        TripPostTab.Photos -> onPhotosFilterSelected()
+                        TripPostTab.Map -> onMapFilterSelected()
+                        TripPostTab.Expenses -> onExpensesFilterSelected()
                     }
                 }
             )

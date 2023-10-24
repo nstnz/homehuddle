@@ -39,7 +39,7 @@ internal fun TripDailyExpensesComponent(
                 Text(
                     text = date,
                     color = AppTheme.colors.textDarkDefault(),
-                    style = AppTheme.typography.body2Bold
+                    style = AppTheme.typography.body2
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
