@@ -10,8 +10,8 @@ data class TripPost(
     val photos: List<String>,
     val expenses: List<TripExpense>,
     val points: List<TripPoint>? = null,
-    val date: String,
-    val timestamp: Long
+    val date: String?,
+    val timestamp: Long?
 ): BaseModel<TripPost> {
 
     override fun copyId(id: String?): TripPost = this.copy(id = id)

@@ -9,6 +9,6 @@ data class TripExpenseModel(
     val formattedSum: String,
     val description: String,
     val tripPostId: String?,
-    val date: String,
-    val timestamp: Long
+    val date: String?,
+    val timestamp: Long?
 )

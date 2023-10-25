@@ -47,4 +47,10 @@ internal object Gradients {
         0.0f to Color(0xff893E9C),
         1f to Color(0xffF82B73),
     )
+
+    @Composable
+    fun button2Gradient() = Brush.horizontalGradient(
+        0.0f to AppTheme.colors.textDarkBorder(),
+        1f to AppTheme.colors.textDarkBorder(),
+    )
 }

@@ -14,7 +14,7 @@ class TripPostScreenHolder(
 
     @Composable
     override fun Content() {
-        val viewModel: TripPostScreenViewModel by SharedDI.di.instance()
+        val viewModel: TripPostScreenViewModel by SharedDI.di.instance(arg = tripPost.id.orEmpty())
         val viewState by viewModel.viewState.collectAsStateLifecycleAware()
 
         TripPostScreen(

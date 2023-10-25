@@ -5,6 +5,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
+import com.homehuddle.common.design.theme.textDarkBorder
+import com.homehuddle.common.design.theme.textDarkDisabled
+import com.homehuddle.common.design.theme.textDarkSecondary
 import com.homehuddle.common.design.theme.textLightDefault
 import com.homehuddle.common.design.theme.textLightDisabled
 
@@ -33,11 +36,11 @@ internal object PrimaryButtonColors : ButtonColors {
 internal object SecondaryButtonColors : ButtonColors {
 
     override val backgroundColor: Brush
-        @Composable get() = AppTheme.gradients.buttonGradient()
+        @Composable get() = AppTheme.gradients.button2Gradient()
     override val backgroundColorDisabled: Color
-        @Composable get() = AppTheme.colors.accent1()
+        @Composable get() = AppTheme.colors.textDarkBorder()
     override val textColor: Color
-        @Composable get() = AppTheme.colors.textLightDefault()
+        @Composable get() = AppTheme.colors.textDarkSecondary()
     override val textColorDisabled: Color
-        @Composable get() = AppTheme.colors.textLightDisabled()
+        @Composable get() = AppTheme.colors.textDarkDisabled()
 }

@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,9 +28,11 @@ import com.homehuddle.common.design.theme.transparent
 internal fun DefaultNavComponent(
     onBackClick: () -> Unit = {},
     onAddClick: () -> Unit = {},
+    onEditClick: () -> Unit = {},
     title: String = "",
     showBackButton: Boolean = true,
     showAddButton: Boolean = false,
+    showEditButton: Boolean = false,
     bgColor: Color = AppTheme.colors.transparent(),
     elementsColor: Color = AppTheme.colors.textLightDefault()
 ) {
@@ -56,24 +59,44 @@ internal fun DefaultNavComponent(
         } else {
             null
         },
-        rightIcon = if (showAddButton) {
-            {
-                Box(
-                    Modifier.height(AppTheme.indents.x8).width(AppTheme.indents.x6)
-                        .noEffectsClickable { onAddClick() },
-                    contentAlignment = Alignment.CenterEnd
-                ) {
-                    Image(
-                        imageVector = Icons.Rounded.Add,
-                        contentDescription = null,
-                        modifier = Modifier.size(AppTheme.indents.x3),
-                        colorFilter = ColorFilter.tint(elementsColor)
-                    )
+        rightIcons = listOf(
+            if (showEditButton) {
+                {
+                    Box(
+                        Modifier.height(AppTheme.indents.x8).width(AppTheme.indents.x6)
+                            .noEffectsClickable { onEditClick() },
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        Image(
+                            imageVector = Icons.Rounded.Edit,
+                            contentDescription = null,
+                            modifier = Modifier.size(AppTheme.indents.x3),
+                            colorFilter = ColorFilter.tint(elementsColor)
+                        )
+                    }
                 }
-            }
-        } else {
-            null
-        }
+            } else {
+                null
+            },
+            if (showAddButton) {
+                {
+                    Box(
+                        Modifier.height(AppTheme.indents.x8).width(AppTheme.indents.x6)
+                            .noEffectsClickable { onAddClick() },
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        Image(
+                            imageVector = Icons.Rounded.Add,
+                            contentDescription = null,
+                            modifier = Modifier.size(AppTheme.indents.x3),
+                            colorFilter = ColorFilter.tint(elementsColor)
+                        )
+                    }
+                }
+            } else {
+                null
+            },
+        )
     )
 }
 
@@ -83,7 +106,7 @@ internal fun NavBarComponents(
     titleColor: Color = AppTheme.colors.textLightDefault(),
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
-    rightIcon: @Composable (() -> Unit)? = null,
+    rightIcons: List<@Composable (() -> Unit)?> = emptyList(),
 ) {
     NavBarComponent(
         title = {
@@ -97,7 +120,7 @@ internal fun NavBarComponents(
         },
         modifier = modifier,
         navigationIcon = navigationIcon,
-        rightIcon = rightIcon
+        rightIcons = rightIcons
     )
 }
 
@@ -106,7 +129,7 @@ private fun NavBarComponent(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
-    rightIcon: @Composable (() -> Unit)? = null,
+    rightIcons: List<@Composable (() -> Unit)?> = emptyList(),
 ) {
     Row(
         modifier = modifier.padding(horizontal = AppTheme.indents.x2),
@@ -119,6 +142,6 @@ private fun NavBarComponent(
         ) {
             title()
         }
-        rightIcon?.invoke()
+        rightIcons.forEach { it?.invoke() }
     }
 }

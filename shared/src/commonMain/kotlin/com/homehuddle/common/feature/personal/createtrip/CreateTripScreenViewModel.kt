@@ -64,6 +64,12 @@ internal class CreateTripScreenViewModel(
         intent: CreateTripScreenIntent,
         state: CreateTripScreenState
     ): CreateTripScreenIntent? = when (intent) {
+        CreateTripScreenIntent.OnResume -> {
+            tripId.takeIf { !it.isNullOrEmpty() }?.let {
+                sendIntent(CreateTripScreenIntent.Update(getTripUseCase(it)))
+            }
+            null
+        }
         CreateTripScreenIntent.OnSaveClick -> {
             val error = when {
                 state.name.text.isEmpty() -> true

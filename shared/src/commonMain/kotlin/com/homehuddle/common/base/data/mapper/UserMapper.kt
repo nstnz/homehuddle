@@ -6,9 +6,9 @@ import com.homehuddle.common.base.domain.general.model.UserModel
 internal fun MutableMap<String, Any>?.mapToUser(): User? =
     this?.let {
         User(
-            id = this["id"].toString(),
-            name = this["name"].toString(),
-            currencyCode = this["currencyCode"].toString(),
+            id = this["id"]?.toString(),
+            name = this["name"]?.toString().orEmpty(),
+            currencyCode = this["currencyCode"]?.toString().orEmpty(),
         )
     }
 

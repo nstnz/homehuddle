@@ -28,29 +28,44 @@ internal class MainScreenViewModel(
         intent: MainScreenIntent,
         state: MainScreenState
     ): MainScreenIntent? = when (intent) {
-        MainScreenIntent.FirstLaunch -> {
+        MainScreenIntent.OnResume -> {
             getMeUseCase()?.let {
                 sendIntent(MainScreenIntent.UpdateUser(it))
                 sendIntent(MainScreenIntent.UpdateTrips(getUserTripsScenario(it.id)))
             }
             null
         }
+
         MainScreenIntent.AddTripClick -> {
             router.navigateToAddTrip(null)
             null
         }
+
         MainScreenIntent.AddTripPostClick -> {
             router.navigateToAddTripPost()
             null
         }
+
         MainScreenIntent.AddExpensesClick -> {
             router.navigateToAddExpenses()
             null
         }
+
         MainScreenIntent.AddLocationsClick -> {
             router.navigateToAddLocations()
             null
         }
+
+        is MainScreenIntent.OnTripClick -> {
+            router.navigateToTrip(intent.model)
+            null
+        }
+
+        is MainScreenIntent.OnTripPostClick -> {
+            router.navigateToTripPost(intent.model)
+            null
+        }
+
         else -> null
     }
 }

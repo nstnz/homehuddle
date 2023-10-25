@@ -6,13 +6,13 @@ import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 internal fun MutableMap<String, Any>?.mapToTripExpense(): TripExpense? =
     this?.let {
         TripExpense(
-            id = this.get("id").toString(),
-            sum = this.get("sum").toString().toDouble(),
-            tripPostId = this.get("tripPostId").toString(),
-            description = this.get("description").toString(),
-            currencyCode = this.get("currencyCode").toString(),
-            timestamp = this.get("timestamp").toString().toLong(),
-            date = this.get("date").toString(),
+            id = this.get("id")?.toString(),
+            sum = this.get("sum")?.toString()?.toDouble() ?: 0.0,
+            tripPostId = this.get("tripPostId")?.toString().orEmpty(),
+            description = this.get("description")?.toString().orEmpty(),
+            currencyCode = this.get("currencyCode")?.toString().orEmpty(),
+            timestamp = this.get("timestamp")?.toString()?.toLong(),
+            date = this.get("date")?.toString(),
         )
     }
 

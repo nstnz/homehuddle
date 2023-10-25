@@ -31,14 +31,16 @@ object MainScreenHolder : Screen {
 
         OnLifecycleEvent(mainScope) { event ->
             when (event) {
-                Lifecycle.State.Initialized -> viewModel.sendIntent(MainScreenIntent.FirstLaunch)
                 Lifecycle.State.Active -> viewModel.sendIntent(MainScreenIntent.OnResume)
                 else -> Unit
             }
         }
+
         MainScreen(
             state = viewState,
             bottomSheetState = bottomSheetState,
+            onTripClick = { viewModel.sendIntent(MainScreenIntent.OnTripClick(it)) },
+            onTripPostClick = { viewModel.sendIntent(MainScreenIntent.OnTripPostClick(it)) },
             onPostsFilterSelected = { viewModel.sendIntent(MainScreenIntent.SelectPostsFilter) },
             onTripsFilterSelected = { viewModel.sendIntent(MainScreenIntent.SelectTripsFilter) },
             onAddClick = { scope.launch { bottomSheetState.show() } },

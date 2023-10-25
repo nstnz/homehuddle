@@ -97,9 +97,6 @@ internal fun TwoDatesPicker(
                 initialDate = timestampStart,
                 onDatePicked = {
                     onFromDatePicked(it)
-                    if (timestampStart != it) {
-                        showFrom.value = false
-                    }
                 }
             )
         }

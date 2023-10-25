@@ -16,6 +16,7 @@ import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.general.usecase.GetUserUseCase
 import com.homehuddle.common.base.domain.general.usecase.IsSignedInUseCase
 import com.homehuddle.common.base.domain.trips.scenario.GetUserTripsScenario
+import com.homehuddle.common.base.domain.trips.usecase.DeleteTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.GetUserTripPostsUseCase
 import com.homehuddle.common.base.domain.trips.usecase.GetUserTripsUseCase
@@ -60,6 +61,7 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<GetMeUseCase>() with provider { GetMeUseCase(instance(), instance()) }
     bind<GetUserUseCase>() with provider { GetUserUseCase(instance(), instance()) }
     bind<GetTripUseCase>() with provider { GetTripUseCase(instance(), instance()) }
+    bind<DeleteTripUseCase>() with provider { DeleteTripUseCase(instance(), instance()) }
     bind<GetUserTripsUseCase>() with provider { GetUserTripsUseCase(instance(), instance()) }
     bind<SaveTripUseCase>() with provider { SaveTripUseCase(instance(), instance(), instance()) }
     bind<GetUserTripPostsUseCase>() with provider {

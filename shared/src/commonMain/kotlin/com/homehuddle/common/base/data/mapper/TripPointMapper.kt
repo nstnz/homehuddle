@@ -6,11 +6,11 @@ import com.homehuddle.common.base.domain.general.model.TripPointModel
 internal fun MutableMap<String, Any>?.mapToTripPoint(): TripPoint? =
     this?.let {
         TripPoint(
-            id = this.get("id").toString(),
-            tripPostId = this.get("tripPostId").toString(),
-            description = this.get("description").toString(),
-            lat = this.get("lat").toString().toDouble(),
-            lon = this.get("lon").toString().toDouble(),
+            id = this.get("id")?.toString(),
+            tripPostId = this.get("tripPostId")?.toString().orEmpty(),
+            description = this.get("description")?.toString().orEmpty(),
+            lat = this.get("lat")?.toString()?.toDouble() ?: 0.0,
+            lon = this.get("lon")?.toString()?.toDouble() ?: 0.0,
         )
     }
 

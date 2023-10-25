@@ -19,6 +19,8 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.domain.utils.Texts
 import com.homehuddle.common.design.navbar.NavigationBarComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
@@ -48,6 +50,8 @@ internal fun MainScreen(
     onAddTripPostClick: () -> Unit = {},
     onAddExpensesClick: () -> Unit = {},
     onAddLocationsClick: () -> Unit = {},
+    onTripClick: (TripModel) -> Unit = {},
+    onTripPostClick: (TripPostModel) -> Unit = {},
 ) {
     GradientScaffold(
         bottomSheetState = bottomSheetState,
@@ -83,7 +87,7 @@ internal fun MainScreen(
                         items(state.trips) {
                             TripCardComponent(
                                 trip = it,
-                                user = it.user
+                                onClick = onTripClick
                             )
                             DividerComponent()
                         }
@@ -91,7 +95,8 @@ internal fun MainScreen(
                         items(state.posts) { post ->
                             TripPostCompactCardComponent(
                                 trip = state.trips.first { it.id == post.tripId },
-                                tripPost = post
+                                tripPost = post,
+                                onClick = onTripPostClick
                             )
                             DividerComponent()
                         }

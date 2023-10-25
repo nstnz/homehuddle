@@ -7,13 +7,13 @@ import com.homehuddle.common.base.domain.general.model.TripPostModel
 internal fun MutableMap<String, Any>?.mapToTripPost(): TripPost? =
     this?.let {
         TripPost(
-            id = this.get("id").toString(),
-            tripId = this.get("tripId").toString(),
-            text = this.get("text").toString(),
+            id = this.get("id")?.toString(),
+            tripId = this.get("tripId")?.toString().orEmpty(),
+            text = this.get("text")?.toString().orEmpty(),
             expenses = emptyList(),
             photos = emptyList(),
-            date = this.get("date").toString(),
-            timestamp = this.get("timestamp").toString().toLong(),
+            date = this.get("date")?.toString(),
+            timestamp = this.get("timestamp")?.toString()?.toLongOrNull(),
         )
     }
 

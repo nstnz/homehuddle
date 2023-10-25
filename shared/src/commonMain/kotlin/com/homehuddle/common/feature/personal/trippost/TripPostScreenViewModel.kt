@@ -4,6 +4,7 @@ import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
 
 internal class TripPostScreenViewModel(
+    private val id: String,
     private val router: Router,
 ) : CoroutinesViewModel<TripPostScreenState, TripPostScreenIntent, TripPostScreenSingleEvent>() {
 

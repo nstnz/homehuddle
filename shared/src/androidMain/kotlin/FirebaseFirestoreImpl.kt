@@ -27,7 +27,7 @@ actual class FirebaseFirestoreImpl {
     ) {
         firestore.collection(collection)
             .document(model.id.orEmpty())
-            .update(model.id.orEmpty(), model)
+            .set(model)
             .await()
     }
 

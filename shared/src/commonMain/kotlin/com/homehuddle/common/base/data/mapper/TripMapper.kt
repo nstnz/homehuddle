@@ -7,14 +7,14 @@ import com.homehuddle.common.base.domain.general.model.UserModel
 internal fun MutableMap<String, Any>?.mapToTrip(): Trip? =
     this?.let {
         Trip(
-            id = this.get("id").toString(),
-            name = this.get("name").toString(),
-            description = this.get("description").toString(),
-            userId = this.get("userId").toString(),
-            dateStart = this.get("dateStart").toString(),
-            timestampStart = this.get("timestampStart").toString().toLongOrNull(),
-            dateEnd = this.get("dateEnd").toString(),
-            timestampEnd = this.get("timestampEnd").toString().toLongOrNull(),
+            id = this["id"]?.toString(),
+            name = this.get("name")?.toString().orEmpty(),
+            description = this.get("description")?.toString().orEmpty(),
+            userId = this.get("userId")?.toString(),
+            dateStart = this.get("dateStart")?.toString(),
+            timestampStart = this.get("timestampStart")?.toString()?.toLongOrNull(),
+            dateEnd = this.get("dateEnd")?.toString(),
+            timestampEnd = this.get("timestampEnd")?.toString()?.toLongOrNull(),
         )
     }
 

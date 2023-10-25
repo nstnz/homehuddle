@@ -46,8 +46,14 @@ internal fun TripSummaryComponent(
         }
         SpacerComponent { x3 }
         Column((Modifier.weight(1f)), horizontalAlignment = Alignment.End) {
+           /* val text = when {
+                !trip.start.isNullOrEmpty() && !trip.end.isNullOrEmpty() -> "from ${trip.start} till ${trip.end}"
+                !trip.start.isNullOrEmpty() && trip.end.isNullOrEmpty() -> "from ${trip.start}"
+                trip.start.isNullOrEmpty() && !trip.end.isNullOrEmpty() -> "till ${trip.end}"
+                else -> ""
+            }*/
             Text(
-                text = "from ${trip.start} till ${trip.end}",
+                text = "",
                 style = AppTheme.typography.body3,
                 color = textColor,
                 textAlign = TextAlign.End

@@ -16,7 +16,16 @@ internal data class TripDetailsScreenState(
 }
 
 internal sealed interface TripDetailsScreenIntent : Intent {
-    object FirstLaunch : TripDetailsScreenIntent
+    object OnResume : TripDetailsScreenIntent
+    object GoBack : TripDetailsScreenIntent
+    object AllFilterSelected : TripDetailsScreenIntent
+    object ExpensesFilterSelected : TripDetailsScreenIntent
+    object MapFilterSelected : TripDetailsScreenIntent
+    object PhotosFilterSelected : TripDetailsScreenIntent
+    object OverviewFilterSelected : TripDetailsScreenIntent
+    data class UpdateTrip(val trip: TripModel?) : TripDetailsScreenIntent
+    data class DeleteTrip(val trip: TripModel?) : TripDetailsScreenIntent
+    data class EditTrip(val trip: TripModel?) : TripDetailsScreenIntent
 }
 
 internal sealed class TripDetailsScreenSingleEvent : SingleEvent
@@ -25,5 +34,6 @@ internal enum class TripDetailsTab {
     All,
     Photos,
     Map,
-    Expenses
+    Expenses,
+    Overview
 }

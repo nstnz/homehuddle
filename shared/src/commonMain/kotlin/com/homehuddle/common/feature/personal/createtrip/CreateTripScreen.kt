@@ -48,7 +48,11 @@ internal fun CreateTripScreen(
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        invokeOnCompletion { focusRequester.requestFocus() }
+        invokeOnCompletion {
+            if (state.name.text.isEmpty()) {
+                focusRequester.requestFocus()
+            }
+        }
     }
 
     GradientScaffold(

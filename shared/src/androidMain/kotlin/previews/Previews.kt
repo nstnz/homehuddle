@@ -58,7 +58,7 @@ private fun MainScreenPreview() {
 private fun TripDetailsScreenPreview() {
     AppTheme {
         TripDetailsScreen(
-            TripDetailsScreenState(mockTrip(), selectedTab = TripDetailsTab.All)
+            TripDetailsScreenState(mockTrip(), selectedTab = TripDetailsTab.Overview)
         )
     }
 }

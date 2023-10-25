@@ -24,6 +24,7 @@ internal sealed interface CreateTripScreenIntent : Intent {
     data class OnToDateSelected(val date: Long?) : CreateTripScreenIntent
     object OnSaveClick : CreateTripScreenIntent
     object GoBack : CreateTripScreenIntent
+    object OnResume : CreateTripScreenIntent
 }
 
 internal sealed interface CreateTripScreenSingleEvent : SingleEvent {

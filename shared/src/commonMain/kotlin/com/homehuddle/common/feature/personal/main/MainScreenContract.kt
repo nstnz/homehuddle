@@ -19,10 +19,11 @@ internal data class MainScreenState(
 }
 
 internal sealed interface MainScreenIntent : Intent {
-    object FirstLaunch : MainScreenIntent
     object OnResume : MainScreenIntent
     object SelectPostsFilter : MainScreenIntent
     object SelectTripsFilter : MainScreenIntent
+    data class OnTripClick(val model: TripModel) : MainScreenIntent
+    data class OnTripPostClick(val model: TripPostModel) : MainScreenIntent
     data class UpdateUser(val user: UserModel) : MainScreenIntent
     data class UpdateTrips(val trips: List<TripModel>) : MainScreenIntent
     object AddTripClick : MainScreenIntent

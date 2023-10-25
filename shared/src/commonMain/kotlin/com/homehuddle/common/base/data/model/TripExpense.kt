@@ -9,8 +9,8 @@ data class TripExpense(
     val sum: Double,
     val currencyCode: String,
     val description: String,
-    val date: String,
-    val timestamp: Long
+    val date: String?,
+    val timestamp: Long?
 ) : BaseModel<TripExpense> {
 
     override fun copyId(id: String?): TripExpense = this.copy(id = id)

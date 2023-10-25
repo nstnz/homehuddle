@@ -22,6 +22,7 @@ import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
+import com.homehuddle.common.design.theme.noEffectsClickable
 import com.homehuddle.common.design.theme.textDarkDefault
 import com.homehuddle.common.design.theme.textDarkDisabled
 
@@ -29,10 +30,12 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 internal fun TripPostCompactCardComponent(
     trip: TripModel,
     tripPost: TripPostModel,
+    onClick: (TripPostModel) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
+            .noEffectsClickable { onClick(tripPost) }
             .padding(bottom = AppTheme.indents.x2)
     ) {
         if (tripPost.text.isNotEmpty()) {

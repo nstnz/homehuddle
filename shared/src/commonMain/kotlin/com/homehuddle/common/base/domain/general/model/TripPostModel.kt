@@ -11,8 +11,8 @@ data class TripPostModel(
     val photos: List<String>,
     val expenses: List<TripExpenseModel>,
     val points: List<TripPointModel>? = null,
-    val date: String,
-    val timestamp: Long
+    val date: String?,
+    val timestamp: Long?
 ) {
 
     val isMine: Boolean

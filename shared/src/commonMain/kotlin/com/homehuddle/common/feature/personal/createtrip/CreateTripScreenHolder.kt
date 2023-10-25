@@ -6,11 +6,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.screen.Screen
 import com.homehuddle.common.base.di.SharedDI
+import com.homehuddle.common.base.di.tripDetailsScope
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.ui.collectAsStateLifecycleAware
 import com.homehuddle.common.design.snackbar.SnackbarHostState
+import com.homehuddle.common.router.OnLifecycleEvent
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.lifecycle.Lifecycle
 import org.kodein.di.instance
 
 internal class CreateTripScreenHolder(
@@ -32,6 +35,13 @@ internal class CreateTripScreenHolder(
                     }
                 }
             }.collect()
+        }
+
+        OnLifecycleEvent(tripDetailsScope) { event ->
+            when (event) {
+                Lifecycle.State.Active -> viewModel.sendIntent(CreateTripScreenIntent.OnResume)
+                else -> Unit
+            }
         }
 
         CreateTripScreen(

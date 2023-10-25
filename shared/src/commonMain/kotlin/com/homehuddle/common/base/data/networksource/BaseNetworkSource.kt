@@ -14,7 +14,9 @@ internal abstract class BaseNetworkSource<T>(
     suspend fun create(model: T): T {
         return model.copyId(
             id = storage.create(name, model)
-        )
+        ).also {
+            storage.update(name, it)
+        }
     }
 
     suspend fun update(model: T): T {
