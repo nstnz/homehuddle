@@ -58,6 +58,7 @@ internal fun TextFieldImpl(
 	interactionSource: MutableInteractionSource,
 	shape: Shape,
 	colors: TextFieldColors,
+	innerPadding: Dp = AppTheme.indents.x2
 ) {
 	// If color is not provided via the text style, use content color as a default
 	val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
@@ -166,11 +167,12 @@ internal fun TextFieldImpl(
 			leadingColor = leadingIconColor,
 			trailingColor = trailingIconColor,
 			labelProgress = labelProgress,
-			indicatorWidth = AppTheme.indents.x0_5,
+			indicatorWidth = AppTheme.indents.x0_25,
 			indicatorColor = colors.indicatorColor(enabled, isError, interactionSource).value,
 			shape = shape,
 			backgroundColor = colors.backgroundColor(enabled).value,
-			cursorColor = colors.cursorColor(isError).value
+			cursorColor = colors.cursorColor(isError).value,
+			innerPadding = innerPadding
 		)
 	}
 }
@@ -334,7 +336,7 @@ private const val PlaceholderAnimationDelayOrDuration = 67
 
 private val IndicatorUnfocusedWidth = 2.dp
 private val IndicatorFocusedWidth = 2.dp
-internal val TextFieldPadding = 16.dp
+internal val TextFieldPadding = 8.dp
 internal val HorizontalIconPadding = 12.dp
 
 internal val IconDefaultSizeModifier = Modifier.defaultMinSize(48.dp, 48.dp)

@@ -11,9 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.spacer.SpacerComponent
-import com.homehuddle.common.design.theme.background1
+import com.homehuddle.common.design.theme.AppTheme
+import com.homehuddle.common.design.theme.error
+import com.homehuddle.common.design.theme.textDarkBorder
 import com.homehuddle.common.design.theme.textLightDefault
 
 @Composable
@@ -35,9 +36,9 @@ internal fun SnackbarComponent(
                 .align(Alignment.TopCenter),
             shape = AppTheme.shapes.x2,
             color = if (isError) {
-                AppTheme.colors.background1()
+                AppTheme.colors.error()
             } else {
-                AppTheme.colors.background1()
+                AppTheme.colors.textDarkBorder()
             }
         ) {
             Column(

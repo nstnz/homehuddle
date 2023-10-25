@@ -1,6 +1,7 @@
 package com.homehuddle.common.design.button
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
@@ -9,8 +10,8 @@ import com.homehuddle.common.design.theme.textLightDisabled
 
 internal sealed interface ButtonColors {
 
-    val backgroundColor: Color @Composable get
-    val backgroundColorOnTap: Color @Composable get() = backgroundColor.copy(alpha = 0.7f)
+    val backgroundColor: Brush @Composable get
+    val backgroundColorOnTap: Brush @Composable get() = backgroundColor
     val backgroundColorDisabled: Color @Composable get
     val textColor: Color @Composable get
     val textColorDisabled: Color @Composable get
@@ -19,8 +20,8 @@ internal sealed interface ButtonColors {
 
 internal object PrimaryButtonColors : ButtonColors {
 
-    override val backgroundColor: Color
-        @Composable get() = AppTheme.colors.accent1()
+    override val backgroundColor: Brush
+        @Composable get() = AppTheme.gradients.buttonGradient()
     override val backgroundColorDisabled: Color
         @Composable get() = AppTheme.colors.accent1()
     override val textColor: Color
@@ -31,8 +32,8 @@ internal object PrimaryButtonColors : ButtonColors {
 
 internal object SecondaryButtonColors : ButtonColors {
 
-    override val backgroundColor: Color
-        @Composable get() = AppTheme.colors.accent1()
+    override val backgroundColor: Brush
+        @Composable get() = AppTheme.gradients.buttonGradient()
     override val backgroundColorDisabled: Color
         @Composable get() = AppTheme.colors.accent1()
     override val textColor: Color

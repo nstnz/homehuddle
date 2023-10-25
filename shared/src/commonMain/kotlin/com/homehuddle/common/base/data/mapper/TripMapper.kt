@@ -11,6 +11,10 @@ internal fun MutableMap<String, Any>?.mapToTrip(): Trip? =
             name = this.get("name").toString(),
             description = this.get("description").toString(),
             userId = this.get("userId").toString(),
+            dateStart = this.get("dateStart").toString(),
+            timestampStart = this.get("timestampStart").toString().toLongOrNull(),
+            dateEnd = this.get("dateEnd").toString(),
+            timestampEnd = this.get("timestampEnd").toString().toLongOrNull(),
         )
     }
 
@@ -21,6 +25,10 @@ internal fun Trip?.mapToTripModel(userModel: UserModel): TripModel? =
             name = this.name,
             description = this.description,
             user = userModel,
-            posts = emptyList()
+            posts = emptyList(),
+            dateStart = this.dateStart,
+            dateEnd = this.dateEnd,
+            timestampStart = this.timestampStart,
+            timestampEnd = this.timestampEnd,
         )
     }

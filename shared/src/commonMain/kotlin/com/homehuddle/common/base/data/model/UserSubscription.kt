@@ -4,5 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserSubscription(
-    val id: String,
-)
+    override val id: String?,
+): BaseModel<UserSubscription> {
+
+    override fun copyId(id: String?): UserSubscription = this.copy(id = id)
+}
+

@@ -52,6 +52,10 @@ internal fun Colors.textDarkDisabled(): Color = Color(0x99282828)
 
 @Composable
 @ReadOnlyComposable
+internal fun Colors.textDarkBorder(): Color = Color(0x15282828)
+
+@Composable
+@ReadOnlyComposable
 internal fun Colors.textLightDefault(): Color = Color(0xFFFFFFFF)
 
 @Composable
@@ -61,3 +65,7 @@ internal fun Colors.textLightSecondary(): Color = Color(0xCCFFFFFF)
 @Composable
 @ReadOnlyComposable
 internal fun Colors.textLightDisabled(): Color = Color(0x99FFFFFF)
+
+@Composable
+@ReadOnlyComposable
+internal fun Colors.error(): Color = Color(0xFFFF0000)

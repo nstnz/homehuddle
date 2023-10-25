@@ -13,7 +13,6 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.TextFieldDefaults.MinHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import com.homehuddle.common.design.theme.AppTheme
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -126,6 +126,7 @@ internal fun OutlinedTextField(
 	interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 	shape: Shape = MaterialTheme.shapes.small,
 	colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+	innerPadding: Dp = AppTheme.indents.x2
 ) {
 	TextFieldImpl(
 		enabled = enabled,
@@ -146,7 +147,8 @@ internal fun OutlinedTextField(
 		maxLines = maxLines,
 		interactionSource = interactionSource,
 		shape = shape,
-		colors = colors
+		colors = colors,
+		innerPadding = innerPadding
 	)
 }
 
@@ -176,6 +178,7 @@ internal fun OutlinedTextFieldLayout(
 	cursorColor: Color,
 	backgroundColor: Color,
 	shape: Shape,
+	innerPadding: Dp = AppTheme.indents.x2
 ) {
 	val labelSize = remember { mutableStateOf(Size.Zero) }
 	BasicTextField(
@@ -190,7 +193,7 @@ internal fun OutlinedTextFieldLayout(
 			)
 			.defaultMinSize(
 				minWidth = 0.dp,
-				minHeight = MinHeight
+				minHeight = 40.dp
 			)
 			.background(backgroundColor, shape),
 		onValueChange = onValueChange,
@@ -207,6 +210,7 @@ internal fun OutlinedTextFieldLayout(
 		decorationBox = @Composable { coreTextField ->
 			// places leading icon, input field, label, placeholder, trailing icon
 			IconsWithTextFieldLayout(
+				innerPadding = innerPadding,
 				textField = coreTextField,
 				leading = leading,
 				trailing = trailing,
@@ -256,6 +260,7 @@ private fun IconsWithTextFieldLayout(
 	borderWidth: Dp,
 	borderColor: Color,
 	labelSize: Size,
+	innerPadding: Dp = AppTheme.indents.x2
 ) {
 	val measurePolicy = remember(onLabelMeasured, singleLine, animationProgress) {
 		OutlinedTextFieldMeasurePolicy(onLabelMeasured, singleLine, animationProgress)
@@ -305,8 +310,8 @@ private fun IconsWithTextFieldLayout(
 			}
 			val paddingToIcon = TextFieldPadding - HorizontalIconPadding
 			val padding = Modifier.padding(
-				start = if (leading != null) paddingToIcon else TextFieldPadding,
-				end = if (trailing != null) paddingToIcon else TextFieldPadding
+				start = if (leading != null) paddingToIcon else innerPadding,
+				end = if (trailing != null) paddingToIcon else innerPadding
 			)
 			if (placeholder != null) {
 				placeholder(Modifier

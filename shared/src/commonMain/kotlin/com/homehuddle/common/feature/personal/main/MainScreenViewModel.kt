@@ -36,7 +36,7 @@ internal class MainScreenViewModel(
             null
         }
         MainScreenIntent.AddTripClick -> {
-            router.navigateToAddTrip()
+            router.navigateToAddTrip(null)
             null
         }
         MainScreenIntent.AddTripPostClick -> {

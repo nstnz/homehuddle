@@ -1,5 +1,6 @@
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.homehuddle.common.design.mocks.mockTrip
 import com.homehuddle.common.design.mocks.mockTripPost
@@ -7,6 +8,8 @@ import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.feature.general.login.LoginScreen
 import com.homehuddle.common.feature.general.splash.SplashScreen
 import com.homehuddle.common.feature.general.welcome.WelcomeScreen
+import com.homehuddle.common.feature.personal.createtrip.CreateTripScreen
+import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenState
 import com.homehuddle.common.feature.personal.main.AddNewItemBottomSheet
 import com.homehuddle.common.feature.personal.main.MainScreen
 import com.homehuddle.common.feature.personal.main.MainScreenState
@@ -76,5 +79,17 @@ private fun TripPostScreenPreview() {
 private fun AddNewItemBottomSheetPreview() {
     AppTheme {
         AddNewItemBottomSheet()
+    }
+}
+
+@Preview
+@Composable
+private fun CreateTripScreenPreview() {
+    AppTheme {
+        CreateTripScreen(CreateTripScreenState(
+            name = TextFieldValue("kjsdflj"),
+            description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
+            fromDateSelected = true
+        ))
     }
 }

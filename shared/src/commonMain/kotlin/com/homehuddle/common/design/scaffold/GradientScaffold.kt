@@ -13,6 +13,7 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -21,14 +22,17 @@ import com.homehuddle.common.design.snackbar.SnackbarComponent
 import com.homehuddle.common.design.snackbar.SnackbarHost
 import com.homehuddle.common.design.snackbar.SnackbarHostState
 import com.homehuddle.common.design.theme.AppTheme
-import com.homehuddle.common.design.theme.textDarkDisabled
+import com.homehuddle.common.design.theme.textDarkBorder
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun GradientScaffold(
     gradient: Brush = AppTheme.gradients.background1(),
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    scaffoldState: ScaffoldState = rememberScaffoldState(
+        snackbarHostState = snackbarHostState
+    ),
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     snackbarHost: @Composable (SnackbarHostState) -> Unit = {
@@ -55,7 +59,7 @@ internal fun GradientScaffold(
         sheetShape = AppTheme.shapes.x4_5_top,
         sheetState = bottomSheetState,
         sheetBackgroundColor = Color.Transparent,
-        scrimColor = AppTheme.colors.textDarkDisabled().copy(alpha = 0.25f),
+        scrimColor = AppTheme.colors.textDarkBorder(),
     ) {
         Column(
             modifier = Modifier

@@ -41,15 +41,31 @@ object MainScreenHolder : Screen {
             bottomSheetState = bottomSheetState,
             onPostsFilterSelected = { viewModel.sendIntent(MainScreenIntent.SelectPostsFilter) },
             onTripsFilterSelected = { viewModel.sendIntent(MainScreenIntent.SelectTripsFilter) },
-            onAddClick = {
+            onAddClick = { scope.launch { bottomSheetState.show() } },
+            onAddTripClick = {
                 scope.launch {
-                    bottomSheetState.show()
+                    bottomSheetState.hide()
+                    viewModel.sendIntent(MainScreenIntent.AddTripClick)
                 }
             },
-            onAddTripClick = { viewModel.sendIntent(MainScreenIntent.AddTripClick) },
-            onAddTripPostClick = { viewModel.sendIntent(MainScreenIntent.AddTripPostClick) },
-            onAddExpensesClick = { viewModel.sendIntent(MainScreenIntent.AddExpensesClick) },
-            onAddLocationsClick = { viewModel.sendIntent(MainScreenIntent.AddLocationsClick) },
+            onAddTripPostClick = {
+                scope.launch {
+                    bottomSheetState.hide()
+                    viewModel.sendIntent(MainScreenIntent.AddTripPostClick)
+                }
+            },
+            onAddExpensesClick = {
+                scope.launch {
+                    bottomSheetState.hide()
+                    viewModel.sendIntent(MainScreenIntent.AddExpensesClick)
+                }
+            },
+            onAddLocationsClick = {
+                scope.launch {
+                    bottomSheetState.hide()
+                    viewModel.sendIntent(MainScreenIntent.AddLocationsClick)
+                }
+            },
         )
     }
 }

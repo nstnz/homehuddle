@@ -1,8 +1,11 @@
 package com.homehuddle.common.base.domain.general.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TripPostModel(
-    val id: String,
-    val tripId: String,
+    val id: String?,
+    val tripId: String?,
     val user: UserModel,
     val text: String,
     val photos: List<String>,

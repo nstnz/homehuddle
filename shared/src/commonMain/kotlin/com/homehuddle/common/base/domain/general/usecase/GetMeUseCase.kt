@@ -1,6 +1,5 @@
 package com.homehuddle.common.base.domain.general.usecase
 
-import com.homehuddle.common.base.data.mapper.mapToUserModel
 import com.homehuddle.common.base.data.repository.UserRepository
 import com.homehuddle.common.base.domain.general.model.UserModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,6 +12,6 @@ internal class GetMeUseCase(
 
     suspend operator fun invoke(): UserModel? = withContext(dispatcher) {
         val existingUser = repository.getMe()
-        return@withContext existingUser.mapToUserModel(isMe = true)
+        return@withContext existingUser
     }
 }

@@ -32,6 +32,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.material3)
                 implementation(compose.ui)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
@@ -58,6 +59,11 @@ kotlin {
                 api("moe.tlaster:precompose-viewmodel:$Precompose")
 
                 implementation("com.russhwolf:multiplatform-settings:$Storage")
+
+                api("com.mohamedrejeb.calf:calf-ui:0.2.0")
+
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("com.benasher44:uuid:0.8.1")
             }
         }
         val androidMain by getting {

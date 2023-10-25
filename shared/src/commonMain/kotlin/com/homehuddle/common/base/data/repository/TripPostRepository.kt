@@ -1,43 +1,39 @@
 package com.homehuddle.common.base.data.repository
 
+import com.homehuddle.common.base.data.mapper.mapToTripPostModel
+import com.homehuddle.common.base.data.memorysource.BaseMemorySource
 import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.data.networksource.TripExpenseNetworkSource
 import com.homehuddle.common.base.data.networksource.TripPointNetworkSource
 import com.homehuddle.common.base.data.networksource.TripPostNetworkSource
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 
 internal class TripPostRepository(
-    private val tripPostNetworkSource: TripPostNetworkSource,
+    private val tripRepository: TripRepository,
+    tripPostNetworkSource: TripPostNetworkSource,
     private val tripExpenseNetworkSource: TripExpenseNetworkSource,
     private val tripPointNetworkSource: TripPointNetworkSource,
+) : BaseRepository<TripPost, TripPostModel, TripPostNetworkSource, BaseMemorySource<TripPost>>(
+    tripPostNetworkSource,
+    null
 ) {
 
-    suspend fun createTripPost(tripPost: TripPost): TripPost {
-        tripPostNetworkSource.createTripPost(tripPost)
-        return tripPost
+    override suspend fun map(model: TripPost?): TripPostModel? {
+        return tripRepository.get(model?.tripId)?.let {
+            model.mapToTripPostModel(it)
+        }
     }
 
-    suspend fun getTripPost(id: String) =
-        tripPostNetworkSource.getTripPost(id)
-            ?.let {
-                it.copy(
-                    expenses = tripExpenseNetworkSource.getTripExpenses(it.id),
-                    points = tripPointNetworkSource.getTripPoints(it.id)
-                )
-            }
-
-    suspend fun getTripPosts(tripId: String): List<TripPost> {
-        return tripPostNetworkSource.getTripPosts(tripId)
-            .map {
-                it.copy(
-                    expenses = tripExpenseNetworkSource.getTripExpenses(it.id),
-                    points = tripPointNetworkSource.getTripPoints(it.id)
-                )
-            }
+    override suspend fun transform(model: TripPost?): TripPost? {
+        return model?.copy(
+            expenses = tripExpenseNetworkSource.getByParent(model.id),
+            points = tripPointNetworkSource.getByParent(model.id)
+        )
     }
 
-    suspend fun deleteTripPost(id: String) {
-        tripPointNetworkSource.deleteTripPoints(id)
-        tripExpenseNetworkSource.deleteTripExpenses(id)
-        tripPostNetworkSource.deleteTripPost(id)
+    override suspend fun delete(id: String?) {
+        tripPointNetworkSource.deleteByParent(id)
+        tripExpenseNetworkSource.deleteByParent(id)
+        super.delete(id)
     }
 }

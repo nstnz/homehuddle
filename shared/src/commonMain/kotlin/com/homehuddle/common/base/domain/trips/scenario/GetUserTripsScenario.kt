@@ -14,7 +14,7 @@ internal class GetUserTripsScenario(
     private val getUserTripPostsUseCase: GetUserTripPostsUseCase,
 ) {
 
-    suspend operator fun invoke(userId: String): List<TripModel> = withContext(dispatcher) {
+    suspend operator fun invoke(userId: String?): List<TripModel> = withContext(dispatcher) {
         val user = getUserUseCase(userId)
         return@withContext user?.let {
             getUserTripsUseCase(user).map {

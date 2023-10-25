@@ -41,4 +41,10 @@ internal object Gradients {
         0.0f to Color(0xffD39646),
         1f to Color(0xffCCCCCD),
     )
+
+    @Composable
+    fun buttonGradient() = Brush.horizontalGradient(
+        0.0f to Color(0xff893E9C),
+        1f to Color(0xffF82B73),
+    )
 }

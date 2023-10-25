@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -91,10 +90,7 @@ internal fun TripDetailsScreen(
                 Modifier.fillMaxSize()
                     .background(
                         AppTheme.colors.background2(),
-                        RoundedCornerShape(
-                            topStart = AppTheme.indents.x4,
-                            topEnd = AppTheme.indents.x4
-                        )
+                        AppTheme.shapes.x4_5_top
                     ),
                 contentAlignment = Alignment.BottomCenter
             ) {

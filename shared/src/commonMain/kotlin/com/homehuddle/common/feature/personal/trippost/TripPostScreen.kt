@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -93,10 +92,7 @@ internal fun TripPostScreen(
                 Modifier.fillMaxSize()
                     .background(
                         AppTheme.colors.background2(),
-                        RoundedCornerShape(
-                            topStart = AppTheme.indents.x4,
-                            topEnd = AppTheme.indents.x4
-                        )
+                        AppTheme.shapes.x4_5_top
                     ),
                 contentAlignment = Alignment.BottomCenter
             ) {

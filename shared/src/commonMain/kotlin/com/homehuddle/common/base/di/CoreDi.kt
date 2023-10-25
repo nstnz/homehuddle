@@ -16,8 +16,10 @@ import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.general.usecase.GetUserUseCase
 import com.homehuddle.common.base.domain.general.usecase.IsSignedInUseCase
 import com.homehuddle.common.base.domain.trips.scenario.GetUserTripsScenario
+import com.homehuddle.common.base.domain.trips.usecase.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.GetUserTripPostsUseCase
 import com.homehuddle.common.base.domain.trips.usecase.GetUserTripsUseCase
+import com.homehuddle.common.base.domain.trips.usecase.SaveTripUseCase
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -29,10 +31,11 @@ internal val coreDi = DI.Module(name = "Core") {
         TripPostRepository(
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }
-    bind<TripRepository>() with provider { TripRepository(instance()) }
+    bind<TripRepository>() with provider { TripRepository(instance(), instance()) }
 
     bind<CurrencyNetworkSource>() with provider { CurrencyNetworkSource(instance(), instance()) }
     bind<UserLocalSource>() with provider { UserLocalSource() }
@@ -56,7 +59,9 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<IsSignedInUseCase>() with provider { IsSignedInUseCase(instance()) }
     bind<GetMeUseCase>() with provider { GetMeUseCase(instance(), instance()) }
     bind<GetUserUseCase>() with provider { GetUserUseCase(instance(), instance()) }
+    bind<GetTripUseCase>() with provider { GetTripUseCase(instance(), instance()) }
     bind<GetUserTripsUseCase>() with provider { GetUserTripsUseCase(instance(), instance()) }
+    bind<SaveTripUseCase>() with provider { SaveTripUseCase(instance(), instance(), instance()) }
     bind<GetUserTripPostsUseCase>() with provider {
         GetUserTripPostsUseCase(
             instance(),

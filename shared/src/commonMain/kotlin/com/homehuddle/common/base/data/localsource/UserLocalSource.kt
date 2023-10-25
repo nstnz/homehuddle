@@ -27,7 +27,7 @@ internal class UserLocalSource() {
     fun isLoggedIn() = settings.getBoolean(LoggedInKey, false)
     fun setLoggedIn(value: Boolean) = settings.set(LoggedInKey, value)
     fun getUserId() = settings.getStringOrNull(UserIdKey)
-    fun setUserId(value: String) = settings.set(UserIdKey, value)
+    fun setUserId(value: String?) = settings.set(UserIdKey, value)
     fun getUserCurrencyCode() = settings.getStringOrNull(UserCurrencyCodeKey)
     fun setUserCurrencyCode(value: String) = settings.set(UserCurrencyCodeKey, value)
     fun getUserName() = settings.getStringOrNull(UserNameKey)

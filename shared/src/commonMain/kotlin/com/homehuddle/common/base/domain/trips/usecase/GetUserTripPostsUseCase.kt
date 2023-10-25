@@ -1,6 +1,5 @@
 package com.homehuddle.common.base.domain.trips.usecase
 
-import com.homehuddle.common.base.data.mapper.mapToTripPostModel
 import com.homehuddle.common.base.data.repository.TripPostRepository
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
@@ -14,7 +13,6 @@ internal class GetUserTripPostsUseCase(
 
     suspend operator fun invoke(tripModel: TripModel): List<TripPostModel> =
         withContext(dispatcher) {
-            return@withContext tripPostRepository.getTripPosts(tripModel.id)
-                .mapNotNull { it.mapToTripPostModel(tripModel) }
+            return@withContext tripPostRepository.getByParent(tripModel.id)
         }
 }

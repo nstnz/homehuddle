@@ -1,13 +1,19 @@
 package com.homehuddle.common.base.domain.general.model
 
 import com.homehuddle.common.base.domain.utils.flatten
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TripModel(
-    val id: String,
+    val id: String?,
     val name: String,
     val user: UserModel,
     val description: String,
-    val posts: List<TripPostModel>
+    val posts: List<TripPostModel>,
+    val dateStart: String? = null,
+    val timestampStart: Long? = null,
+    val dateEnd: String? = null,
+    val timestampEnd: Long? = null
 ) {
 
     val isMine: Boolean
@@ -26,8 +32,8 @@ data class TripModel(
         get() = posts.flatten { it.expenses }
 
     val start: String
-        get() = posts.minBy { it.timestamp }.date
+        get() = dateStart ?: posts.minBy { it.timestamp }.date
 
     val end: String
-        get() = posts.maxBy { it.timestamp }.date
+        get() = dateEnd ?: posts.maxBy { it.timestamp }.date
 }

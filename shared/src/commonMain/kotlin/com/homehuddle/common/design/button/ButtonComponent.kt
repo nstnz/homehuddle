@@ -1,6 +1,6 @@
 package com.homehuddle.common.design.button
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,13 +12,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
-import com.homehuddle.common.design.theme.InOuterShadow
 import com.homehuddle.common.design.theme.noEffectsClickable
+import com.homehuddle.common.design.theme.transparent
 
 @Composable
 internal fun ButtonComponent(
@@ -29,43 +30,36 @@ internal fun ButtonComponent(
     state: ButtonState = ButtonState.DEFAULT,
     buttonColors: ButtonColors,
 ) {
-    val buttonShape = AppTheme.shapes.x2_5
+    val buttonShape = AppTheme.shapes.x3
 
     Surface(
         shape = buttonShape,
-        color = backgroundColor(buttonColors, state),
+        color = AppTheme.colors.transparent(),
         contentColor = buttonColors.textColor,
         modifier = modifier
             .noEffectsClickable {
                 onClick()
             }
+            .clipToBounds()
     ) {
-        InOuterShadow(
+        Box(
             Modifier
+                .fillMaxWidth()
+                .height(AppTheme.indents.x8)
+                .background(buttonColors.backgroundColor)
         ) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(AppTheme.indents.x7)
-                    .border(
-                        AppTheme.indents.x0_5,
-                        textColor(buttonColors, state),
-                        AppTheme.shapes.x2_5
-                    )
-            ) {
-                val contentModifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(horizontal = AppTheme.indents.x2)
+            val contentModifier = Modifier
+                .align(Alignment.Center)
+                .padding(horizontal = AppTheme.indents.x2)
 
-                ButtonContent(
-                    modifier = contentModifier,
-                    icon = icon,
-                    text = text,
-                    textStyle = AppTheme.typography.body1,
-                    colors = buttonColors,
-                    state = state,
-                )
-            }
+            ButtonContent(
+                modifier = contentModifier,
+                icon = icon,
+                text = text,
+                textStyle = AppTheme.typography.body2Bold,
+                colors = buttonColors,
+                state = state,
+            )
         }
     }
 }
@@ -97,15 +91,6 @@ internal fun ButtonContent(
         )
     }
 }
-
-@Composable
-internal fun backgroundColor(colors: ButtonColors, state: ButtonState): Color =
-    when (state) {
-        ButtonState.DEFAULT,
-        -> colors.backgroundColor
-
-        ButtonState.DISABLED -> colors.backgroundColorDisabled
-    }
 
 @Composable
 private fun textColor(colors: ButtonColors, state: ButtonState): Color = when (state) {

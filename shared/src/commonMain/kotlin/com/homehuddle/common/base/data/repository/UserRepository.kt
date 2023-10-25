@@ -1,36 +1,35 @@
 package com.homehuddle.common.base.data.repository
 
 import com.homehuddle.common.base.data.localsource.UserLocalSource
+import com.homehuddle.common.base.data.mapper.mapToUserModel
 import com.homehuddle.common.base.data.memorysource.UserMemorySource
 import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.data.networksource.UserNetworkSource
+import com.homehuddle.common.base.domain.general.model.UserModel
 
 internal class UserRepository(
     private val userLocalSource: UserLocalSource,
-    private val userNetworkSource: UserNetworkSource,
-    private val userMemorySource: UserMemorySource,
+    userNetworkSource: UserNetworkSource,
+    userMemorySource: UserMemorySource,
+) : BaseRepository<User, UserModel, UserNetworkSource, UserMemorySource>(
+    userNetworkSource,
+    userMemorySource
 ) {
 
-    fun isLoggedIn() =
-        userLocalSource.isLoggedIn()
+    override suspend fun map(model: User?): UserModel? {
+        return model.mapToUserModel(isMe = isMe(model?.id))
+    }
 
-    fun setLoggedIn(value: Boolean) =
-        userLocalSource.setLoggedIn(value)
+    fun isLoggedIn() = userLocalSource.isLoggedIn()
 
-    fun isMe(userId: String) = userId == userLocalSource.getUserId()
+    fun isMe(userId: String?) = userId != null && userId == userLocalSource.getUserId()
 
-    fun getMe() = userMemorySource.getUser()
+    suspend fun getMe() = get(userLocalSource.getUserId())
 
-    suspend fun getUser(userId: String) =
-        if (isMe(userId)) {
-            getMe()
-        } else {
-            userNetworkSource.getUser(userId)
-        }
+    suspend fun getUser(userId: String?) = get(userId)
 
     suspend fun saveMe(user: User) =
-        userNetworkSource.createUser(user).also {
+        create(user).apply {
             userLocalSource.setUser(user)
-            userMemorySource.setUser(user)
         }
 }

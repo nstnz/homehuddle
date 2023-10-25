@@ -15,15 +15,15 @@ internal class AnonymousAuthUseCase(
     suspend operator fun invoke(): Boolean = withContext(dispatcher) {
         val user = Firebase.auth.signInAnonymously().user
         val result = user != null
-        repository.setLoggedIn(result)
 
         Firebase.auth.currentUser?.let {
-            val existingUser = repository.getUser(it.uid) ?: User(
-                id = it.uid,
-                name = it.displayName.orEmpty(),
-                currencyCode = "USD",
-            )
-            repository.saveMe(existingUser)
+            if (repository.getUser(it.uid) == null) {
+                repository.saveMe(User(
+                    id = it.uid,
+                    name = it.displayName.orEmpty(),
+                    currencyCode = "USD",
+                ))
+            }
         }
 
         return@withContext result

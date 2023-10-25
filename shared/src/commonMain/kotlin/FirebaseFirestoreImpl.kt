@@ -1,9 +1,15 @@
+import com.homehuddle.common.base.data.model.BaseModel
+
 expect class FirebaseFirestoreImpl() {
 
-    suspend fun createOrUpdate(
+    suspend fun <T> create(
         collection: String,
-        id: String,
-        model: Any
+        model: BaseModel<T>
+    ): String
+
+    suspend fun <T> update(
+        collection: String,
+        model: BaseModel<T>
     )
 
     suspend fun delete(collection: String, id: String)
