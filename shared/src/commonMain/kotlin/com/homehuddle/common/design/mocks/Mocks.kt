@@ -28,7 +28,8 @@ fun mockTripPost() = TripPostModel(
     "sdfsdf",
     "",
     user = mockUser(),
-    "Lorem ipsum skldjflskdf lsjdf;l jsl;dfjs; fjsldf jsdfbjhsbdfk s",
+    name = "sdfalskds",
+    description = "Lorem ipsum skldjflskdf lsjdf;l jsl;dfjs; fjsldf jsdfbjhsbdfk s",
     photos = listOf("", ""),
     expenses = listOf(
         mockTripExpense(),
@@ -41,8 +42,8 @@ fun mockTripPost() = TripPostModel(
         mockTripPoint(),
         mockTripPoint(),
     ),
-    date = "10.10.1010",
-    timestamp = 10000231L
+    dateStart = "10.10.1010",
+    timestampStart = 10000231L,
 )
 
 fun mockTripExpense() = TripExpenseModel(

@@ -12,6 +12,8 @@ object Texts {
     const val Expenses = "Expenses"
     const val Locations = "Locations"
     const val TripName = "Trip name"
+    const val TripPostName = "Trip post name"
+    const val TripPostLabel = "New post for "
     const val TripNameLabel = "Lets name your trip!"
     const val TripDescription = "Trip description"
     const val TripDescriptionLabel = "Add some notes about your trip: your feelings or expectations"

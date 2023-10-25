@@ -20,7 +20,7 @@ internal class AnonymousAuthUseCase(
             if (repository.getUser(it.uid) == null) {
                 repository.saveMe(User(
                     id = it.uid,
-                    name = it.displayName.orEmpty(),
+                    name = "Pupa",
                     currencyCode = "USD",
                 ))
             }

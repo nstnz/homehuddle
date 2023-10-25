@@ -29,7 +29,7 @@ internal class UserRepository(
     suspend fun getUser(userId: String?) = get(userId)
 
     suspend fun saveMe(user: User) =
-        create(user).apply {
-            userLocalSource.setUser(user)
+        create(user).also {
+            it?.let { userLocalSource.setUser(it) }
         }
 }

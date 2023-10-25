@@ -32,8 +32,8 @@ data class TripModel(
         get() = posts.flatten { it.expenses }
 
     val start: String?
-        get() = dateStart ?: posts.minBy { it.timestamp ?: 0L }.date
+        get() = dateStart ?: posts.minBy { it.timestampStart ?: 0L }.dateStart
 
     val end: String?
-        get() = dateEnd ?: posts.maxBy { it.timestamp ?: 0L }.date
+        get() = dateEnd ?: posts.maxBy { it.timestampEnd ?: 0L }.dateEnd
 }

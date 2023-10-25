@@ -7,12 +7,15 @@ data class TripPostModel(
     val id: String?,
     val tripId: String?,
     val user: UserModel,
-    val text: String,
+    val name: String,
+    val description: String,
     val photos: List<String>,
     val expenses: List<TripExpenseModel>,
     val points: List<TripPointModel>? = null,
-    val date: String?,
-    val timestamp: Long?
+    val dateStart: String? = null,
+    val timestampStart: Long? = null,
+    val dateEnd: String? = null,
+    val timestampEnd: Long? = null
 ) {
 
     val isMine: Boolean

@@ -39,7 +39,8 @@ internal fun TwoDatesPicker(
     timestampEnd: Long? = null,
     modifier: Modifier = Modifier,
     onFromDatePicked: (Long?) -> Unit = {},
-    onToDatePicked: (Long?) -> Unit = {}
+    onToDatePicked: (Long?) -> Unit = {},
+    showCalendar: Boolean = true
 ) {
     val showFrom = remember { mutableStateOf(showFromState) }
 
@@ -91,20 +92,22 @@ internal fun TwoDatesPicker(
         )
     }
     SpacerComponent { x1_5 }
-    Box(Modifier.fillMaxWidth()) {
-        if (showFrom.value == true) {
-            CustomDatePicker(
-                initialDate = timestampStart,
-                onDatePicked = {
-                    onFromDatePicked(it)
-                }
-            )
-        }
-        if (showFrom.value == false) {
-            CustomDatePicker(
-                initialDate = timestampEnd,
-                onDatePicked = onToDatePicked
-            )
+    if (showCalendar) {
+        Box(Modifier.fillMaxWidth()) {
+            if (showFrom.value == true) {
+                CustomDatePicker(
+                    initialDate = timestampStart,
+                    onDatePicked = {
+                        onFromDatePicked(it)
+                    }
+                )
+            }
+            if (showFrom.value == false) {
+                CustomDatePicker(
+                    initialDate = timestampEnd,
+                    onDatePicked = onToDatePicked
+                )
+            }
         }
     }
 }

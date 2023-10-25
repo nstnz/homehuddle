@@ -6,8 +6,6 @@ import com.homehuddle.common.base.domain.trips.usecase.SaveTripUseCase
 import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
-import kotlinx.coroutines.launch
-import moe.tlaster.precompose.viewmodel.viewModelScope
 
 internal class CreateTripScreenViewModel(
     private val tripId: String?,
@@ -15,14 +13,6 @@ internal class CreateTripScreenViewModel(
     private val getTripUseCase: GetTripUseCase,
     private val saveTripUseCase: SaveTripUseCase,
 ) : CoroutinesViewModel<CreateTripScreenState, CreateTripScreenIntent, CreateTripScreenSingleEvent>() {
-
-    init {
-        tripId.takeIf { !it.isNullOrEmpty() }?.let {
-            viewModelScope.launch {
-                sendIntent(CreateTripScreenIntent.Update(getTripUseCase(it)))
-            }
-        }
-    }
 
     override fun initialState(): CreateTripScreenState = CreateTripScreenState()
 

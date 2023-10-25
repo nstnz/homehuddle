@@ -52,7 +52,7 @@ internal class TripDetailsScreenViewModel(
         }
 
         is TripDetailsScreenIntent.EditTrip -> {
-            router.navigateToAddTrip(intent.trip)
+            router.navigateToEditTrip(intent.trip)
             null
         }
 

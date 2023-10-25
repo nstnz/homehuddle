@@ -61,7 +61,7 @@ internal fun TripPostUserSummaryComponent(
                 )
             }
             Text(
-                text = tripPost.date.orEmpty(),
+                text = tripPost.dateStart.orEmpty(),
                 style = hintTextStyle,
                 color = hintColor
             )

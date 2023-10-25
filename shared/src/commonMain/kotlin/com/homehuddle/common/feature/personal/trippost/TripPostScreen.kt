@@ -123,7 +123,7 @@ internal fun TripPostScreen(
 @Composable
 private fun AllExpensesComponent(tripPost: TripPostModel) {
     TripDailyExpensesComponent(
-        date = tripPost.date.orEmpty(),
+        date = tripPost.dateStart.orEmpty(),
         expenses = tripPost.expenses,
     )
 }

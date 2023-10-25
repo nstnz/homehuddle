@@ -1,4 +1,4 @@
-package com.homehuddle.common.feature.personal.createtrip
+package com.homehuddle.common.feature.personal.createpost
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.screen.Screen
 import com.homehuddle.common.base.di.SharedDI
-import com.homehuddle.common.base.di.createTripScope
-import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.di.tripDetailsScope
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.ui.collectAsStateLifecycleAware
 import com.homehuddle.common.design.snackbar.SnackbarHostState
 import com.homehuddle.common.router.OnLifecycleEvent
@@ -16,13 +16,14 @@ import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.lifecycle.Lifecycle
 import org.kodein.di.instance
 
-internal class CreateTripScreenHolder(
-    private val tripModel: TripModel?
+internal class CreatePostScreenHolder(
+    private val tripPost: TripPostModel?,
+    private val screenMode: ScreenMode,
 ) : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel: CreateTripScreenViewModel by SharedDI.di.instance(arg = tripModel?.id.orEmpty())
+        val viewModel: CreatePostScreenViewModel by SharedDI.di.instance(arg = tripPost?.id.orEmpty())
         val viewState by viewModel.viewState.collectAsStateLifecycleAware()
 
         val snackbarHostState = remember { SnackbarHostState() }
@@ -30,35 +31,36 @@ internal class CreateTripScreenHolder(
         LaunchedEffect(Unit) {
             viewModel.singleEvent.onEach { event ->
                 when (event) {
-                    is CreateTripScreenSingleEvent.ShowError -> {
+                    is CreatePostScreenSingleEvent.ShowError -> {
                         snackbarHostState.showSnackbar("Errorrrr", isError = true)
                     }
                 }
             }.collect()
         }
 
-        OnLifecycleEvent(createTripScope) { event ->
+        OnLifecycleEvent(tripDetailsScope) { event ->
             when (event) {
-                Lifecycle.State.Active -> viewModel.sendIntent(CreateTripScreenIntent.OnResume)
+                Lifecycle.State.Active -> viewModel.sendIntent(CreatePostScreenIntent.OnResume)
                 else -> Unit
             }
         }
 
-        CreateTripScreen(
+        CreatePostScreen(
             state = viewState,
+            screenMode = screenMode,
             snackbarHostState = snackbarHostState,
-            onNameChanged = { viewModel.sendIntent(CreateTripScreenIntent.OnChangeName(it)) },
+            onNameChanged = { viewModel.sendIntent(CreatePostScreenIntent.OnChangeName(it)) },
             onDescriptionChanged = {
                 viewModel.sendIntent(
-                    CreateTripScreenIntent.OnChangeDescription(
+                    CreatePostScreenIntent.OnChangeDescription(
                         it
                     )
                 )
             },
-            onFromDateSelected = { viewModel.sendIntent(CreateTripScreenIntent.OnFromDateSelected(it)) },
-            onToDateSelected = { viewModel.sendIntent(CreateTripScreenIntent.OnToDateSelected(it)) },
-            onSaveClick = { viewModel.sendIntent(CreateTripScreenIntent.OnSaveClick) },
-            onBackClick = { viewModel.sendIntent(CreateTripScreenIntent.GoBack) }
+            onFromDateSelected = { viewModel.sendIntent(CreatePostScreenIntent.OnFromDateSelected(it)) },
+            onToDateSelected = { viewModel.sendIntent(CreatePostScreenIntent.OnToDateSelected(it)) },
+            onSaveClick = { viewModel.sendIntent(CreatePostScreenIntent.OnSaveClick) },
+            onBackClick = { viewModel.sendIntent(CreatePostScreenIntent.GoBack) }
         )
     }
 }

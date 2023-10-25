@@ -3,6 +3,7 @@ package com.homehuddle.common.base.di
 import com.homehuddle.common.feature.general.login.LoginScreenViewModel
 import com.homehuddle.common.feature.general.splash.SplashScreenViewModel
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenViewModel
+import com.homehuddle.common.feature.personal.createpost.CreatePostScreenViewModel
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenViewModel
 import com.homehuddle.common.feature.personal.main.MainScreenViewModel
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreenViewModel
@@ -22,6 +23,7 @@ internal val loginScope = object : UnboundedScope() {}
 internal val tripPostScope = object : UnboundedScope() {}
 internal val tripDetailsScope = object : UnboundedScope() {}
 internal val createTripScope = object : UnboundedScope() {}
+internal val createPostScope = object : UnboundedScope() {}
 
 internal val viewModelsDi = DI.Module(name = "ViewModels") {
     bind<SplashScreenViewModel>() with scoped(splashScope).singleton {
@@ -44,5 +46,8 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
     }
     bind<CreateTripScreenViewModel>() with scoped(createTripScope).multiton { id: String? ->
         CreateTripScreenViewModel(id, instance(), instance(), instance())
+    }
+    bind<CreatePostScreenViewModel>() with scoped(createPostScope).multiton { id: String? ->
+        CreatePostScreenViewModel(id, instance(), instance(), instance(), instance())
     }
 }

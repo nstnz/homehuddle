@@ -8,6 +8,8 @@ import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.feature.general.login.LoginScreen
 import com.homehuddle.common.feature.general.splash.SplashScreen
 import com.homehuddle.common.feature.general.welcome.WelcomeScreen
+import com.homehuddle.common.feature.personal.createpost.CreatePostScreen
+import com.homehuddle.common.feature.personal.createpost.CreatePostScreenState
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreen
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenState
 import com.homehuddle.common.feature.personal.main.AddNewItemBottomSheet
@@ -68,8 +70,10 @@ private fun TripDetailsScreenPreview() {
 private fun TripPostScreenPreview() {
     AppTheme {
         TripPostScreen(
-            TripPostScreenState(mockTrip(), mockTripPost(),
-                selectedTab = TripPostTab.All)
+            TripPostScreenState(
+                mockTrip(), mockTripPost(),
+                selectedTab = TripPostTab.All
+            )
         )
     }
 }
@@ -86,10 +90,26 @@ private fun AddNewItemBottomSheetPreview() {
 @Composable
 private fun CreateTripScreenPreview() {
     AppTheme {
-        CreateTripScreen(CreateTripScreenState(
-            name = TextFieldValue("kjsdflj"),
-            description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
-            fromDateSelected = true
-        ))
+        CreateTripScreen(
+            CreateTripScreenState(
+                name = TextFieldValue("kjsdflj"),
+                description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
+                fromDateSelected = true
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CreatePostScreenPreview() {
+    AppTheme {
+        CreatePostScreen(
+            CreatePostScreenState(
+                name = TextFieldValue("kjsdflj"),
+                description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
+                fromDateSelected = true
+            )
+        )
     }
 }

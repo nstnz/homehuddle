@@ -48,10 +48,10 @@ internal fun TripPostCardComponent(
             TripPostUserSummaryComponent(trip, tripPost, user)
         }
 
-        if (tripPost.text.isNotEmpty()) {
+        if (tripPost.description.isNotEmpty()) {
             SpacerComponent { x2 }
             Text(
-                text = tripPost.text,
+                text = tripPost.description,
                 style = AppTheme.typography.body2,
                 color = AppTheme.colors.textDarkDefault(),
                 maxLines = if (showFullInfo) 6 else Int.MAX_VALUE,

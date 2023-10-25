@@ -38,9 +38,9 @@ internal fun TripPostCompactCardComponent(
             .noEffectsClickable { onClick(tripPost) }
             .padding(bottom = AppTheme.indents.x2)
     ) {
-        if (tripPost.text.isNotEmpty()) {
+        if (tripPost.description.isNotEmpty()) {
             Text(
-                text = tripPost.text,
+                text = tripPost.description,
                 style = AppTheme.typography.body2,
                 color = AppTheme.colors.textDarkDefault(),
                 maxLines = 3,
