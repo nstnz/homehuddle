@@ -35,11 +35,22 @@ internal class MainScreenViewModel(
             }
             null
         }
-
-        MainScreenIntent.OnResume -> null
-        is MainScreenIntent.UpdateUser -> null
-        is MainScreenIntent.UpdateTrips -> null
-        MainScreenIntent.SelectPostsFilter -> null
-        MainScreenIntent.SelectTripsFilter -> null
+        MainScreenIntent.AddTripClick -> {
+            router.navigateToAddTrip()
+            null
+        }
+        MainScreenIntent.AddTripPostClick -> {
+            router.navigateToAddTripPost()
+            null
+        }
+        MainScreenIntent.AddExpensesClick -> {
+            router.navigateToAddExpenses()
+            null
+        }
+        MainScreenIntent.AddLocationsClick -> {
+            router.navigateToAddLocations()
+            null
+        }
+        else -> null
     }
 }

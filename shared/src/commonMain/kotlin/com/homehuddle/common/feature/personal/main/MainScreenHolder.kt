@@ -46,6 +46,10 @@ object MainScreenHolder : Screen {
                     bottomSheetState.show()
                 }
             },
+            onAddTripClick = { viewModel.sendIntent(MainScreenIntent.AddTripClick) },
+            onAddTripPostClick = { viewModel.sendIntent(MainScreenIntent.AddTripPostClick) },
+            onAddExpensesClick = { viewModel.sendIntent(MainScreenIntent.AddExpensesClick) },
+            onAddLocationsClick = { viewModel.sendIntent(MainScreenIntent.AddLocationsClick) },
         )
     }
 }

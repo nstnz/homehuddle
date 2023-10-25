@@ -4,6 +4,8 @@ import com.homehuddle.common.feature.general.login.LoginScreenViewModel
 import com.homehuddle.common.feature.general.splash.SplashScreenViewModel
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenViewModel
 import com.homehuddle.common.feature.personal.main.MainScreenViewModel
+import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreenViewModel
+import com.homehuddle.common.feature.personal.trippost.TripPostScreenViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.bindings.UnboundedScope
@@ -16,6 +18,8 @@ internal val splashScope = object : UnboundedScope() {}
 internal val mainScope = object : UnboundedScope() {}
 internal val welcomeScope = object : UnboundedScope() {}
 internal val loginScope = object : UnboundedScope() {}
+internal val tripPostScope = object : UnboundedScope() {}
+internal val tripScope = object : UnboundedScope() {}
 
 internal val viewModelsDi = DI.Module(name = "ViewModels") {
     bind<SplashScreenViewModel>() with scoped(splashScope).singleton {
@@ -29,5 +33,11 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
     }
     bind<MainScreenViewModel>() with scoped(mainScope).multiton {
         MainScreenViewModel(instance(), instance(), instance())
+    }
+    bind<TripPostScreenViewModel>() with scoped(tripPostScope).multiton {
+        TripPostScreenViewModel(instance())
+    }
+    bind<TripDetailsScreenViewModel>() with scoped(tripScope).multiton {
+        TripDetailsScreenViewModel(instance())
     }
 }

@@ -7,6 +7,7 @@ import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.feature.general.login.LoginScreen
 import com.homehuddle.common.feature.general.splash.SplashScreen
 import com.homehuddle.common.feature.general.welcome.WelcomeScreen
+import com.homehuddle.common.feature.personal.main.AddNewItemBottomSheet
 import com.homehuddle.common.feature.personal.main.MainScreen
 import com.homehuddle.common.feature.personal.main.MainScreenState
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreen
@@ -67,5 +68,13 @@ private fun TripPostScreenPreview() {
             TripPostScreenState(mockTrip(), mockTripPost(),
                 selectedTab = TripPostTab.All)
         )
+    }
+}
+
+@Preview
+@Composable
+private fun AddNewItemBottomSheetPreview() {
+    AppTheme {
+        AddNewItemBottomSheet()
     }
 }

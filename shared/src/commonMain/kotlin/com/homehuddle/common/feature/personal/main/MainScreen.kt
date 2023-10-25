@@ -44,10 +44,18 @@ internal fun MainScreen(
     onTripsFilterSelected: () -> Unit = {},
     onPostsFilterSelected: () -> Unit = {},
     onAddClick: () -> Unit = {},
+    onAddTripClick: () -> Unit = {},
+    onAddTripPostClick: () -> Unit = {},
+    onAddExpensesClick: () -> Unit = {},
+    onAddLocationsClick: () -> Unit = {},
 ) {
     GradientScaffold(
         bottomSheetState = bottomSheetState,
-        bottomSheet = { AddNewItemComponent() },
+        bottomSheet = {
+            AddNewItemBottomSheet(
+                onAddTripClick, onAddTripPostClick, onAddExpensesClick, onAddLocationsClick
+            )
+        },
         topBar = {
             DefaultNavComponent(
                 showBackButton = false,

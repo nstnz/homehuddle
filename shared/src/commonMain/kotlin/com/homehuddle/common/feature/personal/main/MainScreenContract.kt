@@ -25,6 +25,10 @@ internal sealed interface MainScreenIntent : Intent {
     object SelectTripsFilter : MainScreenIntent
     data class UpdateUser(val user: UserModel) : MainScreenIntent
     data class UpdateTrips(val trips: List<TripModel>) : MainScreenIntent
+    object AddTripClick : MainScreenIntent
+    object AddTripPostClick : MainScreenIntent
+    object AddExpensesClick : MainScreenIntent
+    object AddLocationsClick : MainScreenIntent
 }
 
 internal sealed class MainScreenSingleEvent : SingleEvent

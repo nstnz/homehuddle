@@ -55,7 +55,7 @@ internal fun GradientScaffold(
         sheetShape = AppTheme.shapes.x4_5_top,
         sheetState = bottomSheetState,
         sheetBackgroundColor = Color.Transparent,
-        scrimColor = AppTheme.colors.textDarkDisabled().copy(alpha = 0.15f),
+        scrimColor = AppTheme.colors.textDarkDisabled().copy(alpha = 0.25f),
     ) {
         Column(
             modifier = Modifier
