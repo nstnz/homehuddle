@@ -44,6 +44,14 @@ internal class CreateTripScreenViewModel(
             dateStart = intent.date.formatDate()
         )
 
+        is CreateTripScreenIntent.OnFromDateClick -> prevState.copy(
+            fromDateSelected = true
+        )
+
+        is CreateTripScreenIntent.OnToDateClick -> prevState.copy(
+            fromDateSelected = false
+        )
+
         is CreateTripScreenIntent.OnToDateSelected -> prevState.copy(
             timestampEnd = intent.date,
             dateEnd = intent.date.formatDate()

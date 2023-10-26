@@ -26,6 +26,7 @@ import com.homehuddle.common.design.navbar.NavigationBarComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.DividerComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
+import com.homehuddle.common.design.specific.EmptyStateComponent
 import com.homehuddle.common.design.specific.TripCardComponent
 import com.homehuddle.common.design.specific.TripPostCompactCardComponent
 import com.homehuddle.common.design.theme.AppTheme
@@ -84,21 +85,45 @@ internal fun MainScreen(
                     verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
                 ) {
                     if (state.tripsSelected) {
-                        items(state.trips) {
-                            TripCardComponent(
-                                trip = it,
-                                onClick = onTripClick
-                            )
-                            DividerComponent()
+                        if (state.trips.isEmpty()) {
+                            item {
+                                SpacerComponent { x20 }
+                                EmptyStateComponent(
+                                    "Add new trip!",
+                                    "jhajksd khaldskhal ksdhlkadhl ka",
+                                    "Add trip",
+                                    onAddTripClick
+                                )
+                            }
+                        } else {
+                            items(state.trips) {
+                                TripCardComponent(
+                                    trip = it,
+                                    onClick = onTripClick
+                                )
+                                DividerComponent()
+                            }
                         }
                     } else {
-                        items(state.posts) { post ->
-                            TripPostCompactCardComponent(
-                                trip = state.trips.first { it.id == post.tripId },
-                                tripPost = post,
-                                onClick = onTripPostClick
-                            )
-                            DividerComponent()
+                        if (state.posts.isEmpty()) {
+                            item {
+                                SpacerComponent { x20 }
+                                EmptyStateComponent(
+                                    "Add new post!",
+                                    "jhajksd khaldskhal ksdhlkadhl ka",
+                                    "Add post",
+                                    onAddTripPostClick
+                                )
+                            }
+                        } else {
+                            items(state.posts) { post ->
+                                TripPostCompactCardComponent(
+                                    trip = state.trips.first { it.id == post.tripId },
+                                    tripPost = post,
+                                    onClick = onTripPostClick
+                                )
+                                DividerComponent()
+                            }
                         }
                     }
                     item {

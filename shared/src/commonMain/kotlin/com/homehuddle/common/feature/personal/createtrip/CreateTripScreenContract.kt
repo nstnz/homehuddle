@@ -13,7 +13,7 @@ internal data class CreateTripScreenState(
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
     val timestampEnd: Long? = null,
-    val fromDateSelected: Boolean? = true
+    val fromDateSelected: Boolean? = null
 ) : State
 
 internal sealed interface CreateTripScreenIntent : Intent {
@@ -25,6 +25,8 @@ internal sealed interface CreateTripScreenIntent : Intent {
     object OnSaveClick : CreateTripScreenIntent
     object GoBack : CreateTripScreenIntent
     object OnResume : CreateTripScreenIntent
+    object OnFromDateClick : CreateTripScreenIntent
+    object OnToDateClick : CreateTripScreenIntent
 }
 
 internal sealed interface CreateTripScreenSingleEvent : SingleEvent {

@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,9 +49,14 @@ internal fun CreatePostScreen(
     onBackClick: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
+    val bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
+    )
 
     GradientScaffold(
         snackbarHostState = snackbarHostState,
+        bottomSheetState = bottomSheetState,
         topBar = {
             DefaultNavComponent(
                 showBackButton = true,
@@ -89,18 +97,18 @@ internal fun CreatePostScreen(
                     when(screenMode) {
                         ScreenMode.Edit,
                         ScreenMode.Post -> {
-                            PostBlock(state, onDescriptionChanged, onFromDateSelected, onToDateSelected)
+                            PostBlock(state, onDescriptionChanged)
                             PointsBlock()
                             ExpensesBlock()
                         }
                         ScreenMode.Expenses -> {
                             ExpensesBlock()
-                            PostBlock(state, onDescriptionChanged, onFromDateSelected, onToDateSelected)
+                            PostBlock(state, onDescriptionChanged)
                             PointsBlock()
                         }
                         ScreenMode.Points -> {
                             PointsBlock()
-                            PostBlock(state, onDescriptionChanged, onFromDateSelected, onToDateSelected)
+                            PostBlock(state, onDescriptionChanged)
                             ExpensesBlock()
                         }
                     }
@@ -145,8 +153,6 @@ private fun ExpensesBlock() {
 private fun PostBlock(
     state: CreatePostScreenState,
     onDescriptionChanged: (TextFieldValue) -> Unit = {},
-    onFromDateSelected: (Long?) -> Unit = {},
-    onToDateSelected: (Long?) -> Unit = {},
 ) {
     SpacerComponent { x3 }
     Text(
@@ -181,11 +187,8 @@ private fun PostBlock(
         modifier = Modifier.fillMaxWidth(),
         dateStart = state.dateStart,
         dateEnd = state.dateEnd,
-        timestampStart = state.timestampStart,
-        timestampEnd = state.timestampEnd,
         showFromState = state.fromDateSelected,
-        onFromDatePicked = onFromDateSelected,
-        onToDatePicked = onToDateSelected,
-        showCalendar = false
+        onFromClick = {},
+        onToClick = {},
     )
 }

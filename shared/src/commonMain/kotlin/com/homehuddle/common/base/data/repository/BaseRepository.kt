@@ -76,7 +76,7 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
     }
 
     open suspend fun delete(id: String?) {
-        Napier.d(tag = this::class.simpleName, message = "delete")
+        Napier.d(tag = this::class.simpleName, message = "delete: $id")
         memorySource.delete(id)
         dbSource.delete(id)
         networkSource.delete(id)

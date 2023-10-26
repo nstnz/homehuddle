@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -26,6 +29,7 @@ import com.homehuddle.common.design.input.TextInputComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.snackbar.SnackbarHostState
 import com.homehuddle.common.design.spacer.SpacerComponent
+import com.homehuddle.common.design.specific.CalendarBottomSheet
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.background2
 import com.homehuddle.common.design.theme.invokeOnCompletion
@@ -37,6 +41,10 @@ import com.homehuddle.common.design.topbar.DefaultNavComponent
 @Composable
 internal fun CreateTripScreen(
     state: CreateTripScreenState,
+    bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
+    ),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onNameChanged: (TextFieldValue) -> Unit = {},
     onDescriptionChanged: (TextFieldValue) -> Unit = {},
@@ -44,6 +52,8 @@ internal fun CreateTripScreen(
     onToDateSelected: (Long?) -> Unit = {},
     onSaveClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
+    onFromDateClick: () -> Unit = {},
+    onToDateClick: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -56,7 +66,24 @@ internal fun CreateTripScreen(
     }
 
     GradientScaffold(
+        bottomSheetState = bottomSheetState,
         snackbarHostState = snackbarHostState,
+        bottomSheet = {
+            CalendarBottomSheet(
+                timestamp = when (state.fromDateSelected) {
+                    true -> state.timestampStart
+                    false -> state.timestampEnd
+                    else -> null
+                },
+                onDatePicked = {
+                    when (state.fromDateSelected) {
+                        true -> onFromDateSelected(it)
+                        false -> onToDateSelected(it)
+                        else -> {}
+                    }
+                }
+            )
+        },
         topBar = {
             DefaultNavComponent(
                 showBackButton = true,
@@ -120,11 +147,15 @@ internal fun CreateTripScreen(
                         modifier = Modifier.fillMaxWidth(),
                         dateStart = state.dateStart,
                         dateEnd = state.dateEnd,
-                        timestampStart = state.timestampStart,
-                        timestampEnd = state.timestampEnd,
                         showFromState = state.fromDateSelected,
-                        onFromDatePicked = onFromDateSelected,
-                        onToDatePicked = onToDateSelected,
+                        onFromClick = {
+                            focusRequester.freeFocus()
+                            onFromDateClick()
+                        },
+                        onToClick = {
+                            focusRequester.freeFocus()
+                            onToDateClick()
+                        }
                     )
                     SpacerComponent { x3 }
                 }

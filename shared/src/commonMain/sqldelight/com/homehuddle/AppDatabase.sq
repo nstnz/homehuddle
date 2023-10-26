@@ -16,7 +16,7 @@ getUsersByOwner:
 SELECT * FROM UsersDao WHERE ownerId = ?;
 
 deleteUser:
-SELECT * FROM UsersDao WHERE id = ?;
+DELETE FROM UsersDao WHERE id = ?;
 
 getUsers:
 SELECT * FROM UsersDao;
@@ -55,7 +55,7 @@ getTripsByOwner:
 SELECT * FROM TripsDao WHERE ownerId = ?;
 
 deleteTrip:
-SELECT * FROM TripsDao WHERE id = ?;
+DELETE FROM TripsDao WHERE id = ?;
 
 getTrips:
 SELECT * FROM TripsDao;
@@ -95,7 +95,7 @@ getTripPostsByOwner:
 SELECT * FROM TripPostsDao WHERE ownerId = ?;
 
 deleteTripPost:
-SELECT * FROM TripPostsDao WHERE id = ?;
+DELETE FROM TripPostsDao WHERE id = ?;
 
 getTripPosts:
 SELECT * FROM TripPostsDao;
@@ -132,7 +132,7 @@ getTripPointsByOwner:
 SELECT * FROM TripPointsDao WHERE ownerId = ?;
 
 deleteTripPoint:
-SELECT * FROM TripPointsDao WHERE id = ?;
+DELETE FROM TripPointsDao WHERE id = ?;
 
 getTripPoints:
 SELECT * FROM TripPointsDao;
@@ -171,7 +171,7 @@ getTripExpensesByOwner:
 SELECT * FROM TripExpensesDao WHERE ownerId = ?;
 
 deleteTripExpense:
-SELECT * FROM TripExpensesDao WHERE id = ?;
+DELETE FROM TripExpensesDao WHERE id = ?;
 
 getTripExpenses:
 SELECT * FROM TripExpensesDao;

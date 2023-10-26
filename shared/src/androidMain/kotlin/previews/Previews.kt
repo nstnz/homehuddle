@@ -86,6 +86,7 @@ private fun AddNewItemBottomSheetPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 private fun CreateTripScreenPreview() {

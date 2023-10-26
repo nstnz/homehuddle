@@ -3,16 +3,18 @@ package com.homehuddle.common.design.datepicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -34,24 +36,19 @@ import com.mohamedrejeb.calf.ui.datepicker.rememberAdaptiveDatePickerState
 internal fun TwoDatesPicker(
     showFromState: Boolean? = null,
     dateStart: String? = null,
-    timestampStart: Long? = null,
     dateEnd: String? = null,
-    timestampEnd: Long? = null,
     modifier: Modifier = Modifier,
-    onFromDatePicked: (Long?) -> Unit = {},
-    onToDatePicked: (Long?) -> Unit = {},
-    showCalendar: Boolean = true
+    onFromClick: () -> Unit = {},
+    onToClick: () -> Unit = {},
 ) {
-    val showFrom = remember { mutableStateOf(showFromState) }
-
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Text(
             modifier = Modifier.weight(1f)
-                .noEffectsClickable { showFrom.value = true }
+                .noEffectsClickable { onFromClick() }
                 .border(
                     BorderStroke(
                         AppTheme.indents.x0_25,
-                        if (showFrom.value == true) {
+                        if (showFromState == true) {
                             AppTheme.colors.background1()
                         } else {
                             AppTheme.colors.textDarkBorder()
@@ -73,11 +70,11 @@ internal fun TwoDatesPicker(
         SpacerComponent { x1_5 }
         Text(
             modifier = Modifier.weight(1f)
-                .noEffectsClickable { showFrom.value = false }
+                .noEffectsClickable { onToClick() }
                 .border(
                     BorderStroke(
                         AppTheme.indents.x0_25,
-                        if (showFrom.value == false) {
+                        if (showFromState == false) {
                             AppTheme.colors.background1()
                         } else {
                             AppTheme.colors.textDarkBorder()
@@ -90,25 +87,6 @@ internal fun TwoDatesPicker(
             style = AppTheme.typography.body2,
             color = if (dateEnd.isNullOrEmpty()) AppTheme.colors.textDarkDisabled() else AppTheme.colors.textDarkDefault()
         )
-    }
-    SpacerComponent { x1_5 }
-    if (showCalendar) {
-        Box(Modifier.fillMaxWidth()) {
-            if (showFrom.value == true) {
-                CustomDatePicker(
-                    initialDate = timestampStart,
-                    onDatePicked = {
-                        onFromDatePicked(it)
-                    }
-                )
-            }
-            if (showFrom.value == false) {
-                CustomDatePicker(
-                    initialDate = timestampEnd,
-                    onDatePicked = onToDatePicked
-                )
-            }
-        }
     }
 }
 
@@ -125,13 +103,20 @@ internal fun CustomDatePicker(
             initialUIKitDisplayMode = UIKitDisplayMode.Picker,
             initialSelectedDateMillis = initialDate
         )
-        onDatePicked(state.selectedDateMillis)
+        if (state.selectedDateMillis != initialDate) {
+            onDatePicked(state.selectedDateMillis)
+        }
 
-        AdaptiveDatePicker(
-            state = state,
-            modifier = Modifier.ignoreHorizontalParentPadding(AppTheme.indents.x2_5)
-                .offset(y = -124.dp),
-            showModeToggle = false
-        )
+        Column(
+            Modifier.heightIn(max = 290.dp)
+                .verticalScroll(rememberScrollState(), enabled = false)
+        ) {
+            AdaptiveDatePicker(
+                state = state,
+                modifier = Modifier.ignoreHorizontalParentPadding(AppTheme.indents.x2_5)
+                    .offset(y = -124.dp),
+                showModeToggle = false
+            )
+        }
     }
 }

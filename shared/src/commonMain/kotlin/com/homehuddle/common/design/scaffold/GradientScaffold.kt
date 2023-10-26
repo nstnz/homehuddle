@@ -22,7 +22,7 @@ import com.homehuddle.common.design.snackbar.SnackbarComponent
 import com.homehuddle.common.design.snackbar.SnackbarHost
 import com.homehuddle.common.design.snackbar.SnackbarHostState
 import com.homehuddle.common.design.theme.AppTheme
-import com.homehuddle.common.design.theme.textDarkBorder
+import com.homehuddle.common.design.theme.textDarkDisabled
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -59,7 +59,7 @@ internal fun GradientScaffold(
         sheetShape = AppTheme.shapes.x4_5_top,
         sheetState = bottomSheetState,
         sheetBackgroundColor = Color.Transparent,
-        scrimColor = AppTheme.colors.textDarkBorder(),
+        scrimColor = AppTheme.colors.textDarkDisabled().copy(alpha = 0.5f),
     ) {
         Column(
             modifier = Modifier
