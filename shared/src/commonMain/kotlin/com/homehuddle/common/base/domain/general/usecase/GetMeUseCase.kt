@@ -11,7 +11,7 @@ internal class GetMeUseCase(
 ) {
 
     suspend operator fun invoke(): UserModel? = withContext(dispatcher) {
-        val existingUser = repository.getMe()
+        val existingUser = repository.getCurrentUser()
         return@withContext existingUser
     }
 }

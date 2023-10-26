@@ -1,0 +1,186 @@
+CREATE TABLE UsersDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+name TEXT,
+currencyCode TEXT
+);
+
+createOrUpdateUser:
+INSERT OR REPLACE INTO UsersDao(id, ownerId, name, currencyCode)
+VALUES(?,?, ?,?);
+
+getUser:
+SELECT * FROM UsersDao WHERE id = ?;
+
+getUsersByOwner:
+SELECT * FROM UsersDao WHERE ownerId = ?;
+
+deleteUser:
+SELECT * FROM UsersDao WHERE id = ?;
+
+getUsers:
+SELECT * FROM UsersDao;
+
+getUsersByParent:
+SELECT * FROM UsersDao WHERE id = ?;
+
+deleteUsersByParent:
+DELETE FROM UsersDao WHERE id = ?;
+
+clearUsers:
+DELETE FROM UsersDao;
+
+
+
+
+CREATE TABLE TripsDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+name TEXT,
+description TEXT,
+dateStart TEXT,
+timestampStart INTEGER,
+dateEnd TEXT,
+timestampEnd INTEGER
+);
+
+createOrUpdateTrip:
+INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, dateStart, timestampStart, dateEnd, timestampEnd )
+VALUES(?,?,?,?,?,?,?,?);
+
+getTrip:
+SELECT * FROM TripsDao WHERE id = ?;
+
+getTripsByOwner:
+SELECT * FROM TripsDao WHERE ownerId = ?;
+
+deleteTrip:
+SELECT * FROM TripsDao WHERE id = ?;
+
+getTrips:
+SELECT * FROM TripsDao;
+
+getTripsByParent:
+SELECT * FROM TripsDao WHERE ownerId = ?;
+
+deleteTripsByParent:
+DELETE FROM TripsDao WHERE ownerId = ?;
+
+clearTrips:
+DELETE FROM TripsDao;
+
+
+
+
+CREATE TABLE TripPostsDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+tripId TEXT,
+name TEXT,
+description TEXT,
+dateStart TEXT,
+timestampStart INTEGER,
+dateEnd TEXT,
+timestampEnd INTEGER
+);
+
+createOrUpdateTripPost:
+INSERT OR REPLACE INTO TripPostsDao(id, ownerId, tripId, name, description, dateStart, timestampStart, dateEnd, timestampEnd )
+VALUES(?,?,?,?,?,?,?,?,?);
+
+getTripPost:
+SELECT * FROM TripPostsDao WHERE id = ?;
+
+getTripPostsByOwner:
+SELECT * FROM TripPostsDao WHERE ownerId = ?;
+
+deleteTripPost:
+SELECT * FROM TripPostsDao WHERE id = ?;
+
+getTripPosts:
+SELECT * FROM TripPostsDao;
+
+getTripPostsByParent:
+SELECT * FROM TripPostsDao WHERE tripId = ?;
+
+deleteTripPostsByParent:
+DELETE FROM TripPostsDao WHERE tripId = ?;
+
+clearTripPosts:
+DELETE FROM TripPostsDao;
+
+
+
+
+CREATE TABLE TripPointsDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+tripPostId TEXT,
+description TEXT,
+lat REAL,
+lon REAL
+);
+
+createOrUpdateTripPoint:
+INSERT OR REPLACE INTO TripPointsDao(id, ownerId, tripPostId, description, lat, lon)
+VALUES(?,?,?,?,?,?);
+
+getTripPoint:
+SELECT * FROM TripPointsDao WHERE id = ?;
+
+getTripPointsByOwner:
+SELECT * FROM TripPointsDao WHERE ownerId = ?;
+
+deleteTripPoint:
+SELECT * FROM TripPointsDao WHERE id = ?;
+
+getTripPoints:
+SELECT * FROM TripPointsDao;
+
+getTripPointsByParent:
+SELECT * FROM TripPointsDao WHERE tripPostId = ?;
+
+deleteTripPointsByParent:
+DELETE FROM TripPointsDao WHERE tripPostId = ?;
+
+clearTripPoints:
+DELETE FROM TripPointsDao;
+
+
+
+
+CREATE TABLE TripExpensesDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+tripPostId TEXT,
+sum REAL,
+description TEXT,
+currencyCode TEXT,
+date TEXT,
+timestamp INTEGER
+);
+
+createOrUpdateTripExpense:
+INSERT OR REPLACE INTO TripExpensesDao(id, ownerId, tripPostId, sum, description, currencyCode, date, timestamp)
+VALUES(?,?,?,?,?,?,?,?);
+
+getTripExpense:
+SELECT * FROM TripExpensesDao WHERE id = ?;
+
+getTripExpensesByOwner:
+SELECT * FROM TripExpensesDao WHERE ownerId = ?;
+
+deleteTripExpense:
+SELECT * FROM TripExpensesDao WHERE id = ?;
+
+getTripExpenses:
+SELECT * FROM TripExpensesDao;
+
+getTripExpensesByParent:
+SELECT * FROM TripExpensesDao WHERE tripPostId = ?;
+
+deleteTripExpensesByParent:
+DELETE FROM TripExpensesDao WHERE tripPostId = ?;
+
+clearTripExpenses:
+DELETE FROM TripExpensesDao;

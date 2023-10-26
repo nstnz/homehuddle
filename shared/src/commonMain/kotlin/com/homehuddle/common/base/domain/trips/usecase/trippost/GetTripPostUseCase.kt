@@ -1,4 +1,4 @@
-package com.homehuddle.common.base.domain.trips.usecase
+package com.homehuddle.common.base.domain.trips.usecase.trippost
 
 import com.homehuddle.common.base.data.repository.TripPostRepository
 import com.homehuddle.common.base.domain.general.model.TripPostModel

@@ -8,4 +8,5 @@ plugins {
     id("org.jetbrains.compose").apply(false)
     id("com.google.gms.google-services").apply(false)
     id("com.google.firebase.crashlytics").apply(false)
+    id("com.squareup.sqldelight").apply(false)
 }

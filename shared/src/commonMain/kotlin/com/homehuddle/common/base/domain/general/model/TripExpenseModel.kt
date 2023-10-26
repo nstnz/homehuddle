@@ -4,11 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TripExpenseModel(
-    val id: String?,
+    override val id: String?,
+    override val ownerId: String?,
     val sum: Double,
-    val formattedSum: String,
+    val currencyCode: String,
     val description: String,
     val tripPostId: String?,
     val date: String?,
     val timestamp: Long?
-)
+) : BaseDomainModel<TripExpenseModel>

@@ -4,12 +4,21 @@ val Firebase = "1.10.3"
 val Storage = "1.1.0"
 val Precompose = "1.5.3"
 val Voyager = "1.0.0-rc05"
+val SqlDelightVersion = "1.5.5"
 
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("com.squareup.sqldelight")
     kotlin("plugin.serialization")
+}
+
+sqldelight {
+    database("AppDatabase") {
+        packageName = "com.homehuddle"
+        sourceFolders = listOf("sqldelight")
+    }
 }
 
 kotlin {
@@ -39,6 +48,8 @@ kotlin {
                 implementation(compose.materialIconsExtended)
 
                 implementation("org.kodein.di:kodein-di:$Kodein")
+                implementation("com.squareup.sqldelight:runtime:$SqlDelightVersion")
+                implementation("com.squareup.sqldelight:coroutines-extensions:$SqlDelightVersion")
 
                 implementation("io.ktor:ktor-client-core:$Ktor")
                 implementation("io.ktor:ktor-client-content-negotiation:$Ktor")
@@ -61,7 +72,7 @@ kotlin {
                 implementation("com.russhwolf:multiplatform-settings:$Storage")
 
                 api("com.mohamedrejeb.calf:calf-ui:0.2.0")
-
+                implementation("io.github.aakira:napier:2.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("com.benasher44:uuid:0.8.1")
             }
@@ -74,6 +85,7 @@ kotlin {
 
                 implementation(compose.preview)
                 implementation(compose.uiTooling)
+                implementation("com.squareup.sqldelight:android-driver:$SqlDelightVersion")
 
                 implementation("io.ktor:ktor-client-logging-jvm:$Ktor")
                 implementation("io.ktor:ktor-client-json-jvm:$Ktor")
@@ -94,6 +106,7 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+         //   implementation("com.squareup.sqldelight:native-driver:$SqlDelightVersion")
         }
     }
 }

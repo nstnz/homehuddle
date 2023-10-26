@@ -3,6 +3,7 @@ package com.homehuddle
 import Android
 import android.app.Application
 import com.homehuddle.common.base.di.SharedDI
+import createDriver
 
 class MainApplication : Application() {
 
@@ -10,7 +11,9 @@ class MainApplication : Application() {
         super.onCreate()
         Android.init(this)
         Thread.setDefaultUncaughtExceptionHandler(TopExceptionHandler())
-        SharedDI.initializeWithParams()
+        SharedDI.initializeWithParams(
+            databaseDriver = createDriver()
+        )
     }
 }
 

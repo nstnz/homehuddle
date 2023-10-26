@@ -5,19 +5,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TripModel(
-    val id: String?,
+    override val id: String?,
+    override val ownerId: String?,
     val name: String,
-    val user: UserModel,
+    val user: UserModel?,
     val description: String,
     val posts: List<TripPostModel>,
     val dateStart: String? = null,
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
     val timestampEnd: Long? = null
-) {
+): BaseDomainModel<TripModel> {
 
     val isMine: Boolean
-        get() = user.isMe
+        get() = user?.isMe ?: false
 
     val photos: List<String>
         get() = posts.flatten { it.photos }

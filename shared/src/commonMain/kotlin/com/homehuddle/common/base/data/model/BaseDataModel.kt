@@ -1,7 +1,6 @@
 package com.homehuddle.common.base.data.model
 
-interface BaseModel<T> {
+interface BaseDataModel<T> {
     val id: String?
-
-    fun copyId(id: String?): T
+    val ownerId: String?
 }

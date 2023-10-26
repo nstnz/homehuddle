@@ -1,5 +1,7 @@
 import android.annotation.SuppressLint
 import android.content.Context
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 
 @SuppressLint("StaticFieldLeak")
 object Android {
@@ -9,7 +11,6 @@ object Android {
 
     fun init(appContext: Context) {
         context = appContext
-        //FirebaseApp.initializeApp(appContext)
-        //Firebase.initialize(appContext)
+        Napier.base(DebugAntilog())
     }
 }

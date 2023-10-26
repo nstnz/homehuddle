@@ -1,7 +1,10 @@
 package com.homehuddle.common.base.di
 
 import FirebaseFirestoreImpl
+import com.homehuddle.AppDatabase
+import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.common.router.Router
+import com.squareup.sqldelight.db.SqlDriver
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.firestore
@@ -19,11 +22,20 @@ import kotlin.native.concurrent.ThreadLocal
 @ThreadLocal
 object SharedDI {
 
-    fun initializeWithParams() {
+    private lateinit var databaseDriver: SqlDriver
+
+    fun initializeWithParams(
+        databaseDriver: SqlDriver
+    ) {
         println("Launch application")
+        this.databaseDriver = databaseDriver
     }
 
     internal val di = DI {
+        bind<AppDatabaseQueries>() with singleton {
+            val database = AppDatabase(databaseDriver)
+            database.appDatabaseQueries
+        }
         bind<FirebaseFirestore>() with singleton { Firebase.firestore }
         bind<FirebaseFirestoreImpl>() with singleton { FirebaseFirestoreImpl() }
         bind<Router>() with singleton { Router() }

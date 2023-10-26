@@ -8,6 +8,7 @@ import com.homehuddle.common.base.domain.general.model.UserModel
 
 fun mockTrip() = TripModel(
     "sdfsdf",
+    "sdfsdf",
     "Name",
     user = mockUser(),
     "My trip",
@@ -21,11 +22,12 @@ fun mockTrip() = TripModel(
 )
 
 fun mockUser() = UserModel(
-    "", "User", isMe = true, currencyCode = "USD"
+    "", "", "User", isMe = true, currencyCode = "USD"
 )
 
 fun mockTripPost() = TripPostModel(
     "sdfsdf",
+    "",
     "",
     user = mockUser(),
     name = "sdfalskds",
@@ -48,9 +50,10 @@ fun mockTripPost() = TripPostModel(
 
 fun mockTripExpense() = TripExpenseModel(
     id = "",
+    ownerId = "",
     description = "Bought some food",
     sum = 1028.0,
-    formattedSum = "1000 USD",
+    currencyCode = "USD",
     tripPostId = "",
     date = "10.10.1010",
     timestamp = 10000231L
@@ -58,6 +61,7 @@ fun mockTripExpense() = TripExpenseModel(
 
 fun mockTripPoint() = TripPointModel(
     id = "",
+    ownerId = "",
     description = "Description",
     lat = 12.0,
     lon = 1.0,

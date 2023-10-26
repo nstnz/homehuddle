@@ -1,15 +1,23 @@
 package com.homehuddle.common.feature.personal.main
 
-import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
-import com.homehuddle.common.base.domain.trips.scenario.GetUserTripsScenario
+import com.homehuddle.common.base.domain.trips.usecase.trip.GetUserTripsFlowUseCase
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
+import kotlinx.coroutines.launch
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
 internal class MainScreenViewModel(
     private val router: Router,
-    private val getMeUseCase: GetMeUseCase,
-    private val getUserTripsScenario: GetUserTripsScenario,
+    private val getUserTripsFlowUseCase: GetUserTripsFlowUseCase,
 ) : CoroutinesViewModel<MainScreenState, MainScreenIntent, MainScreenSingleEvent>() {
+
+    init {
+        viewModelScope.launch {
+            getUserTripsFlowUseCase().collect {
+                sendIntent(MainScreenIntent.UpdateTrips(it))
+            }
+        }
+    }
 
     override fun initialState(): MainScreenState = MainScreenState()
 
@@ -28,14 +36,6 @@ internal class MainScreenViewModel(
         intent: MainScreenIntent,
         state: MainScreenState
     ): MainScreenIntent? = when (intent) {
-        MainScreenIntent.OnResume -> {
-            getMeUseCase()?.let {
-                sendIntent(MainScreenIntent.UpdateUser(it))
-                sendIntent(MainScreenIntent.UpdateTrips(getUserTripsScenario(it.id)))
-            }
-            null
-        }
-
         MainScreenIntent.AddTripClick -> {
             router.navigateToAddTrip()
             null

@@ -1,39 +1,77 @@
 package com.homehuddle.common.base.data.repository
 
-import com.homehuddle.common.base.data.mapper.mapToTripPostModel
-import com.homehuddle.common.base.data.memorysource.BaseMemorySource
+import com.homehuddle.TripPostsDao
+import com.homehuddle.common.base.data.dbsource.TripPostDbSource
+import com.homehuddle.common.base.data.localsource.UserLocalSource
+import com.homehuddle.common.base.data.memorysource.TripPostMemorySource
 import com.homehuddle.common.base.data.model.TripPost
-import com.homehuddle.common.base.data.networksource.TripExpenseNetworkSource
-import com.homehuddle.common.base.data.networksource.TripPointNetworkSource
 import com.homehuddle.common.base.data.networksource.TripPostNetworkSource
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 
 internal class TripPostRepository(
-    private val tripRepository: TripRepository,
-    tripPostNetworkSource: TripPostNetworkSource,
-    private val tripExpenseNetworkSource: TripExpenseNetworkSource,
-    private val tripPointNetworkSource: TripPointNetworkSource,
-) : BaseRepository<TripPost, TripPostModel, TripPostNetworkSource, BaseMemorySource<TripPost>>(
-    tripPostNetworkSource,
-    null
+    userLocalSource: UserLocalSource,
+    private val tripExpenseRepository: TripExpenseRepository,
+    private val tripPointRepository: TripPointRepository,
+    private val userRepository: UserRepository,
+    networkSource: TripPostNetworkSource,
+    memorySource: TripPostMemorySource,
+    dbSource: TripPostDbSource,
+) : BaseRepository<TripPost, TripPostModel, TripPostsDao, TripPostNetworkSource, TripPostDbSource, TripPostMemorySource>(
+    networkSource,
+    memorySource,
+    dbSource,
+    userLocalSource
 ) {
 
-    override suspend fun map(model: TripPost?): TripPostModel? {
-        return tripRepository.get(model?.tripId)?.let {
-            model.mapToTripPostModel(it)
-        }
+    override suspend fun mapToDbModel(model: TripPost?): TripPostsDao? = model?.let {
+        TripPostsDao(
+            id = it.id.orEmpty(),
+            ownerId = it.ownerId,
+            tripId = it.tripId,
+            name = it.name,
+            description = it.description,
+            dateStart = it.dateStart,
+            dateEnd = it.dateEnd,
+            timestampStart = it.timestampStart,
+            timestampEnd = it.timestampEnd,
+        )
     }
 
-    override suspend fun transform(model: TripPost?): TripPost? {
-        return model?.copy(
-            expenses = tripExpenseNetworkSource.getByParent(model.id),
-            points = tripPointNetworkSource.getByParent(model.id)
+    override suspend fun mapToDbModel(model: TripPostModel?): TripPostsDao? = model?.let {
+        TripPostsDao(
+            id = it.id.orEmpty(),
+            ownerId = it.ownerId,
+            tripId = it.tripId,
+            name = it.name,
+            description = it.description,
+            dateStart = it.dateStart,
+            dateEnd = it.dateEnd,
+            timestampStart = it.timestampStart,
+            timestampEnd = it.timestampEnd,
+        )
+    }
+
+    override suspend fun mapToDomainModel(model: TripPostsDao?): TripPostModel? = model?.let {
+        TripPostModel(
+            id = it.id,
+            ownerId = it.ownerId,
+            tripId = it.tripId,
+            name = it.name.orEmpty(),
+            description = it.description.orEmpty(),
+            user = userRepository.get(it.ownerId),
+            dateStart = it.dateStart,
+            dateEnd = it.dateEnd,
+            timestampStart = it.timestampStart,
+            timestampEnd = it.timestampEnd,
+            expenses = tripExpenseRepository.getByParent(it.id),
+            photos = emptyList(),
+            points = tripPointRepository.getByParent(model.id)
         )
     }
 
     override suspend fun delete(id: String?) {
-        tripPointNetworkSource.deleteByParent(id)
-        tripExpenseNetworkSource.deleteByParent(id)
+        tripExpenseRepository.deleteByParent(id)
+        tripPointRepository.deleteByParent(id)
         super.delete(id)
     }
 }

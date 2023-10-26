@@ -5,18 +5,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TripPost(
     override val id: String?,
+    override val ownerId: String?,
     val tripId: String,
     val name: String,
-    val text: String,
-    val photos: List<String>,
-    val expenses: List<TripExpense>,
-    val points: List<TripPoint>? = null,
+    val description: String,
     val dateStart: String? = null,
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
     val timestampEnd: Long? = null
-): BaseModel<TripPost> {
-
-    override fun copyId(id: String?): TripPost = this.copy(id = id)
-}
-
+): BaseDataModel<TripPost>

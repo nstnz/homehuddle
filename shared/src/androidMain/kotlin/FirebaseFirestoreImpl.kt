@@ -1,6 +1,6 @@
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.homehuddle.common.base.data.model.BaseModel
+import com.homehuddle.common.base.data.model.BaseDataModel
 import kotlinx.coroutines.tasks.await
 
 actual class FirebaseFirestoreImpl {
@@ -13,17 +13,17 @@ actual class FirebaseFirestoreImpl {
 
     actual suspend fun <T> create(
         collection: String,
-        model: BaseModel<T>
-    ): String {
-        return firestore.collection(collection)
-            .add(model)
+        model: BaseDataModel<T>
+    ) {
+        firestore.collection(collection)
+            .document(model.id.orEmpty())
+            .set(model)
             .await()
-            .id
     }
 
     actual suspend fun <T> update(
         collection: String,
-        model: BaseModel<T>
+        model: BaseDataModel<T>
     ) {
         firestore.collection(collection)
             .document(model.id.orEmpty())

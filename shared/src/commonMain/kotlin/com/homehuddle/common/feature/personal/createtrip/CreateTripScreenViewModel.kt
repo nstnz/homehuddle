@@ -1,8 +1,9 @@
 package com.homehuddle.common.feature.personal.createtrip
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.homehuddle.common.base.domain.trips.usecase.GetTripUseCase
-import com.homehuddle.common.base.domain.trips.usecase.SaveTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.UpdateTripUseCase
 import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
@@ -11,7 +12,8 @@ internal class CreateTripScreenViewModel(
     private val tripId: String?,
     private val router: Router,
     private val getTripUseCase: GetTripUseCase,
-    private val saveTripUseCase: SaveTripUseCase,
+    private val createTripUseCase: CreateTripUseCase,
+    private val updateTripUseCase: UpdateTripUseCase,
 ) : CoroutinesViewModel<CreateTripScreenState, CreateTripScreenIntent, CreateTripScreenSingleEvent>() {
 
     override fun initialState(): CreateTripScreenState = CreateTripScreenState()
@@ -60,21 +62,33 @@ internal class CreateTripScreenViewModel(
             }
             null
         }
+
         CreateTripScreenIntent.OnSaveClick -> {
             val error = when {
                 state.name.text.isEmpty() -> true
                 else -> false
             }
             if (!error) {
-                saveTripUseCase(
-                    id = tripId?.takeIf { it.isNotEmpty() },
-                    name = state.name.text,
-                    description = state.description.text,
-                    dateStart = state.dateStart,
-                    dateEnd = state.dateEnd,
-                    timestampStart = state.timestampStart,
-                    timestampEnd = state.timestampEnd,
-                )
+                if (tripId.isNullOrEmpty()) {
+                    createTripUseCase(
+                        name = state.name.text,
+                        description = state.description.text,
+                        dateStart = state.dateStart,
+                        dateEnd = state.dateEnd,
+                        timestampStart = state.timestampStart,
+                        timestampEnd = state.timestampEnd,
+                    )
+                } else {
+                    updateTripUseCase(
+                        id = tripId,
+                        name = state.name.text,
+                        description = state.description.text,
+                        dateStart = state.dateStart,
+                        dateEnd = state.dateEnd,
+                        timestampStart = state.timestampStart,
+                        timestampEnd = state.timestampEnd,
+                    )
+                }
                 router.back()
             } else {
                 triggerSingleEvent(CreateTripScreenSingleEvent.ShowError)

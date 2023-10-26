@@ -27,7 +27,7 @@ internal val createPostScope = object : UnboundedScope() {}
 
 internal val viewModelsDi = DI.Module(name = "ViewModels") {
     bind<SplashScreenViewModel>() with scoped(splashScope).singleton {
-        SplashScreenViewModel(instance(), instance())
+        SplashScreenViewModel(instance(), instance(), instance())
     }
     bind<WelcomeScreenViewModel>() with scoped(welcomeScope).multiton {
         WelcomeScreenViewModel(instance())
@@ -36,7 +36,7 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
         LoginScreenViewModel(instance(), instance())
     }
     bind<MainScreenViewModel>() with scoped(mainScope).multiton {
-        MainScreenViewModel(instance(), instance(), instance())
+        MainScreenViewModel(instance(), instance())
     }
     bind<TripPostScreenViewModel>() with scoped(tripPostScope).multiton { id: String? ->
         TripPostScreenViewModel(id.orEmpty(), instance())
@@ -45,7 +45,7 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
         TripDetailsScreenViewModel(id.orEmpty(), instance(), instance(), instance())
     }
     bind<CreateTripScreenViewModel>() with scoped(createTripScope).multiton { id: String? ->
-        CreateTripScreenViewModel(id, instance(), instance(), instance())
+        CreateTripScreenViewModel(id, instance(), instance(), instance(), instance())
     }
     bind<CreatePostScreenViewModel>() with scoped(createPostScope).multiton { id: String? ->
         CreatePostScreenViewModel(id, instance(), instance(), instance(), instance())

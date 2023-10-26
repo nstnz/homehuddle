@@ -1,9 +1,9 @@
 package com.homehuddle.common.feature.personal.createpost
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.homehuddle.common.base.domain.trips.usecase.GetTripPostUseCase
-import com.homehuddle.common.base.domain.trips.usecase.GetTripUseCase
-import com.homehuddle.common.base.domain.trips.usecase.SaveTripPostUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trippost.GetTripPostUseCase
 import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
@@ -13,7 +13,7 @@ internal class CreatePostScreenViewModel(
     private val router: Router,
     private val getTripUseCase: GetTripUseCase,
     private val getTripPostUseCase: GetTripPostUseCase,
-    private val saveTripPostUseCase: SaveTripPostUseCase,
+    private val createTripUseCase: CreateTripUseCase,
 ) : CoroutinesViewModel<CreatePostScreenState, CreatePostScreenIntent, CreatePostScreenSingleEvent>() {
 
     override fun initialState(): CreatePostScreenState = CreatePostScreenState()
