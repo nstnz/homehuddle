@@ -20,6 +20,9 @@ internal class TripPointRepository(
     userLocalSource
 ) {
 
+    override val refreshTimestampsDiff: Long
+        get() = 60 * 1000
+
     override suspend fun mapToDbModel(model: TripPoint?): TripPointsDao? = model?.let {
         TripPointsDao(
             id = it.id.orEmpty(),

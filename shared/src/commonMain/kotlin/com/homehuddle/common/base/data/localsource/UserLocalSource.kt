@@ -3,6 +3,7 @@ package com.homehuddle.common.base.data.localsource
 import com.homehuddle.common.base.domain.general.model.UserModel
 import com.russhwolf.settings.set
 import getSettings
+import io.ktor.util.date.getTimeMillis
 
 private const val Name = "UserLocalSource"
 
@@ -22,6 +23,17 @@ internal class UserLocalSource() {
         setUserId(user.id)
         setUserName(user.name)
         setUserCurrencyCode(user.currencyCode)
+    }
+
+    fun updateLastUpdateTimestamp(name: String) {
+        settings.set(name, getTimeMillis())
+    }
+
+    fun getLastUpdateTimestamp(name: String) =
+        settings.getLongOrNull(name) ?: 0L
+
+    fun clear() {
+        settings.clear()
     }
 
     fun isLoggedIn() = settings.getBoolean(LoggedInKey, false) && !getUserId().isNullOrEmpty()

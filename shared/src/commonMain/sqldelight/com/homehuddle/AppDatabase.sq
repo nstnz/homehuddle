@@ -185,3 +185,39 @@ DELETE FROM TripExpensesDao WHERE tripPostId = ?;
 
 clearTripExpenses:
 DELETE FROM TripExpensesDao;
+
+
+
+
+CREATE TABLE CurrenciesDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+code TEXT,
+name TEXT,
+rate REAL
+);
+
+createOrUpdateCurrency:
+INSERT OR REPLACE INTO CurrenciesDao(id, ownerId, code, name, rate)
+VALUES(?,?,?,?,?);
+
+getCurrency:
+SELECT * FROM CurrenciesDao WHERE id = ?;
+
+getCurrenciesByOwner:
+SELECT * FROM CurrenciesDao;
+
+deleteCurrency:
+DELETE FROM CurrenciesDao WHERE id = ?;
+
+getCurrencies:
+SELECT * FROM CurrenciesDao;
+
+getCurrenciesByParent:
+SELECT * FROM CurrenciesDao;
+
+deleteCurrenciesByParent:
+DELETE FROM CurrenciesDao;
+
+clearCurrencies:
+DELETE FROM CurrenciesDao;

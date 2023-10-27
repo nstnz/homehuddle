@@ -1,6 +1,7 @@
 package com.homehuddle.common.base.di
 
 import FirebaseFirestoreImpl
+import FirebaseRemoteConfigImpl
 import com.homehuddle.AppDatabase
 import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.common.router.Router
@@ -38,6 +39,7 @@ object SharedDI {
         }
         bind<FirebaseFirestore>() with singleton { Firebase.firestore }
         bind<FirebaseFirestoreImpl>() with singleton { FirebaseFirestoreImpl() }
+        bind<FirebaseRemoteConfigImpl>() with singleton { FirebaseRemoteConfigImpl() }
         bind<Router>() with singleton { Router() }
         bind<CoroutineDispatcher>() with singleton { Dispatchers.Default }
         bind<CoroutineScope>() with singleton {
@@ -46,12 +48,6 @@ object SharedDI {
 
         bind<HttpClient>() with singleton { HttpClient() }
         bind<Json>() with singleton { Json { ignoreUnknownKeys = true } }
-        /*bind<SharedPreferences>() with singleton { sharedPreferences }
-        bind<AppDatabaseQueries>() with singleton {
-            val database = AppDatabase(databaseDriver)
-            database.appDatabaseQueries
-        }
-        bind<Strings>() with singleton { En_Strings }*/
 
         import(coreDi)
         import(viewModelsDi)

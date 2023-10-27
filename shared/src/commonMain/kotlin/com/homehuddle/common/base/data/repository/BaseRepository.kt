@@ -7,6 +7,7 @@ import com.homehuddle.common.base.data.model.BaseDataModel
 import com.homehuddle.common.base.data.networksource.BaseNetworkSource
 import com.homehuddle.common.base.domain.general.model.BaseDomainModel
 import io.github.aakira.napier.Napier
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
@@ -29,11 +30,19 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
 
     abstract suspend fun mapToDbModel(model: DomainModel?): DbModel?
 
+    abstract val refreshTimestampsDiff: Long
+
     suspend fun refresh() {
-        Napier.d(tag = this::class.simpleName, message = "refresh")
-        val data = networkSource.getByOwner(getOwnerId())
-        data.forEach {
-            mapToDbModel(it)?.let { dbSource.create(it) }
+        val name = this::class.simpleName.orEmpty()
+        Napier.d(tag = name, message = "refresh")
+        dbSource.getByOwner(getOwnerId())
+        val lastUpdateTimestamp = userLocalSource.getLastUpdateTimestamp(name)
+        if (lastUpdateTimestamp == 0L || getTimeMillis() - lastUpdateTimestamp > refreshTimestampsDiff) {
+            userLocalSource.updateLastUpdateTimestamp(name)
+            val data = networkSource.getByOwner(getOwnerId())
+            data.forEach {
+                mapToDbModel(it)?.let { dbSource.create(it) }
+            }
         }
     }
 
@@ -131,7 +140,7 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
         dbSource.deleteByParent(id)
     }
 
-    suspend fun clear() {
+    suspend open fun clear() {
         Napier.d(tag = this::class.simpleName, message = "clear")
         memorySource.clear()
         dbSource.clear()

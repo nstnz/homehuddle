@@ -94,6 +94,7 @@ kotlin {
                 implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
                 implementation("com.google.firebase:firebase-auth")
                 implementation("com.google.firebase:firebase-firestore")
+                implementation("com.google.firebase:firebase-config")
 
                 implementation("org.kodein.di:kodein-di-framework-android-x:$Kodein")
             }

@@ -19,6 +19,10 @@ internal class UserRepository(
     dbSource,
     userLocalSource
 ) {
+
+    override val refreshTimestampsDiff: Long
+        get() = Long.MAX_VALUE
+
     suspend fun getCurrentUser() = get(getOwnerId())
 
     fun saveCurrentUser(user: User) = saveCurrentUser(
@@ -57,9 +61,14 @@ internal class UserRepository(
     override suspend fun mapToDbModel(model: UserModel?): UsersDao? = model?.let {
         UsersDao(
             id = it.id.orEmpty(),
-            name = it.name.orEmpty(),
-            currencyCode = it.currencyCode.orEmpty(),
+            name = it.name,
+            currencyCode = it.currencyCode,
             ownerId = it.ownerId
         )
+    }
+
+    override suspend fun clear() {
+        userLocalSource.clear()
+        super.clear()
     }
 }
