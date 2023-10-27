@@ -50,8 +50,8 @@ internal fun TripCardComponent(
             SpacerComponent { x1 }
             PhotosComponent(trip)
         }
-        SpacerComponent { x3 }
-        TripSocialComponent(12, 124, canSubscribe = true, canLike = true)
+        TripSocialComponent(12, 124, canSubscribe = true, canLike = true,
+            paddingTop = AppTheme.indents.x3)
     }
 }
 

@@ -17,7 +17,7 @@ data class TripPostModel(
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
     val timestampEnd: Long? = null
-): BaseDomainModel<TripPostModel> {
+) : BaseDomainModel<TripPostModel> {
 
     val isMine: Boolean
         get() = user?.isMe ?: false
@@ -36,4 +36,7 @@ data class TripPostModel(
 
     val totalSpent: Double
         get() = expenses.sumOf { it.sum }
+
+    val isOnlyExpenses: Boolean
+        get() = !hasPoints && !hasPhotos && hasExpenses && description.isEmpty()
 }

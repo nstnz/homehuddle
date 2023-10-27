@@ -28,6 +28,7 @@ import com.homehuddle.common.design.spacer.DividerComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.EmptyStateComponent
 import com.homehuddle.common.design.specific.TripCardComponent
+import com.homehuddle.common.design.specific.TripExpensesCardComponent
 import com.homehuddle.common.design.specific.TripPostCompactCardComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.background2
@@ -119,11 +120,19 @@ internal fun MainScreen(
                             }
                         } else {
                             items(state.tripPosts) { post ->
-                                TripPostCompactCardComponent(
-                                    trip = state.trips.first { it.id == post.tripId },
-                                    tripPost = post,
-                                    onClick = onTripPostClick
-                                )
+                                when {
+                                    post.isOnlyExpenses -> TripExpensesCardComponent(
+                                        trip = state.trips.first { it.id == post.tripId },
+                                        tripPost = post,
+                                        showSocialHeader = false,
+                                        onClick = onTripPostClick,
+                                    )
+                                    else -> TripPostCompactCardComponent(
+                                        trip = state.trips.first { it.id == post.tripId },
+                                        tripPost = post,
+                                        onClick = onTripPostClick
+                                    )
+                                }
                                 DividerComponent()
                             }
                         }

@@ -12,6 +12,8 @@ internal class GetLastTripUseCase(
 ) {
 
     suspend operator fun invoke(): TripModel? = withContext(dispatcher) {
-        return@withContext repository.getUserItemsFlow().firstOrNull()?.get(0)
+        return@withContext repository.getUserItemsFlow().firstOrNull()
+            ?.sortedByDescending { it.timestampStart }
+            ?.firstOrNull()
     }
 }

@@ -62,7 +62,6 @@ internal fun TripPostScreen(
                 state.tripPost?.let {
                     TripPostUserSummaryComponent(
                         state.trip, state.tripPost,
-                        user = mockUser(),
                         modifier = Modifier.fillMaxWidth()
                             .padding(horizontal = AppTheme.indents.x3),
                         textColor = AppTheme.colors.textLightDefault(),
@@ -74,9 +73,9 @@ internal fun TripPostScreen(
                         imageSize = AppTheme.indents.x7,
                         padding = AppTheme.indents.x2,
                     )
-                    SpacerComponent { x1 }
                     TripSocialComponent(
                         12, 124,
+                        paddingTop = AppTheme.indents.x1,
                         modifier = Modifier.padding(horizontal = AppTheme.indents.x3),
                         iconColor = AppTheme.colors.textLightDefault(),
                         textColor = AppTheme.colors.textLightSecondary(),
@@ -125,6 +124,7 @@ private fun AllExpensesComponent(tripPost: TripPostModel) {
     TripDailyExpensesComponent(
         date = tripPost.dateStart.orEmpty(),
         expenses = tripPost.expenses,
+        userModel = tripPost.user
     )
 }
 

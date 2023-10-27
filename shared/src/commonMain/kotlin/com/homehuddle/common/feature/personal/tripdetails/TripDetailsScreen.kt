@@ -25,11 +25,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.design.button.SecondaryButtonComponent
-import com.homehuddle.common.design.mocks.mockTripPost
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.DividerComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.TripDailyExpensesComponent
+import com.homehuddle.common.design.specific.TripExpensesCardComponent
+import com.homehuddle.common.design.specific.TripExpensesPieChartComponent
 import com.homehuddle.common.design.specific.TripPhotoComponent
 import com.homehuddle.common.design.specific.TripPostCompactCardComponent
 import com.homehuddle.common.design.specific.TripSocialComponent
@@ -87,9 +88,9 @@ internal fun TripDetailsScreen(
                     iconColor = AppTheme.colors.textLightDefault(),
                     textColor = AppTheme.colors.textLightDefault()
                 )
-                SpacerComponent { x1 }
                 TripSocialComponent(
                     12, 124,
+                    paddingTop = AppTheme.indents.x1,
                     modifier = Modifier.padding(horizontal = AppTheme.indents.x3),
                     iconColor = AppTheme.colors.textLightDefault(),
                     textColor = AppTheme.colors.textLightSecondary(),
@@ -154,6 +155,10 @@ private fun AllExpensesComponent(trip: TripModel) {
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
     ) {
+        item {
+            TripExpensesPieChartComponent(trip.expenses, trip.user?.currency)
+            SpacerComponent { x3 }
+        }
         val expenses = trip.expenses.groupBy { it.date }
         items(expenses.size) {
             val date = expenses.keys.toList()[it]
@@ -161,6 +166,7 @@ private fun AllExpensesComponent(trip: TripModel) {
             TripDailyExpensesComponent(
                 date = date.orEmpty(),
                 expenses = values,
+                userModel = trip.user
             )
         }
         item {
@@ -192,10 +198,17 @@ private fun AllPostsComponent(trip: TripModel) {
         verticalArrangement = Arrangement.spacedBy(AppTheme.indents.x2)
     ) {
         items(trip.posts) {
-            TripPostCompactCardComponent(
-                trip = trip,
-                tripPost = mockTripPost()
-            )
+            when {
+                it.isOnlyExpenses -> TripExpensesCardComponent(
+                    trip = trip,
+                    tripPost = it,
+                    showSocialHeader = false,
+                )
+                else -> TripPostCompactCardComponent(
+                    trip = trip,
+                    tripPost = it
+                )
+            }
             DividerComponent()
         }
         item {

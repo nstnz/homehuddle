@@ -12,6 +12,7 @@ import com.homehuddle.common.design.specific.SelectCurrencyBottomSheet
 import com.homehuddle.common.design.specific.SelectTripBottomSheet
 import com.homehuddle.common.design.specific.TripCardComponent
 import com.homehuddle.common.design.specific.TripDailyExpensesComponent
+import com.homehuddle.common.design.specific.TripExpensesCardComponent
 import com.homehuddle.common.design.specific.TripPostCardComponent
 import com.homehuddle.common.design.specific.TripPostCompactCardComponent
 import com.homehuddle.common.design.theme.AppTheme
@@ -51,6 +52,18 @@ private fun TripPostCompactCardPreview() {
 
 @Preview
 @Composable
+private fun TripExpenseCardComponentPreview() {
+    AppTheme {
+        TripExpensesCardComponent(
+            trip = mockTrip(),
+            tripPost = mockTripPost(),
+            showSocialHeader = true
+        )
+    }
+}
+
+@Preview
+@Composable
 private fun TripDailyExpensesPreview() {
     AppTheme {
         TripDailyExpensesComponent(
@@ -61,6 +74,7 @@ private fun TripDailyExpensesPreview() {
                 mockTripExpense(),
                 mockTripExpense(),
             ),
+            userModel = mockUser()
         )
     }
 }

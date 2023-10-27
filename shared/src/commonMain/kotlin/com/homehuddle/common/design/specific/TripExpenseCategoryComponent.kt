@@ -41,23 +41,7 @@ internal fun TripExpenseCategoryComponent(
     onClick: (TripExpenseCategory) -> Unit = {}
 ) {
     val color = if (selected) {
-        when (category) {
-            TripExpenseCategory.Plane -> Color(0xff8D55E9)
-            TripExpenseCategory.Train -> Color(0xffEC6C5A)
-            TripExpenseCategory.Bus -> Color(0xff6E8EFF)
-            TripExpenseCategory.Car -> Color(0xff4CC082)
-            TripExpenseCategory.Boat -> Color(0xffCDDC4C)
-            TripExpenseCategory.Hotel -> Color(0xff4AAF57)
-            TripExpenseCategory.Museum -> Color(0xffE350F0)
-            TripExpenseCategory.Other -> Color(0xff495ECA)
-            TripExpenseCategory.Entertaining -> Color(0xff513174)
-            TripExpenseCategory.Grocery -> Color(0xffFFA45A)
-            TripExpenseCategory.Shop -> Color(0xffFFD600)
-            TripExpenseCategory.Fastfood -> Color(0xffFF981F)
-            TripExpenseCategory.Restaurant -> Color(0xff2F68D7)
-            TripExpenseCategory.Souvenir -> Color(0xff9E8F4D)
-            TripExpenseCategory.Tram -> Color(0xff50555C)
-        }
+        getCategoryColor(category)
     } else {
         AppTheme.colors.textDarkDisabled().copy(alpha = 0.5f)
     }
@@ -94,4 +78,22 @@ internal fun TripExpenseCategoryComponent(
             modifier = Modifier.size(size * 0.65f)
         )
     }
+}
+
+internal fun getCategoryColor(category: TripExpenseCategory) = when (category) {
+    TripExpenseCategory.Plane -> Color(0xff8D55E9)
+    TripExpenseCategory.Train -> Color(0xffEC6C5A)
+    TripExpenseCategory.Bus -> Color(0xff6E8EFF)
+    TripExpenseCategory.Car -> Color(0xff4CC082)
+    TripExpenseCategory.Boat -> Color(0xffCDDC4C)
+    TripExpenseCategory.Hotel -> Color(0xff4AAF57)
+    TripExpenseCategory.Museum -> Color(0xffE350F0)
+    TripExpenseCategory.Other -> Color(0xff495ECA)
+    TripExpenseCategory.Entertaining -> Color(0xff513174)
+    TripExpenseCategory.Grocery -> Color(0xffFFA45A)
+    TripExpenseCategory.Shop -> Color(0xffFFD600)
+    TripExpenseCategory.Fastfood -> Color(0xffFF981F)
+    TripExpenseCategory.Restaurant -> Color(0xff2F68D7)
+    TripExpenseCategory.Souvenir -> Color(0xff9E8F4D)
+    TripExpenseCategory.Tram -> Color(0xff50555C)
 }

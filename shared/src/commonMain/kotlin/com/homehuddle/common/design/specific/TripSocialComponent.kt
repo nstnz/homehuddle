@@ -30,6 +30,7 @@ internal fun TripSocialComponent(
     subs: Int,
     canSubscribe: Boolean,
     canLike: Boolean,
+    paddingTop: Dp,
     onLikeClick: () -> Unit = {},
     onSubsClick: () -> Unit = {},
     textColor: Color = AppTheme.colors.textDarkDisabled(),
@@ -38,6 +39,8 @@ internal fun TripSocialComponent(
     iconSize: Dp = AppTheme.indents.x3,
     modifier: Modifier = Modifier,
 ) {
+    return
+    SpacerComponent { paddingTop }
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

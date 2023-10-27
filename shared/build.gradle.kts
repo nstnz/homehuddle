@@ -47,6 +47,7 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
+                implementation("io.github.thechance101:chart:Beta-0.0.5")
                 implementation("org.kodein.di:kodein-di:$Kodein")
                 implementation("com.squareup.sqldelight:runtime:$SqlDelightVersion")
                 implementation("com.squareup.sqldelight:coroutines-extensions:$SqlDelightVersion")

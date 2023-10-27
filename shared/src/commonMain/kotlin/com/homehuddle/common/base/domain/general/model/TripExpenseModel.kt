@@ -18,8 +18,15 @@ data class TripExpenseModel(
     val category: TripExpenseCategory
 ) : BaseDomainModel<TripExpenseModel> {
 
-    val formattedSum: String?
-        get() = sum.takeIf { it > 0 }?.formatSum()
+    val formattedSum: String
+        get() = sum.takeIf { it > 0 }?.formatSum() + currency?.code
+
+    val convertedSum: Double
+        get() = sum / (currency?.rate ?: 1.0)
+
+    fun getFormattedConvertedSum(
+        toCurrency: CurrencyModel,
+    ) = convertedSum.takeIf { it > 0 }?.formatSum() + toCurrency.code
 
     companion object {
 

@@ -45,7 +45,7 @@ internal fun TripPostCardComponent(
             .padding(bottom = AppTheme.indents.x2)
     ) {
         if (!showFullInfo) {
-            TripPostUserSummaryComponent(trip, tripPost, user)
+            TripPostUserSummaryComponent(trip, tripPost)
         }
 
         if (tripPost.description.isNotEmpty()) {
@@ -74,8 +74,8 @@ internal fun TripPostCardComponent(
         }
 
         if (!showFullInfo) {
-            SpacerComponent { x3 }
-            TripSocialComponent(12, 124, canSubscribe = false, canLike = true)
+            TripSocialComponent(12, 124, canSubscribe = false, canLike = true,
+                paddingTop = AppTheme.indents.x3)
         }
     }
 }

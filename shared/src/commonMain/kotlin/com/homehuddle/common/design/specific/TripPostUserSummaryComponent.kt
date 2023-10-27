@@ -15,7 +15,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
-import com.homehuddle.common.base.domain.general.model.UserModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
@@ -26,7 +25,6 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 internal fun TripPostUserSummaryComponent(
     trip: TripModel,
     tripPost: TripPostModel,
-    user: UserModel,
     modifier: Modifier = Modifier,
     textColor: Color = AppTheme.colors.textDarkDefault(),
     accentColor: Color = AppTheme.colors.accent1(),
@@ -35,7 +33,7 @@ internal fun TripPostUserSummaryComponent(
     accentTextStyle: TextStyle = AppTheme.typography.body2Bold,
     hintTextStyle: TextStyle = AppTheme.typography.body3,
     imageSize: Dp = AppTheme.indents.x4,
-    padding: Dp = AppTheme.indents.x1,
+    padding: Dp = AppTheme.indents.x2,
 ) {
     Row(
         modifier = modifier,
@@ -49,7 +47,7 @@ internal fun TripPostUserSummaryComponent(
         Column {
             Row {
                 Text(
-                    text = user.name + " for",
+                    text = trip.user?.name + " for",
                     style = textStyle,
                     color = textColor
                 )

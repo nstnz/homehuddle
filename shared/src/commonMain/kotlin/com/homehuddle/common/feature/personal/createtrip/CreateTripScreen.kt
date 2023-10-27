@@ -185,7 +185,7 @@ internal fun CreateTripScreen(
                         )
                         SpacerComponent { x1 }
                         CountriesSelectorComponent(
-                            countries = state.userModel.allCountries.orEmpty(),
+                            countries = state.userModel.allCountries,
                             selectedCountries = state.selectedCountries,
                             onClick = onCountrySelected
                         )

@@ -227,7 +227,7 @@ internal fun CreateExpenseScreen(
                         label = Texts.TripDescriptionLabel,
                         placeholder = Texts.TripDescription,
                         style = AppTheme.typography.body2,
-                        minHeight = AppTheme.indents.x8
+                        minHeight = AppTheme.indents.x10
                     )
                 }
                 SpacerComponent { x3 }
