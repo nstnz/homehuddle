@@ -1,5 +1,6 @@
 package com.homehuddle.common.feature.personal.tripdetails
 
+import com.homehuddle.common.base.di.tripDetailsScope
 import com.homehuddle.common.base.domain.trips.usecase.trip.DeleteTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
 import com.homehuddle.common.base.ui.CoroutinesViewModel
@@ -41,13 +42,13 @@ internal class TripDetailsScreenViewModel(
         }
 
         TripDetailsScreenIntent.GoBack -> {
-            router.back()
+            router.back(tripDetailsScope)
             null
         }
 
         is TripDetailsScreenIntent.DeleteTrip -> {
             deleteTripUseCase(id)
-            router.back()
+            router.back(tripDetailsScope)
             null
         }
 

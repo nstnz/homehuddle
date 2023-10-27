@@ -1,6 +1,7 @@
 package com.homehuddle.common.feature.personal.createpost
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.homehuddle.common.base.di.createPostScope
 import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.GetTripPostUseCase
@@ -69,7 +70,7 @@ internal class CreatePostScreenViewModel(
                 else -> false
             }
             if (!error) {
-                router.back()
+                router.back(createPostScope)
             } else {
                 triggerSingleEvent(CreatePostScreenSingleEvent.ShowError)
             }
@@ -77,7 +78,7 @@ internal class CreatePostScreenViewModel(
         }
 
         CreatePostScreenIntent.GoBack -> {
-            router.back()
+            router.back(createPostScope)
             null
         }
 

@@ -12,6 +12,7 @@ import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenHolder
 import com.homehuddle.common.feature.personal.main.MainScreenHolder
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreenHolder
 import com.homehuddle.common.feature.personal.trippost.TripPostScreenHolder
+import org.kodein.di.bindings.UnboundedScope
 
 internal class Router() {
 
@@ -21,8 +22,9 @@ internal class Router() {
         this.navigator = navigator
     }
 
-    fun back() {
+    fun back(scope: UnboundedScope) {
         navigator.pop()
+        scope.close()
     }
 
     fun navigateToWelcomeScreen() {

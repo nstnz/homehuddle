@@ -14,7 +14,6 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +31,6 @@ import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.CalendarBottomSheet
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.background2
-import com.homehuddle.common.design.theme.invokeOnCompletion
 import com.homehuddle.common.design.theme.textDarkDisabled
 import com.homehuddle.common.design.theme.textLightDefault
 import com.homehuddle.common.design.topbar.DefaultNavComponent
@@ -56,14 +54,6 @@ internal fun CreateTripScreen(
     onToDateClick: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(Unit) {
-        invokeOnCompletion {
-            if (state.name.text.isEmpty()) {
-                focusRequester.requestFocus()
-            }
-        }
-    }
 
     GradientScaffold(
         bottomSheetState = bottomSheetState,
@@ -149,11 +139,9 @@ internal fun CreateTripScreen(
                         dateEnd = state.dateEnd,
                         showFromState = state.fromDateSelected,
                         onFromClick = {
-                            focusRequester.freeFocus()
                             onFromDateClick()
                         },
                         onToClick = {
-                            focusRequester.freeFocus()
                             onToDateClick()
                         }
                     )

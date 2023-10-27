@@ -1,6 +1,7 @@
 package com.homehuddle.common.feature.personal.createtrip
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.homehuddle.common.base.di.createTripScope
 import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
@@ -108,7 +109,7 @@ internal class CreateTripScreenViewModel(
                         currencyModel = state.currencyModel!!
                     )
                 }
-                router.back()
+                router.back(createTripScope)
             } else {
                 triggerSingleEvent(CreateTripScreenSingleEvent.ShowError)
             }
@@ -116,7 +117,7 @@ internal class CreateTripScreenViewModel(
         }
 
         CreateTripScreenIntent.GoBack -> {
-            router.back()
+            router.back(createTripScope)
             null
         }
 

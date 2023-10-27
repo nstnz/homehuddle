@@ -1,6 +1,7 @@
 package com.homehuddle.common.feature.personal.createexpense
 
 import androidx.compose.ui.text.TextRange
+import com.homehuddle.common.base.di.createExpenseScope
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetLastTripUseCase
@@ -150,14 +151,14 @@ internal class CreateExpenseScreenViewModel(
                 model?.let {
                     createOnlyTripExpenseUseCase(model, state.trip?.id.orEmpty())
                 }
-                router.back()
+                router.back(createExpenseScope)
             } else {
                 triggerSingleEvent(CreateExpenseScreenSingleEvent.ShowError)
             }
             null
         }
         CreateExpenseScreenIntent.GoBack -> {
-            router.back()
+            router.back(createExpenseScope)
             null
         }
         else -> null
