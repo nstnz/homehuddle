@@ -9,5 +9,7 @@ data class UserModel(
     val name: String,
     val isMe: Boolean,
     val currency: CurrencyModel?,
-    val currencies: List<CurrencyModel>
+    val allCurrencies: List<CurrencyModel>,
+    val allCountries: List<CountryModel>,
+    val visitedCountries: List<CountryModel>,
 ) : BaseDomainModel<UserModel>

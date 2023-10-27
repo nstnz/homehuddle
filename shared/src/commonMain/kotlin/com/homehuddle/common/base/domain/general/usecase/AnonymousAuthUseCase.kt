@@ -27,6 +27,7 @@ internal class AnonymousAuthUseCase(
                     ownerId = it.uid,
                     name = "Pupa",
                     currencyCode = "USD",
+                    visitedCountries = ""
                 )
                 repository.create(newUser)
                 repository.saveCurrentUser(newUser)

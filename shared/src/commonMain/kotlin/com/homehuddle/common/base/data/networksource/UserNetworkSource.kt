@@ -18,6 +18,7 @@ internal class UserNetworkSource(
             ownerId = map.get("ownerId")?.toString(),
             name = map["name"]?.toString().orEmpty(),
             currencyCode = map["currencyCode"]?.toString().orEmpty(),
+            visitedCountries = map["visitedCountries"]?.toString().orEmpty(),
         )
     }
 }

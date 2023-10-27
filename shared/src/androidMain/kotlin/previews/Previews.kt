@@ -99,7 +99,6 @@ private fun CreateTripScreenPreview() {
             CreateTripScreenState(
                 name = TextFieldValue("kjsdflj"),
                 description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
-                fromDateSelected = true
             )
         )
     }

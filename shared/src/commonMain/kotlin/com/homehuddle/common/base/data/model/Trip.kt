@@ -12,5 +12,6 @@ data class Trip(
     val dateStart: String? = null,
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
-    val timestampEnd: Long? = null
+    val timestampEnd: Long? = null,
+    val countries: String
 ): BaseDataModel<Trip>

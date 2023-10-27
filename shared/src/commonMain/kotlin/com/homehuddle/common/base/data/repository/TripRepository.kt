@@ -7,6 +7,10 @@ import com.homehuddle.common.base.data.memorysource.TripMemorySource
 import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.base.data.networksource.TripNetworkSource
 import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.fromJsonString
+import com.homehuddle.common.base.domain.general.model.toJsonString
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.serialization.json.Json
 
 internal class TripRepository(
     userLocalSource: UserLocalSource,
@@ -16,6 +20,8 @@ internal class TripRepository(
     private val userRepository: UserRepository,
     private val tripPostRepository: TripPostRepository,
     private val currencyRepository: CurrencyRepository,
+    private val countryRepository: CountryRepository,
+    private val json: Json
 ) : BaseRepository<Trip, TripModel, TripsDao, TripNetworkSource, TripDbSource, TripMemorySource>(
     networkSource,
     memorySource,
@@ -36,7 +42,8 @@ internal class TripRepository(
             dateEnd = it.dateEnd,
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
-            currencyCode = it.currencyCode
+            currencyCode = it.currencyCode,
+            countries = it.countries
         )
     }
 
@@ -50,23 +57,28 @@ internal class TripRepository(
             dateEnd = it.dateEnd,
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
-            currencyCode = it.currency?.id
+            currencyCode = it.currency?.id,
+            countries = it.countries.toJsonString(json)
         )
     }
 
-    override suspend fun mapToDomainModel(model: TripsDao?): TripModel? = model?.let {
-        TripModel(
-            id = it.id,
-            ownerId = it.ownerId,
-            name = it.name.orEmpty(),
-            description = it.description.orEmpty(),
-            currency = currencyRepository.get(it.currencyCode),
-            user = userRepository.get(it.ownerId),
-            posts = tripPostRepository.getByParent(it.id),
-            dateStart = it.dateStart,
-            dateEnd = it.dateEnd,
-            timestampStart = it.timestampStart,
-            timestampEnd = it.timestampEnd,
-        )
+    override suspend fun mapToDomainModel(model: TripsDao?): TripModel? {
+        val localCountries = countryRepository.getUserItemsFlow().firstOrNull().orEmpty()
+        return model?.let {
+            TripModel(
+                id = it.id,
+                ownerId = it.ownerId,
+                name = it.name.orEmpty(),
+                description = it.description.orEmpty(),
+                currency = currencyRepository.get(it.currencyCode),
+                user = userRepository.get(it.ownerId),
+                posts = tripPostRepository.getByParent(it.id),
+                dateStart = it.dateStart,
+                dateEnd = it.dateEnd,
+                timestampStart = it.timestampStart,
+                timestampEnd = it.timestampEnd,
+                countries = it.countries.fromJsonString(json, localCountries)
+            )
+        }
     }
 }

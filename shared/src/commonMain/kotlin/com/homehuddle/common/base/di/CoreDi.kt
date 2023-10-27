@@ -1,5 +1,6 @@
 package com.homehuddle.common.base.di
 
+import com.homehuddle.common.base.data.dbsource.CountryDbSource
 import com.homehuddle.common.base.data.dbsource.CurrencyDbSource
 import com.homehuddle.common.base.data.dbsource.TripDbSource
 import com.homehuddle.common.base.data.dbsource.TripExpenseDbSource
@@ -7,18 +8,21 @@ import com.homehuddle.common.base.data.dbsource.TripPointDbSource
 import com.homehuddle.common.base.data.dbsource.TripPostDbSource
 import com.homehuddle.common.base.data.dbsource.UserDbSource
 import com.homehuddle.common.base.data.localsource.UserLocalSource
+import com.homehuddle.common.base.data.memorysource.CountryMemorySource
 import com.homehuddle.common.base.data.memorysource.CurrencyMemorySource
 import com.homehuddle.common.base.data.memorysource.TripExpenseMemorySource
 import com.homehuddle.common.base.data.memorysource.TripMemorySource
 import com.homehuddle.common.base.data.memorysource.TripPointMemorySource
 import com.homehuddle.common.base.data.memorysource.TripPostMemorySource
 import com.homehuddle.common.base.data.memorysource.UserMemorySource
+import com.homehuddle.common.base.data.networksource.CountryNetworkSource
 import com.homehuddle.common.base.data.networksource.CurrencyNetworkSource
 import com.homehuddle.common.base.data.networksource.TripExpenseNetworkSource
 import com.homehuddle.common.base.data.networksource.TripNetworkSource
 import com.homehuddle.common.base.data.networksource.TripPointNetworkSource
 import com.homehuddle.common.base.data.networksource.TripPostNetworkSource
 import com.homehuddle.common.base.data.networksource.UserNetworkSource
+import com.homehuddle.common.base.data.repository.CountryRepository
 import com.homehuddle.common.base.data.repository.CurrencyRepository
 import com.homehuddle.common.base.data.repository.TripExpenseRepository
 import com.homehuddle.common.base.data.repository.TripPointRepository
@@ -56,11 +60,21 @@ internal val coreDi = DI.Module(name = "Core") {
             instance(),
             instance(),
             instance(),
+            instance(),
+            instance(),
             instance()
         )
     }
     bind<CurrencyRepository>() with provider {
         CurrencyRepository(
+            instance(),
+            instance(),
+            instance(),
+            instance()
+        )
+    }
+    bind<CountryRepository>() with provider {
+        CountryRepository(
             instance(),
             instance(),
             instance(),
@@ -80,6 +94,8 @@ internal val coreDi = DI.Module(name = "Core") {
     }
     bind<TripRepository>() with provider {
         TripRepository(
+            instance(),
+            instance(),
             instance(),
             instance(),
             instance(),
@@ -119,6 +135,12 @@ internal val coreDi = DI.Module(name = "Core") {
         instance(),instance(),instance(),
     ) }
 
+    bind<CountryMemorySource>() with provider { CountryMemorySource() }
+    bind<CountryDbSource>() with provider { CountryDbSource(instance()) }
+    bind<CountryNetworkSource>() with provider { CountryNetworkSource(
+        instance(), instance(), instance(),
+    ) }
+
     bind<TripNetworkSource>() with provider { TripNetworkSource(instance()) }
     bind<TripDbSource>() with provider { TripDbSource(instance()) }
     bind<TripMemorySource>() with provider { TripMemorySource() }
@@ -150,6 +172,7 @@ internal val coreDi = DI.Module(name = "Core") {
             instance(),
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }
@@ -160,8 +183,8 @@ internal val coreDi = DI.Module(name = "Core") {
 
     bind<GetTripUseCase>() with provider { GetTripUseCase(instance(), instance()) }
     bind<GetLastTripUseCase>() with provider { GetLastTripUseCase(instance(), instance()) }
-    bind<UpdateTripUseCase>() with provider { UpdateTripUseCase(instance(), instance()) }
-    bind<CreateTripUseCase>() with provider { CreateTripUseCase(instance(), instance()) }
+    bind<UpdateTripUseCase>() with provider { UpdateTripUseCase(instance(), instance(), instance()) }
+    bind<CreateTripUseCase>() with provider { CreateTripUseCase(instance(), instance(), instance()) }
     bind<DeleteTripUseCase>() with provider { DeleteTripUseCase(instance(), instance()) }
 
     bind<GetTripPostUseCase>() with provider { GetTripPostUseCase(instance(), instance()) }

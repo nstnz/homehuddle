@@ -15,6 +15,7 @@ import com.homehuddle.common.base.di.createTripScope
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.ui.collectAsStateLifecycleAware
 import com.homehuddle.common.design.snackbar.SnackbarHostState
+import com.homehuddle.common.design.theme.SetBottomSheetListener
 import com.homehuddle.common.router.OnLifecycleEvent
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -49,6 +50,18 @@ internal class CreateTripScreenHolder(
             }.collect()
         }
 
+
+        SetBottomSheetListener(bottomSheetState, onHide = {
+            viewModel.sendIntent(CreateTripScreenIntent.CloseBottomSheet)
+        })
+        scope.launch {
+            if (viewState.bottomSheet != null) {
+                bottomSheetState.show()
+            } else {
+                bottomSheetState.hide()
+            }
+        }
+
         OnLifecycleEvent(createTripScope) { event ->
             when (event) {
                 Lifecycle.State.Active -> {
@@ -70,32 +83,22 @@ internal class CreateTripScreenHolder(
                     )
                 )
             },
-            onFromDateSelected = {
-                scope.launch {
-                    viewModel.sendIntent(CreateTripScreenIntent.OnFromDateSelected(it))
-                    bottomSheetState.hide()
-                }
-            },
-            onToDateSelected = {
-                scope.launch {
-                    viewModel.sendIntent(CreateTripScreenIntent.OnToDateSelected(it))
-                    bottomSheetState.hide()
-                }
-            },
+            onFromDateSelected = { viewModel.sendIntent(CreateTripScreenIntent.OnFromDateSelected(it)) },
+            onToDateSelected = { viewModel.sendIntent(CreateTripScreenIntent.OnToDateSelected(it)) },
             onSaveClick = { viewModel.sendIntent(CreateTripScreenIntent.OnSaveClick) },
             onBackClick = { viewModel.sendIntent(CreateTripScreenIntent.GoBack) },
-            onFromDateClick = {
-                scope.launch {
-                    viewModel.sendIntent(CreateTripScreenIntent.OnFromDateClick)
-                    bottomSheetState.show()
-                }
-            },
-            onToDateClick = {
-                scope.launch {
-                    viewModel.sendIntent(CreateTripScreenIntent.OnToDateClick)
-                    bottomSheetState.show()
-                }
-            },
+            onFromDateClick = { viewModel.sendIntent(CreateTripScreenIntent.OnFromDateClick) },
+            onToDateClick = { viewModel.sendIntent(CreateTripScreenIntent.OnToDateClick) },
+            onCurrencyClick = { viewModel.sendIntent(CreateTripScreenIntent.OnCurrencyClick) },
+            onChangeCurrency = { viewModel.sendIntent(CreateTripScreenIntent.OnChangeCurrency(it)) },
+            onCountrySelected = { model, selected ->
+                viewModel.sendIntent(
+                    CreateTripScreenIntent.OnCountrySelected(
+                        model,
+                        selected
+                    )
+                )
+            }
         )
     }
 }

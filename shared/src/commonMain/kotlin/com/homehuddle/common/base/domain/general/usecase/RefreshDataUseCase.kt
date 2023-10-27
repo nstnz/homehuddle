@@ -1,5 +1,6 @@
 package com.homehuddle.common.base.domain.general.usecase
 
+import com.homehuddle.common.base.data.repository.CountryRepository
 import com.homehuddle.common.base.data.repository.CurrencyRepository
 import com.homehuddle.common.base.data.repository.TripExpenseRepository
 import com.homehuddle.common.base.data.repository.TripPointRepository
@@ -16,15 +17,20 @@ internal class RefreshDataUseCase(
     private val tripPointRepository: TripPointRepository,
     private val tripPostRepository: TripPostRepository,
     private val tripRepository: TripRepository,
-    private val currencyRepository: CurrencyRepository
+    private val currencyRepository: CurrencyRepository,
+    private val countryRepository: CountryRepository,
 ) {
 
     suspend operator fun invoke() = withContext(dispatcher) {
+        countryRepository.refresh()
         currencyRepository.refresh()
-        userRepository.refresh()
-        tripExpenseRepository.refresh()
-        tripPointRepository.refresh()
-        tripPostRepository.refresh()
-        tripRepository.refresh()
+
+        if (userRepository.isLoggedIn()) {
+            userRepository.refresh()
+            tripExpenseRepository.refresh()
+            tripPointRepository.refresh()
+            tripPostRepository.refresh()
+            tripRepository.refresh()
+        }
     }
 }

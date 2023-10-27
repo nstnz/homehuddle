@@ -21,6 +21,7 @@ internal class TripNetworkSource(
             timestampStart = map.get("timestampStart")?.toString()?.toLongOrNull(),
             dateEnd = map.get("dateEnd")?.toString(),
             timestampEnd = map.get("timestampEnd")?.toString()?.toLongOrNull(),
+            countries = map.get("countries")?.toString().orEmpty(),
         )
     }
 }

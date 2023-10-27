@@ -13,6 +13,12 @@ internal class SplashScreenViewModel(
     private val isSignedInUseCase: IsSignedInUseCase,
 ) : CoroutinesViewModel<SplashScreenState, SplashScreenIntent, SplashScreenSingleEvent>() {
 
+    init {
+        GlobalScope.launch {
+            refreshDataUseCase()
+        }
+    }
+
     override fun initialState(): SplashScreenState = SplashScreenState
 
     override fun reduce(
@@ -30,9 +36,6 @@ internal class SplashScreenViewModel(
                 //first launch
                 router.navigateToWelcomeScreen()
             } else {
-                GlobalScope.launch {
-                    refreshDataUseCase()
-                }
                 router.navigateToMainScreen()
             }
             null

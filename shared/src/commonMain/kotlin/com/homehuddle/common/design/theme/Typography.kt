@@ -15,7 +15,7 @@ internal object Typography {
     )
     val body2 = TextStyle(
         fontFamily = getFont(),
-        fontSize = 16.0.sp,
+        fontSize = 17.0.sp,
         letterSpacing = 0.15000000596046448.sp,
         lineHeight = 22.0.sp,
     )

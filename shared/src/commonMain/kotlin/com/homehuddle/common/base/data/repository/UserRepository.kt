@@ -7,14 +7,19 @@ import com.homehuddle.common.base.data.memorysource.UserMemorySource
 import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.data.networksource.UserNetworkSource
 import com.homehuddle.common.base.domain.general.model.UserModel
+import com.homehuddle.common.base.domain.general.model.fromJsonString
+import com.homehuddle.common.base.domain.general.model.toJsonString
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.serialization.json.Json
 
 internal class UserRepository(
     private val userLocalSource: UserLocalSource,
     networkSource: UserNetworkSource,
     memorySource: UserMemorySource,
     dbSource: UserDbSource,
-    private val currencyRepository: CurrencyRepository
+    private val currencyRepository: CurrencyRepository,
+    private val countryRepository: CountryRepository,
+    private val json: Json
 ) : BaseRepository<User, UserModel, UsersDao, UserNetworkSource, UserDbSource, UserMemorySource>(
     networkSource,
     memorySource,
@@ -38,19 +43,25 @@ internal class UserRepository(
             id = it.id.orEmpty(),
             name = it.name,
             currencyCode = it.currencyCode,
-            ownerId = it.ownerId.orEmpty()
+            ownerId = it.ownerId.orEmpty(),
+            visitedCountries = it.visitedCountries
         )
     }
 
-    override suspend fun mapToDomainModel(model: UsersDao?): UserModel? = model?.let {
-        UserModel(
-            isMe = it.ownerId == getOwnerId(),
-            id = it.id,
-            name = it.name.orEmpty(),
-            currency = currencyRepository.get(it.currencyCode),
-            ownerId = it.ownerId,
-            currencies = currencyRepository.getUserItemsFlow().firstOrNull().orEmpty()
-        )
+    override suspend fun mapToDomainModel(model: UsersDao?): UserModel? {
+        return model?.let {
+            val countries = countryRepository.getUserItemsFlow().firstOrNull().orEmpty()
+            UserModel(
+                isMe = it.ownerId == getOwnerId(),
+                id = it.id,
+                name = it.name.orEmpty(),
+                currency = currencyRepository.get(it.currencyCode),
+                ownerId = it.ownerId,
+                allCurrencies = currencyRepository.getUserItemsFlow().firstOrNull().orEmpty(),
+                allCountries = countries,
+                visitedCountries = it.visitedCountries.fromJsonString(json, countries)
+            )
+        }
     }
 
     override suspend fun mapToDbModel(model: UserModel?): UsersDao? = model?.let {
@@ -58,7 +69,8 @@ internal class UserRepository(
             id = it.id.orEmpty(),
             name = it.name,
             currencyCode = it.currency?.id,
-            ownerId = it.ownerId
+            ownerId = it.ownerId,
+            visitedCountries = it.visitedCountries.toJsonString(json)
         )
     }
 

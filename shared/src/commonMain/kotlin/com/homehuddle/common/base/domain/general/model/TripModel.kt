@@ -15,7 +15,8 @@ data class TripModel(
     val dateStart: String? = null,
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
-    val timestampEnd: Long? = null
+    val timestampEnd: Long? = null,
+    val countries: List<CountryModel>
 ): BaseDomainModel<TripModel> {
 
     val isMine: Boolean

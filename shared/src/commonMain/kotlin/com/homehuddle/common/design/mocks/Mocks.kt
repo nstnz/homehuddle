@@ -1,5 +1,6 @@
 package com.homehuddle.common.design.mocks
 
+import com.homehuddle.common.base.domain.general.model.CountryModel
 import com.homehuddle.common.base.domain.general.model.CurrencyModel
 import com.homehuddle.common.base.domain.general.model.TripExpenseCategory
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
@@ -21,16 +22,23 @@ fun mockTrip() = TripModel(
         mockTripPost(),
         mockTripPost(),
         mockTripPost(),
-    )
+    ),
+    countries = listOf()
 )
 
 fun mockUser() = UserModel(
     "", "", "User", isMe = true, currency = mockCurrency(),
-    currencies = emptyList()
+    allCurrencies = emptyList(),
+    allCountries = listOf(mockCountry()),
+    visitedCountries = listOf(mockCountry()),
+)
+
+fun mockCountry() = CountryModel(
+    "sdlksdflsd", "", "Ascension Island", "\uD83C\uDDE6\uD83C\uDDE8"
 )
 
 fun mockCurrency() = CurrencyModel(
-    id ="USD",
+    id = "USD",
     name = "American Dollar",
     rate = 1.0,
     code = "Зрол",

@@ -52,7 +52,7 @@ internal fun CurrenciesList(
 }
 
 @Composable
-private fun CurrencyComponent(
+internal fun CurrencyComponent(
     selected: Boolean,
     model: CurrencyModel,
     onSelect: (CurrencyModel) -> Unit = {}
@@ -64,14 +64,14 @@ private fun CurrencyComponent(
             color = if (selected) AppTheme.colors.accent2() else AppTheme.colors.textDarkDefault(),
             style = AppTheme.typography.body1Bold,
             maxLines = 1,
-            modifier = Modifier.width(100.dp)
+            modifier = Modifier.width(80.dp)
         )
         SpacerComponent { x2 }
         Column(Modifier.weight(1f)) {
             Text(
                 text = model.name,
-                color = AppTheme.colors.textDarkDefault(),
-                style = AppTheme.typography.body2,
+                color = if (selected) AppTheme.colors.accent2() else AppTheme.colors.textDarkDefault(),
+                style = AppTheme.typography.body2Bold,
                 maxLines = 1
             )
             Text(

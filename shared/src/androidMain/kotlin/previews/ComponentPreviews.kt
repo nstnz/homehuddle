@@ -1,11 +1,13 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.homehuddle.common.design.mocks.mockCountry
 import com.homehuddle.common.design.mocks.mockCurrency
 import com.homehuddle.common.design.mocks.mockTrip
 import com.homehuddle.common.design.mocks.mockTripExpense
 import com.homehuddle.common.design.mocks.mockTripPost
 import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.specific.CalendarBottomSheet
+import com.homehuddle.common.design.specific.CountriesSelectorComponent
 import com.homehuddle.common.design.specific.SelectCurrencyBottomSheet
 import com.homehuddle.common.design.specific.SelectTripBottomSheet
 import com.homehuddle.common.design.specific.TripCardComponent
@@ -103,6 +105,22 @@ private fun SelectTripBottomSheetPreview() {
             ),
             selected = mockTrip(),
             onSelect = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CountriesSelectorComponentPreview() {
+    AppTheme {
+        CountriesSelectorComponent(
+            countries = listOf(
+                mockCountry(),
+                mockCountry(),
+                mockCountry(),
+                mockCountry(),
+            ),
+            selectedCountries = emptyList()
         )
     }
 }

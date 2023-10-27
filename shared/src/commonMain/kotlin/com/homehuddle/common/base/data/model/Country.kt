@@ -3,10 +3,9 @@ package com.homehuddle.common.base.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(
+data class Country(
     override val id: String?,
     override val ownerId: String?,
     val name: String,
-    val currencyCode: String,
-    val visitedCountries: String,
-) : BaseDataModel<User>
+    val emoji: String,
+) : BaseDataModel<Country>

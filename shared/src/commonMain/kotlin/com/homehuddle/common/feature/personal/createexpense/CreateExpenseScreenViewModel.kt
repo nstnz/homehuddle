@@ -80,7 +80,7 @@ internal class CreateExpenseScreenViewModel(
         })
         CreateExpenseScreenIntent.OnChangeCurrencyClick -> prevState.copy(
             bottomSheet = BottomSheetType.SelectCurrency(
-                currencies = prevState.userModel?.currencies.orEmpty(),
+                currencies = prevState.userModel?.allCurrencies.orEmpty(),
                 selected = prevState.model?.currency
             )
         )

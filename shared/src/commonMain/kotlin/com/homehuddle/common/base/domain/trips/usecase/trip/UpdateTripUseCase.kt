@@ -2,13 +2,17 @@ package com.homehuddle.common.base.domain.trips.usecase.trip
 
 import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.base.data.repository.TripRepository
+import com.homehuddle.common.base.domain.general.model.CountryModel
 import com.homehuddle.common.base.domain.general.model.CurrencyModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 
 internal class UpdateTripUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val repository: TripRepository,
+    private val json: Json
 ) {
 
     suspend operator fun invoke(
@@ -19,7 +23,8 @@ internal class UpdateTripUseCase(
         dateEnd: String?,
         timestampStart: Long?,
         timestampEnd: Long?,
-        currencyModel: CurrencyModel
+        currencyModel: CurrencyModel,
+        countries: List<CountryModel>
     ): Unit = withContext(dispatcher) {
         repository.update(
             Trip(
@@ -31,7 +36,8 @@ internal class UpdateTripUseCase(
                 dateEnd = dateEnd,
                 timestampStart = timestampStart,
                 timestampEnd = timestampEnd,
-                currencyCode = currencyModel.id
+                currencyCode = currencyModel.id,
+                countries = json.encodeToJsonElement(countries.map { it.id.orEmpty() }).toString()
             )
         )
     }

@@ -21,7 +21,8 @@ internal class UserDbSource(
             id = model.id,
             name = model.name,
             currencyCode = model.currencyCode,
-            ownerId = model.ownerId
+            ownerId = model.ownerId,
+            visitedCountries = model.visitedCountries
         )
     }
 

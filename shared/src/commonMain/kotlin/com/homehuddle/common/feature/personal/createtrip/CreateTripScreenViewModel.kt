@@ -9,6 +9,7 @@ import com.homehuddle.common.base.domain.trips.usecase.trip.UpdateTripUseCase
 import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
+import io.ktor.util.date.getTimeMillis
 
 internal class CreateTripScreenViewModel(
     private val tripId: String?,
@@ -25,6 +26,17 @@ internal class CreateTripScreenViewModel(
         intent: CreateTripScreenIntent,
         prevState: CreateTripScreenState
     ): CreateTripScreenState = when (intent) {
+        is CreateTripScreenIntent.UpdateUser -> prevState.copy(
+            userModel = intent.userModel
+        )
+        is CreateTripScreenIntent.OnCountrySelected -> prevState.copy(
+            selectedCountries = if (intent.selected) {
+                prevState.selectedCountries.apply { this.add(intent.countryModel) }
+            } else {
+                prevState.selectedCountries.apply { this.remove(intent.countryModel) }
+            },
+            updateTs = getTimeMillis()
+        )
         is CreateTripScreenIntent.UpdateCurrency -> prevState.copy(
             currencyModel = intent.currencyModel
         )
@@ -35,35 +47,45 @@ internal class CreateTripScreenViewModel(
             dateEnd = intent.tripModel?.dateEnd,
             timestampStart = intent.tripModel?.timestampStart,
             timestampEnd = intent.tripModel?.timestampEnd,
-            currencyModel = intent.tripModel?.currency ?: prevState.currencyModel
+            currencyModel = intent.tripModel?.currency ?: prevState.currencyModel,
+            selectedCountries = intent.tripModel?.countries.orEmpty().toMutableList()
         )
-
         is CreateTripScreenIntent.OnChangeDescription -> prevState.copy(
             description = intent.text
         )
-
         is CreateTripScreenIntent.OnChangeName -> prevState.copy(
             name = intent.text
         )
-
         is CreateTripScreenIntent.OnFromDateSelected -> prevState.copy(
             timestampStart = intent.date,
-            dateStart = intent.date.formatDate()
+            dateStart = intent.date.formatDate(),
+            bottomSheet = null
         )
-
         is CreateTripScreenIntent.OnFromDateClick -> prevState.copy(
-            fromDateSelected = true
+            bottomSheet = BottomSheetType.SelectFromDate(
+                prevState.timestampStart
+            )
         )
-
         is CreateTripScreenIntent.OnToDateClick -> prevState.copy(
-            fromDateSelected = false
+            bottomSheet = BottomSheetType.SelectToDate(
+                prevState.timestampEnd
+            )
         )
-
         is CreateTripScreenIntent.OnToDateSelected -> prevState.copy(
             timestampEnd = intent.date,
-            dateEnd = intent.date.formatDate()
+            dateEnd = intent.date.formatDate(),
+            bottomSheet = null
         )
-
+        is CreateTripScreenIntent.OnCurrencyClick -> prevState.copy(
+            bottomSheet = BottomSheetType.SelectCurrency(
+                currencies = prevState.userModel?.allCurrencies.orEmpty(),
+                selected = prevState.currencyModel
+            )
+        )
+        is CreateTripScreenIntent.OnChangeCurrency -> prevState.copy(
+            currencyModel = intent.value,
+            bottomSheet = null
+        )
         else -> prevState
     }
 
@@ -73,6 +95,7 @@ internal class CreateTripScreenViewModel(
     ): CreateTripScreenIntent? = when (intent) {
         CreateTripScreenIntent.OnResume -> {
             val user = getMeUseCase()
+            sendIntent(CreateTripScreenIntent.UpdateUser(user))
             sendIntent(CreateTripScreenIntent.UpdateCurrency(user?.currency))
             tripId.takeIf { !it.isNullOrEmpty() }?.let {
                 val trip = getTripUseCase(it)
@@ -95,7 +118,8 @@ internal class CreateTripScreenViewModel(
                         dateEnd = state.dateEnd,
                         timestampStart = state.timestampStart,
                         timestampEnd = state.timestampEnd,
-                        currencyModel = state.currencyModel!!
+                        currencyModel = state.currencyModel!!,
+                        countries = state.selectedCountries
                     )
                 } else {
                     updateTripUseCase(
@@ -106,7 +130,8 @@ internal class CreateTripScreenViewModel(
                         dateEnd = state.dateEnd,
                         timestampStart = state.timestampStart,
                         timestampEnd = state.timestampEnd,
-                        currencyModel = state.currencyModel!!
+                        currencyModel = state.currencyModel!!,
+                        countries = state.selectedCountries
                     )
                 }
                 router.back(createTripScope)

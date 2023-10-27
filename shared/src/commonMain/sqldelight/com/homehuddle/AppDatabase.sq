@@ -2,12 +2,13 @@ CREATE TABLE UsersDao(
 id TEXT NOT NULL PRIMARY KEY,
 ownerId TEXT,
 name TEXT,
-currencyCode TEXT
+currencyCode TEXT,
+visitedCountries TEXT
 );
 
 createOrUpdateUser:
-INSERT OR REPLACE INTO UsersDao(id, ownerId, name, currencyCode)
-VALUES(?,?, ?,?);
+INSERT OR REPLACE INTO UsersDao(id, ownerId, name, currencyCode,visitedCountries)
+VALUES(?,?, ?,?,?);
 
 getUser:
 SELECT * FROM UsersDao WHERE id = ?;
@@ -42,12 +43,13 @@ currencyCode TEXT,
 dateStart TEXT,
 timestampStart INTEGER,
 dateEnd TEXT,
-timestampEnd INTEGER
+timestampEnd INTEGER,
+countries TEXT
 );
 
 createOrUpdateTrip:
-INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, currencyCode, dateStart, timestampStart, dateEnd, timestampEnd )
-VALUES(?,?,?,?,?,?, ?,?,?);
+INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, currencyCode, dateStart, timestampStart, dateEnd, timestampEnd,countries )
+VALUES(?,?,?,?,?,?, ?,?,?,?);
 
 getTrip:
 SELECT * FROM TripsDao WHERE id = ?;
@@ -222,3 +224,38 @@ DELETE FROM CurrenciesDao;
 
 clearCurrencies:
 DELETE FROM CurrenciesDao;
+
+
+
+
+CREATE TABLE CountriesDao(
+id TEXT NOT NULL PRIMARY KEY,
+ownerId TEXT,
+name TEXT,
+emoji TEXT
+);
+
+createOrUpdateCountry:
+INSERT OR REPLACE INTO CountriesDao(id, ownerId, name, emoji)
+VALUES(?,?,?,?);
+
+getCountry:
+SELECT * FROM CountriesDao WHERE id = ?;
+
+getCountriesByOwner:
+SELECT * FROM CountriesDao;
+
+deleteCountry:
+DELETE FROM CountriesDao WHERE id = ?;
+
+getCountries:
+SELECT * FROM CountriesDao;
+
+getCountriesByParent:
+SELECT * FROM CountriesDao;
+
+deleteCountriesByParent:
+DELETE FROM CountriesDao;
+
+clearCountries:
+DELETE FROM CountriesDao;

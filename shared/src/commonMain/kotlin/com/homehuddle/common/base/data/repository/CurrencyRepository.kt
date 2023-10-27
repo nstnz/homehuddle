@@ -21,7 +21,7 @@ internal class CurrencyRepository(
 ) {
 
     override val refreshTimestampsDiff: Long
-        get() = 1000
+        get() = 1 * 7 * 24 * 60 * 60 * 1000L //week
 
     override suspend fun mapToDbModel(model: Currency?): CurrenciesDao? = model?.let {
         CurrenciesDao(
