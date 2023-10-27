@@ -14,6 +14,7 @@ internal class TripExpenseRepository(
     networkSource: TripExpenseNetworkSource,
     memorySource: TripExpenseMemorySource,
     dbSource: TripExpenseDbSource,
+    private val currencyRepository: CurrencyRepository
 ) : BaseRepository<TripExpense, TripExpenseModel, TripExpensesDao, TripExpenseNetworkSource, TripExpenseDbSource, TripExpenseMemorySource>(
     networkSource,
     memorySource,
@@ -44,7 +45,7 @@ internal class TripExpenseRepository(
             ownerId = it.ownerId,
             tripPostId = it.tripPostId.orEmpty(),
             sum = it.sum ?: 0.0,
-            currencyCode = it.currencyCode.orEmpty(),
+            currency = currencyRepository.get(it.currencyCode),
             description = it.description.orEmpty(),
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
@@ -59,7 +60,7 @@ internal class TripExpenseRepository(
             ownerId = it.ownerId,
             tripPostId = it.tripPostId.orEmpty(),
             sum = it.sum,
-            currencyCode = it.currencyCode,
+            currencyCode = it.currency?.id,
             description = it.description,
             date = it.date.orEmpty(),
             timestamp = it.timestamp,

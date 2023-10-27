@@ -5,6 +5,7 @@ import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.feature.general.login.LoginScreenHolder
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenHolder
+import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreenHolder
 import com.homehuddle.common.feature.personal.createpost.CreatePostScreenHolder
 import com.homehuddle.common.feature.personal.createpost.ScreenMode
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenHolder
@@ -53,7 +54,7 @@ internal class Router() {
     }
 
     fun navigateToAddExpenses() {
-        navigator.push(CreatePostScreenHolder(null, ScreenMode.Expenses))
+        navigator.push(CreateExpenseScreenHolder(null))
     }
 
     fun navigateToAddLocations() {

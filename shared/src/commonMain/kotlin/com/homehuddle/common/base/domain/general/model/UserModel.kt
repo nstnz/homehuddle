@@ -8,5 +8,6 @@ data class UserModel(
     override val ownerId: String?,
     val name: String,
     val isMe: Boolean,
-    val currencyCode: String
+    val currency: CurrencyModel?,
+    val currencies: List<CurrencyModel>
 ) : BaseDomainModel<UserModel>

@@ -6,8 +6,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.layout
@@ -85,6 +89,24 @@ fun InOuterShadow(
         ) {
             content()
             SpacerComponent { offsetY }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+internal fun SetBottomSheetListener(
+    bottomSheetState: ModalBottomSheetState,
+    onShow: () -> Unit = {},
+    onHide: () -> Unit = {},
+) {
+    LaunchedEffect(bottomSheetState) {
+        snapshotFlow { bottomSheetState.isVisible }.collect { isVisible ->
+            if (!isVisible) {
+                onHide()
+            } else {
+                onShow()
+            }
         }
     }
 }

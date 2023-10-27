@@ -1,5 +1,6 @@
 package com.homehuddle.common.base.data.localsource
 
+import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.domain.general.model.UserModel
 import com.russhwolf.settings.set
 import getSettings
@@ -19,6 +20,13 @@ internal class UserLocalSource() {
     }
 
     fun setUser(user: UserModel) {
+        setLoggedIn(true)
+        setUserId(user.id)
+        setUserName(user.name)
+        setUserCurrencyCode(user.currency?.id.orEmpty())
+    }
+
+    fun setUser(user: User) {
         setLoggedIn(true)
         setUserId(user.id)
         setUserName(user.name)

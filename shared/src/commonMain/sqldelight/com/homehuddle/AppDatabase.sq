@@ -38,6 +38,7 @@ id TEXT NOT NULL PRIMARY KEY,
 ownerId TEXT,
 name TEXT,
 description TEXT,
+currencyCode TEXT,
 dateStart TEXT,
 timestampStart INTEGER,
 dateEnd TEXT,
@@ -45,8 +46,8 @@ timestampEnd INTEGER
 );
 
 createOrUpdateTrip:
-INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, dateStart, timestampStart, dateEnd, timestampEnd )
-VALUES(?,?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, currencyCode, dateStart, timestampStart, dateEnd, timestampEnd )
+VALUES(?,?,?,?,?,?, ?,?,?);
 
 getTrip:
 SELECT * FROM TripsDao WHERE id = ?;

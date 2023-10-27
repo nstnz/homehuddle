@@ -4,14 +4,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.screen.Screen
 import com.homehuddle.common.base.di.SharedDI
 import com.homehuddle.common.base.di.mainScope
 import com.homehuddle.common.base.ui.collectAsStateLifecycleAware
+import com.homehuddle.common.design.theme.SetBottomSheetListener
 import com.homehuddle.common.router.OnLifecycleEvent
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.lifecycle.Lifecycle
@@ -38,14 +37,9 @@ object MainScreenHolder : Screen {
             }
         }
 
-        LaunchedEffect(bottomSheetState) {
-            snapshotFlow { bottomSheetState.isVisible }.collect { isVisible ->
-                if (!isVisible) {
-                    viewModel.sendIntent(MainScreenIntent.CloseBottomSheet)
-                }
-            }
-        }
-
+        SetBottomSheetListener(bottomSheetState, onHide = {
+            viewModel.sendIntent(MainScreenIntent.CloseBottomSheet)
+        })
         scope.launch {
             if (viewState.isBottomSheetShown) {
                 bottomSheetState.show()
@@ -66,7 +60,6 @@ object MainScreenHolder : Screen {
             onAddTripPostClick = { viewModel.sendIntent(MainScreenIntent.AddTripPostClick) },
             onAddExpensesClick = { viewModel.sendIntent(MainScreenIntent.AddExpensesClick) },
             onAddLocationsClick = { viewModel.sendIntent(MainScreenIntent.AddLocationsClick) },
-            onCreateTripExpense = { e, t -> viewModel.sendIntent(MainScreenIntent.OnCreateTripExpense(e, t)) },
         )
     }
 }

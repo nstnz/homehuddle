@@ -8,6 +8,7 @@ data class Trip(
     override val ownerId: String?,
     val name: String,
     val description: String,
+    val currencyCode: String?,
     val dateStart: String? = null,
     val timestampStart: Long? = null,
     val dateEnd: String? = null,

@@ -1,6 +1,7 @@
 package com.homehuddle.common.feature.personal.createtrip
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.homehuddle.common.base.domain.general.model.CurrencyModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.ui.Intent
 import com.homehuddle.common.base.ui.SingleEvent
@@ -13,10 +14,12 @@ internal data class CreateTripScreenState(
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
     val timestampEnd: Long? = null,
-    val fromDateSelected: Boolean? = null
+    val fromDateSelected: Boolean? = null,
+    val currencyModel: CurrencyModel? = null,
 ) : State
 
 internal sealed interface CreateTripScreenIntent : Intent {
+    data class UpdateCurrency(val currencyModel: CurrencyModel?) : CreateTripScreenIntent
     data class Update(val tripModel: TripModel?) : CreateTripScreenIntent
     data class OnChangeName(val text: TextFieldValue) : CreateTripScreenIntent
     data class OnChangeDescription(val text: TextFieldValue) : CreateTripScreenIntent

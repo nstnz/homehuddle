@@ -7,12 +7,14 @@ import com.homehuddle.common.base.data.memorysource.UserMemorySource
 import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.data.networksource.UserNetworkSource
 import com.homehuddle.common.base.domain.general.model.UserModel
+import kotlinx.coroutines.flow.firstOrNull
 
 internal class UserRepository(
     private val userLocalSource: UserLocalSource,
     networkSource: UserNetworkSource,
     memorySource: UserMemorySource,
     dbSource: UserDbSource,
+    private val currencyRepository: CurrencyRepository
 ) : BaseRepository<User, UserModel, UsersDao, UserNetworkSource, UserDbSource, UserMemorySource>(
     networkSource,
     memorySource,
@@ -25,15 +27,7 @@ internal class UserRepository(
 
     suspend fun getCurrentUser() = get(getOwnerId())
 
-    fun saveCurrentUser(user: User) = saveCurrentUser(
-        UserModel(
-            id = user.id,
-            ownerId = user.ownerId,
-            name = user.name,
-            isMe = true,
-            currencyCode = user.currencyCode,
-        )
-    )
+    fun saveCurrentUser(user: User) = userLocalSource.setUser(user)
 
     fun saveCurrentUser(user: UserModel) = userLocalSource.setUser(user)
 
@@ -53,8 +47,9 @@ internal class UserRepository(
             isMe = it.ownerId == getOwnerId(),
             id = it.id,
             name = it.name.orEmpty(),
-            currencyCode = it.currencyCode.orEmpty(),
-            ownerId = it.ownerId
+            currency = currencyRepository.get(it.currencyCode),
+            ownerId = it.ownerId,
+            currencies = currencyRepository.getUserItemsFlow().firstOrNull().orEmpty()
         )
     }
 
@@ -62,7 +57,7 @@ internal class UserRepository(
         UsersDao(
             id = it.id.orEmpty(),
             name = it.name,
-            currencyCode = it.currencyCode,
+            currencyCode = it.currency?.id,
             ownerId = it.ownerId
         )
     }

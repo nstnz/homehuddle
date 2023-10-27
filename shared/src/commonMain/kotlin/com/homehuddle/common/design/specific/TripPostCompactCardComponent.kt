@@ -74,7 +74,7 @@ internal fun TripPostCompactCardComponent(
                 }
                 if (tripPost.hasExpenses) {
                     TripInfoComponent(
-                        text = "${tripPost.totalSpent} ${trip.user?.currencyCode}",
+                        text = "${tripPost.totalSpent} ${trip.user?.currency?.code}",
                         icon = Icons.Rounded.CreditCard
                     )
                 }

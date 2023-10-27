@@ -43,7 +43,7 @@ internal class CreateOnlyTripExpenseUseCase(
                 sum = expense.sum,
                 timestamp = expense.timestamp,
                 category = expense.category.name,
-                currencyCode = expense.currencyCode
+                currencyCode = expense.currency?.id.orEmpty()
             )
         )
     }

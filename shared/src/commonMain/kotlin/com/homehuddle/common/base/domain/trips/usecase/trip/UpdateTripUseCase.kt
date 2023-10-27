@@ -2,6 +2,7 @@ package com.homehuddle.common.base.domain.trips.usecase.trip
 
 import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.base.data.repository.TripRepository
+import com.homehuddle.common.base.domain.general.model.CurrencyModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -18,6 +19,7 @@ internal class UpdateTripUseCase(
         dateEnd: String?,
         timestampStart: Long?,
         timestampEnd: Long?,
+        currencyModel: CurrencyModel
     ): Unit = withContext(dispatcher) {
         repository.update(
             Trip(
@@ -29,6 +31,7 @@ internal class UpdateTripUseCase(
                 dateEnd = dateEnd,
                 timestampStart = timestampStart,
                 timestampEnd = timestampEnd,
+                currencyCode = currencyModel.id
             )
         )
     }

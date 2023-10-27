@@ -20,5 +20,6 @@ class MainApplication : Application() {
 private class TopExceptionHandler : Thread.UncaughtExceptionHandler {
     override fun uncaughtException(t: Thread, e: Throwable) {
         println(e.toString())
+        println(e.printStackTrace())
     }
 }

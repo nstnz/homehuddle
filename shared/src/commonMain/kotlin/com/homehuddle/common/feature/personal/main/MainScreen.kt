@@ -19,7 +19,6 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.domain.utils.Texts
@@ -27,7 +26,6 @@ import com.homehuddle.common.design.navbar.NavigationBarComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.DividerComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
-import com.homehuddle.common.design.specific.CreateExpenseBottomSheet
 import com.homehuddle.common.design.specific.EmptyStateComponent
 import com.homehuddle.common.design.specific.TripCardComponent
 import com.homehuddle.common.design.specific.TripPostCompactCardComponent
@@ -55,7 +53,6 @@ internal fun MainScreen(
     onAddLocationsClick: () -> Unit = {},
     onTripClick: (TripModel) -> Unit = {},
     onTripPostClick: (TripPostModel) -> Unit = {},
-    onCreateTripExpense: (TripExpenseModel, TripModel) -> Unit = {_, _ ->},
 ) {
     GradientScaffold(
         bottomSheetState = bottomSheetState,
@@ -63,12 +60,6 @@ internal fun MainScreen(
             when {
                 state.showAddItemBottomSheet -> AddNewItemBottomSheet(
                     onAddTripClick, onAddTripPostClick, onAddExpensesClick, onAddLocationsClick
-                )
-                state.showAddExpenseBottomSheet -> CreateExpenseBottomSheet(
-                    trip = state.trips.first(),
-                    isCreateMode = true,
-                    expenseModel = TripExpenseModel.createEmpty(),
-                    onSaveClick = onCreateTripExpense
                 )
             }
         },

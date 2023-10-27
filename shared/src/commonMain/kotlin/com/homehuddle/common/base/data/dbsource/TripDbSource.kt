@@ -24,6 +24,7 @@ internal class TripDbSource(
             dateEnd = model.dateEnd,
             timestampStart = model.timestampStart,
             timestampEnd = model.timestampEnd,
+            currencyCode = model.currencyCode
         )
     }
 

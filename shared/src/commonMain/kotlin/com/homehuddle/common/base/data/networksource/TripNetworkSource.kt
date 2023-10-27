@@ -16,6 +16,7 @@ internal class TripNetworkSource(
             ownerId = map.get("ownerId")?.toString(),
             name = map.get("name")?.toString().orEmpty(),
             description = map.get("description")?.toString().orEmpty(),
+            currencyCode = map.get("currencyCode")?.toString().orEmpty(),
             dateStart = map.get("dateStart")?.toString(),
             timestampStart = map.get("timestampStart")?.toString()?.toLongOrNull(),
             dateEnd = map.get("dateEnd")?.toString(),

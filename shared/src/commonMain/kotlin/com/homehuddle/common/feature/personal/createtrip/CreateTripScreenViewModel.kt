@@ -1,6 +1,7 @@
 package com.homehuddle.common.feature.personal.createtrip
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.UpdateTripUseCase
@@ -11,6 +12,7 @@ import com.homehuddle.common.router.Router
 internal class CreateTripScreenViewModel(
     private val tripId: String?,
     private val router: Router,
+    private val getMeUseCase: GetMeUseCase,
     private val getTripUseCase: GetTripUseCase,
     private val createTripUseCase: CreateTripUseCase,
     private val updateTripUseCase: UpdateTripUseCase,
@@ -22,6 +24,9 @@ internal class CreateTripScreenViewModel(
         intent: CreateTripScreenIntent,
         prevState: CreateTripScreenState
     ): CreateTripScreenState = when (intent) {
+        is CreateTripScreenIntent.UpdateCurrency -> prevState.copy(
+            currencyModel = intent.currencyModel
+        )
         is CreateTripScreenIntent.Update -> prevState.copy(
             name = TextFieldValue(intent.tripModel?.name.orEmpty()),
             description = TextFieldValue(intent.tripModel?.description.orEmpty()),
@@ -29,6 +34,7 @@ internal class CreateTripScreenViewModel(
             dateEnd = intent.tripModel?.dateEnd,
             timestampStart = intent.tripModel?.timestampStart,
             timestampEnd = intent.tripModel?.timestampEnd,
+            currencyModel = intent.tripModel?.currency ?: prevState.currencyModel
         )
 
         is CreateTripScreenIntent.OnChangeDescription -> prevState.copy(
@@ -65,8 +71,11 @@ internal class CreateTripScreenViewModel(
         state: CreateTripScreenState
     ): CreateTripScreenIntent? = when (intent) {
         CreateTripScreenIntent.OnResume -> {
+            val user = getMeUseCase()
+            sendIntent(CreateTripScreenIntent.UpdateCurrency(user?.currency))
             tripId.takeIf { !it.isNullOrEmpty() }?.let {
-                sendIntent(CreateTripScreenIntent.Update(getTripUseCase(it)))
+                val trip = getTripUseCase(it)
+                sendIntent(CreateTripScreenIntent.Update(trip))
             }
             null
         }
@@ -85,6 +94,7 @@ internal class CreateTripScreenViewModel(
                         dateEnd = state.dateEnd,
                         timestampStart = state.timestampStart,
                         timestampEnd = state.timestampEnd,
+                        currencyModel = state.currencyModel!!
                     )
                 } else {
                     updateTripUseCase(
@@ -95,6 +105,7 @@ internal class CreateTripScreenViewModel(
                         dateEnd = state.dateEnd,
                         timestampStart = state.timestampStart,
                         timestampEnd = state.timestampEnd,
+                        currencyModel = state.currencyModel!!
                     )
                 }
                 router.back()

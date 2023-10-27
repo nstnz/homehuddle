@@ -1,11 +1,13 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.homehuddle.common.design.mocks.mockCurrency
 import com.homehuddle.common.design.mocks.mockTrip
 import com.homehuddle.common.design.mocks.mockTripExpense
 import com.homehuddle.common.design.mocks.mockTripPost
 import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.specific.CalendarBottomSheet
-import com.homehuddle.common.design.specific.CreateExpenseBottomSheet
+import com.homehuddle.common.design.specific.SelectCurrencyBottomSheet
+import com.homehuddle.common.design.specific.SelectTripBottomSheet
 import com.homehuddle.common.design.specific.TripCardComponent
 import com.homehuddle.common.design.specific.TripDailyExpensesComponent
 import com.homehuddle.common.design.specific.TripPostCardComponent
@@ -73,12 +75,34 @@ private fun CalendarBottomSheetPreview() {
 
 @Preview
 @Composable
-private fun CreateExpenseBottomSheetPreview() {
+private fun SelectCurrencyBottomSheetPreview() {
     AppTheme {
-        CreateExpenseBottomSheet(
-            trip = mockTrip(),
-            expenseModel = mockTripExpense(),
-            isCreateMode = true
+        SelectCurrencyBottomSheet(
+            title = "Select currency",
+            currencies = listOf(
+                mockCurrency(),
+                mockCurrency().copy(code = "$"),
+                mockCurrency().copy(code = "US$"),
+            ),
+            selected = mockCurrency(),
+            onSelect = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SelectTripBottomSheetPreview() {
+    AppTheme {
+        SelectTripBottomSheet(
+            title = "Select trip",
+            trips = listOf(
+                mockTrip(),
+                mockTrip().copy(name = "sdkj lskjsl"),
+                mockTrip().copy(name = "US$ kdjhfl kds"),
+            ),
+            selected = mockTrip(),
+            onSelect = {}
         )
     }
 }

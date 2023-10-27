@@ -112,7 +112,7 @@ internal fun NavBarComponents(
         title = {
             Text(
                 text = title,
-                style = AppTheme.typography.large1,
+                style = AppTheme.typography.body2Bold,
                 color = titleColor,
                 textAlign = TextAlign.Center,
                 maxLines = 1,

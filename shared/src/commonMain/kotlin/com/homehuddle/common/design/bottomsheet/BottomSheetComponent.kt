@@ -58,7 +58,7 @@ internal fun BottomSheetComponent(
         if (customContent != null) {
             Column(
                 modifier = Modifier.fillMaxWidth()
-                    .heightIn(max = 600.dp)
+                    .heightIn(max = 500.dp)
                     .verticalScroll(rememberScrollState())
             ) {
                 customContent.invoke(this)

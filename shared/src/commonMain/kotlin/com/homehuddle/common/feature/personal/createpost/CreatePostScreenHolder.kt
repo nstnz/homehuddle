@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.screen.Screen
 import com.homehuddle.common.base.di.SharedDI
-import com.homehuddle.common.base.di.tripDetailsScope
+import com.homehuddle.common.base.di.createPostScope
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.ui.collectAsStateLifecycleAware
 import com.homehuddle.common.design.snackbar.SnackbarHostState
@@ -38,7 +38,7 @@ internal class CreatePostScreenHolder(
             }.collect()
         }
 
-        OnLifecycleEvent(tripDetailsScope) { event ->
+        OnLifecycleEvent(createPostScope) { event ->
             when (event) {
                 Lifecycle.State.Active -> viewModel.sendIntent(CreatePostScreenIntent.OnResume)
                 else -> Unit

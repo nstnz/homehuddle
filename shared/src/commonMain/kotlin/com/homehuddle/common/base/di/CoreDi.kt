@@ -32,10 +32,12 @@ import com.homehuddle.common.base.domain.general.usecase.IsSignedInUseCase
 import com.homehuddle.common.base.domain.general.usecase.RefreshDataUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.DeleteTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.GetLastTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetUserTripsFlowUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.UpdateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.tripexpense.CreateOnlyTripExpenseUseCase
+import com.homehuddle.common.base.domain.trips.usecase.tripexpense.GetTripExpenseUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.CreateTripPostUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.DeleteTripPostUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.GetTripPostUseCase
@@ -50,6 +52,7 @@ import org.kodein.di.singleton
 internal val coreDi = DI.Module(name = "Core") {
     bind<UserRepository>() with provider {
         UserRepository(
+            instance(),
             instance(),
             instance(),
             instance(),
@@ -82,6 +85,7 @@ internal val coreDi = DI.Module(name = "Core") {
             instance(),
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }
@@ -95,6 +99,7 @@ internal val coreDi = DI.Module(name = "Core") {
     }
     bind<TripExpenseRepository>() with provider {
         TripExpenseRepository(
+            instance(),
             instance(),
             instance(),
             instance(),
@@ -154,6 +159,7 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<GetUserUseCase>() with provider { GetUserUseCase(instance(), instance()) }
 
     bind<GetTripUseCase>() with provider { GetTripUseCase(instance(), instance()) }
+    bind<GetLastTripUseCase>() with provider { GetLastTripUseCase(instance(), instance()) }
     bind<UpdateTripUseCase>() with provider { UpdateTripUseCase(instance(), instance()) }
     bind<CreateTripUseCase>() with provider { CreateTripUseCase(instance(), instance()) }
     bind<DeleteTripUseCase>() with provider { DeleteTripUseCase(instance(), instance()) }
@@ -163,6 +169,7 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<CreateTripPostUseCase>() with provider { CreateTripPostUseCase(instance(), instance()) }
     bind<DeleteTripPostUseCase>() with provider { DeleteTripPostUseCase(instance(), instance()) }
 
+    bind<GetTripExpenseUseCase>() with provider { GetTripExpenseUseCase(instance(), instance()) }
     bind<CreateOnlyTripExpenseUseCase>() with provider { CreateOnlyTripExpenseUseCase(instance(), instance(), instance()) }
 
 }

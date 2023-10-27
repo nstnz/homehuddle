@@ -15,6 +15,7 @@ internal class TripRepository(
     dbSource: TripDbSource,
     private val userRepository: UserRepository,
     private val tripPostRepository: TripPostRepository,
+    private val currencyRepository: CurrencyRepository,
 ) : BaseRepository<Trip, TripModel, TripsDao, TripNetworkSource, TripDbSource, TripMemorySource>(
     networkSource,
     memorySource,
@@ -35,6 +36,7 @@ internal class TripRepository(
             dateEnd = it.dateEnd,
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
+            currencyCode = it.currencyCode
         )
     }
 
@@ -48,6 +50,7 @@ internal class TripRepository(
             dateEnd = it.dateEnd,
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
+            currencyCode = it.currency?.id
         )
     }
 
@@ -57,6 +60,7 @@ internal class TripRepository(
             ownerId = it.ownerId,
             name = it.name.orEmpty(),
             description = it.description.orEmpty(),
+            currency = currencyRepository.get(it.currencyCode),
             user = userRepository.get(it.ownerId),
             posts = tripPostRepository.getByParent(it.id),
             dateStart = it.dateStart,

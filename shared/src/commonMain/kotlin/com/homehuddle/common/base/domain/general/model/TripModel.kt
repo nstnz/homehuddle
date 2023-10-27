@@ -9,6 +9,7 @@ data class TripModel(
     override val ownerId: String?,
     val name: String,
     val user: UserModel?,
+    val currency: CurrencyModel?,
     val description: String,
     val posts: List<TripPostModel>,
     val dateStart: String? = null,

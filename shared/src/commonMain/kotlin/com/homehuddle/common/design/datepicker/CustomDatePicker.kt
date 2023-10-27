@@ -90,6 +90,31 @@ internal fun TwoDatesPicker(
     }
 }
 
+@Composable
+internal fun OneDatePicker(
+    dateStart: String? = null,
+    modifier: Modifier = Modifier,
+    onFromClick: () -> Unit = {},
+) {
+    Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            modifier = Modifier.weight(1f)
+                .noEffectsClickable { onFromClick() }
+                .border(
+                    BorderStroke(
+                        AppTheme.indents.x0_25,
+                        AppTheme.colors.textDarkBorder()
+                    ),
+                    AppTheme.shapes.x1
+                )
+                .padding(AppTheme.indents.x2),
+            text = dateStart ?: Texts.FromDate,
+            style = AppTheme.typography.body2,
+            color = if (dateStart.isNullOrEmpty()) AppTheme.colors.textDarkDisabled() else AppTheme.colors.textDarkDefault()
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CustomDatePicker(

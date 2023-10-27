@@ -1,6 +1,8 @@
 package com.homehuddle.common.base.domain.general.model
 
+import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.domain.utils.formatSum
+import io.ktor.util.date.getTimeMillis
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -8,7 +10,7 @@ data class TripExpenseModel(
     override val id: String?,
     override val ownerId: String?,
     val sum: Double,
-    val currencyCode: String,
+    val currency: CurrencyModel?,
     val description: String,
     val tripPostId: String?,
     val date: String?,
@@ -21,15 +23,15 @@ data class TripExpenseModel(
 
     companion object {
 
-        fun createEmpty() : TripExpenseModel = TripExpenseModel(
+        fun createEmpty(currency: CurrencyModel?): TripExpenseModel = TripExpenseModel(
             id = null,
             ownerId = null,
             sum = 0.0,
-            currencyCode = "",
+            currency = currency,
             description = "",
             tripPostId = null,
-            date = null,
-            timestamp = null,
+            date = getTimeMillis().formatDate(),
+            timestamp = getTimeMillis(),
             category = TripExpenseCategory.Other
         )
     }

@@ -1,7 +1,7 @@
 package com.homehuddle.common.feature.personal.main
 
+import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetUserTripsFlowUseCase
-import com.homehuddle.common.base.domain.trips.usecase.tripexpense.CreateOnlyTripExpenseUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.GetUserTripPostsFlowUseCase
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
@@ -10,9 +10,9 @@ import moe.tlaster.precompose.viewmodel.viewModelScope
 
 internal class MainScreenViewModel(
     private val router: Router,
+    private val getMeUseCase: GetMeUseCase,
     private val getUserTripsFlowUseCase: GetUserTripsFlowUseCase,
     private val getUserTripPostsFlowUseCase: GetUserTripPostsFlowUseCase,
-    private val createOnlyTripExpenseUseCase: CreateOnlyTripExpenseUseCase
 ) : CoroutinesViewModel<MainScreenState, MainScreenIntent, MainScreenSingleEvent>() {
 
     init {
@@ -25,6 +25,9 @@ internal class MainScreenViewModel(
             getUserTripPostsFlowUseCase().collect {
                 sendIntent(MainScreenIntent.UpdateTripPosts(it))
             }
+        }
+        viewModelScope.launch {
+            getMeUseCase()?.let { sendIntent(MainScreenIntent.UpdateUser(it)) }
         }
     }
 
@@ -41,31 +44,21 @@ internal class MainScreenViewModel(
         is MainScreenIntent.UpdateTripPosts -> prevState.copy(tripPosts = intent.tripPosts)
         MainScreenIntent.AddNewItemClick -> prevState.copy(
             showAddItemBottomSheet = true,
-            showAddExpenseBottomSheet = false
         )
         MainScreenIntent.AddTripClick -> prevState.copy(
             showAddItemBottomSheet = false,
-            showAddExpenseBottomSheet = false
         )
         MainScreenIntent.AddTripPostClick -> prevState.copy(
             showAddItemBottomSheet = false,
-            showAddExpenseBottomSheet = false
-        )
-        MainScreenIntent.AddExpensesClick -> prevState.copy(
-            showAddItemBottomSheet = false,
-            showAddExpenseBottomSheet = true
         )
         MainScreenIntent.AddLocationsClick -> prevState.copy(
             showAddItemBottomSheet = false,
-            showAddExpenseBottomSheet = false
+        )
+        MainScreenIntent.AddExpensesClick -> prevState.copy(
+            showAddItemBottomSheet = false,
         )
         MainScreenIntent.CloseBottomSheet -> prevState.copy(
             showAddItemBottomSheet = false,
-            showAddExpenseBottomSheet = false
-        )
-        is MainScreenIntent.OnCreateTripExpense -> prevState.copy(
-            showAddItemBottomSheet = false,
-            showAddExpenseBottomSheet = false
         )
         else -> prevState
     }
@@ -82,6 +75,10 @@ internal class MainScreenViewModel(
             router.navigateToAddTripPost()
             null
         }
+        MainScreenIntent.AddExpensesClick -> {
+            router.navigateToAddExpenses()
+            null
+        }
         MainScreenIntent.AddLocationsClick -> {
             router.navigateToAddLocations()
             null
@@ -92,10 +89,6 @@ internal class MainScreenViewModel(
         }
         is MainScreenIntent.OnTripPostClick -> {
             router.navigateToTripPost(intent.model)
-            null
-        }
-        is MainScreenIntent.OnCreateTripExpense -> {
-            createOnlyTripExpenseUseCase(intent.model, intent.trip.id.orEmpty())
             null
         }
         else -> null
