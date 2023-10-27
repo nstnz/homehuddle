@@ -31,6 +31,7 @@ import com.homehuddle.common.base.domain.trips.usecase.trip.DeleteTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetUserTripsFlowUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.UpdateTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.tripexpense.CreateOnlyTripExpenseUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.CreateTripPostUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.DeleteTripPostUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.GetTripPostUseCase
@@ -141,5 +142,7 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<UpdateTripPostUseCase>() with provider { UpdateTripPostUseCase(instance(), instance()) }
     bind<CreateTripPostUseCase>() with provider { CreateTripPostUseCase(instance(), instance()) }
     bind<DeleteTripPostUseCase>() with provider { DeleteTripPostUseCase(instance(), instance()) }
+
+    bind<CreateOnlyTripExpenseUseCase>() with provider { CreateOnlyTripExpenseUseCase(instance(), instance(), instance()) }
 
 }

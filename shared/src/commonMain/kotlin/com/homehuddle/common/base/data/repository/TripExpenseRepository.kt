@@ -6,6 +6,7 @@ import com.homehuddle.common.base.data.localsource.UserLocalSource
 import com.homehuddle.common.base.data.memorysource.TripExpenseMemorySource
 import com.homehuddle.common.base.data.model.TripExpense
 import com.homehuddle.common.base.data.networksource.TripExpenseNetworkSource
+import com.homehuddle.common.base.domain.general.model.TripExpenseCategory
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 
 internal class TripExpenseRepository(
@@ -30,6 +31,7 @@ internal class TripExpenseRepository(
             description = it.description,
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
+            category = it.category,
         )
     }
 
@@ -43,6 +45,8 @@ internal class TripExpenseRepository(
             description = it.description.orEmpty(),
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
+            category = it.category?.let { TripExpenseCategory.valueOf(it) }
+                ?: TripExpenseCategory.Other
         )
     }
 
@@ -56,6 +60,7 @@ internal class TripExpenseRepository(
             description = it.description,
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
+            category = it.category.name
         )
     }
 }

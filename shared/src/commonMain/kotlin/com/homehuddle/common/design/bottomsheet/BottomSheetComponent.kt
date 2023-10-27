@@ -4,11 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.homehuddle.common.design.button.PrimaryButtonComponent
 import com.homehuddle.common.design.button.SecondaryButtonComponent
 import com.homehuddle.common.design.spacer.SpacerComponent
@@ -52,8 +56,14 @@ internal fun BottomSheetComponent(
         SpacerComponent { x3 }
 
         if (customContent != null) {
-            customContent.invoke(this)
-            SpacerComponent { x3 }
+            Column(
+                modifier = Modifier.fillMaxWidth()
+                    .heightIn(max = 600.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                customContent.invoke(this)
+                SpacerComponent { x3 }
+            }
         }
 
         if (!topButton.isNullOrEmpty()) {

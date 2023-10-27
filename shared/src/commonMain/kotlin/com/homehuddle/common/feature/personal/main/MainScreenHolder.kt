@@ -4,8 +4,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.screen.Screen
 import com.homehuddle.common.base.di.SharedDI
 import com.homehuddle.common.base.di.mainScope
@@ -36,6 +38,22 @@ object MainScreenHolder : Screen {
             }
         }
 
+        LaunchedEffect(bottomSheetState) {
+            snapshotFlow { bottomSheetState.isVisible }.collect { isVisible ->
+                if (!isVisible) {
+                    viewModel.sendIntent(MainScreenIntent.CloseBottomSheet)
+                }
+            }
+        }
+
+        scope.launch {
+            if (viewState.isBottomSheetShown) {
+                bottomSheetState.show()
+            } else {
+                bottomSheetState.hide()
+            }
+        }
+
         MainScreen(
             state = viewState,
             bottomSheetState = bottomSheetState,
@@ -43,31 +61,12 @@ object MainScreenHolder : Screen {
             onTripPostClick = { viewModel.sendIntent(MainScreenIntent.OnTripPostClick(it)) },
             onPostsFilterSelected = { viewModel.sendIntent(MainScreenIntent.SelectPostsFilter) },
             onTripsFilterSelected = { viewModel.sendIntent(MainScreenIntent.SelectTripsFilter) },
-            onAddClick = { scope.launch { bottomSheetState.show() } },
-            onAddTripClick = {
-                scope.launch {
-                    bottomSheetState.hide()
-                    viewModel.sendIntent(MainScreenIntent.AddTripClick)
-                }
-            },
-            onAddTripPostClick = {
-                scope.launch {
-                    bottomSheetState.hide()
-                    viewModel.sendIntent(MainScreenIntent.AddTripPostClick)
-                }
-            },
-            onAddExpensesClick = {
-                scope.launch {
-                    bottomSheetState.hide()
-                    viewModel.sendIntent(MainScreenIntent.AddExpensesClick)
-                }
-            },
-            onAddLocationsClick = {
-                scope.launch {
-                    bottomSheetState.hide()
-                    viewModel.sendIntent(MainScreenIntent.AddLocationsClick)
-                }
-            },
+            onAddClick = { viewModel.sendIntent(MainScreenIntent.AddNewItemClick) },
+            onAddTripClick = { viewModel.sendIntent(MainScreenIntent.AddTripClick) },
+            onAddTripPostClick = { viewModel.sendIntent(MainScreenIntent.AddTripPostClick) },
+            onAddExpensesClick = { viewModel.sendIntent(MainScreenIntent.AddExpensesClick) },
+            onAddLocationsClick = { viewModel.sendIntent(MainScreenIntent.AddLocationsClick) },
+            onCreateTripExpense = { e, t -> viewModel.sendIntent(MainScreenIntent.OnCreateTripExpense(e, t)) },
         )
     }
 }

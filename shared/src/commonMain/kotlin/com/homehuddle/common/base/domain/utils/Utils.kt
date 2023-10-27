@@ -2,6 +2,8 @@ package com.homehuddle.common.base.domain.utils
 
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 internal fun <T, K> List<T>.flatten(
     func: (T) -> List<K>
@@ -12,6 +14,25 @@ internal fun <T, K> List<T>.flatten(
     }
     return result
 }
+
+internal fun Double?.formatSum(): String? =
+    this?.let {
+        val integerDigits = this.toInt()
+        val floatDigits = ((this - integerDigits) * 10.0.pow(2)).roundToInt()
+        return if (floatDigits == 0) integerDigits.toString()
+        else "${integerDigits}.${floatDigits}"
+    }
+
+internal fun String?.formatSum(): Double =
+    this?.let {
+        val parts = this
+            .replace(",", ".")
+            .split(".")
+        val integerDigits = parts.getOrElse(0) { "0" }.toIntOrNull() ?: 0
+        val floatDigits = parts.getOrElse(1) { "0" }.toDoubleOrNull() ?: 0.0
+        return if (floatDigits == 0.0) integerDigits.toDouble()
+        else integerDigits.toDouble() + floatDigits / 10.0.pow(2)
+    } ?: 0.0
 
 internal fun Long?.formatDate(): String? =
     this?.let {

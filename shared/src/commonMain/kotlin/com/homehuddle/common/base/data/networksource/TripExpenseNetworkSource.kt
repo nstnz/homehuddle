@@ -2,6 +2,7 @@ package com.homehuddle.common.base.data.networksource
 
 import FirebaseFirestoreImpl
 import com.homehuddle.common.base.data.model.TripExpense
+import com.homehuddle.common.base.domain.general.model.TripExpenseCategory
 
 internal class TripExpenseNetworkSource(
     storage: FirebaseFirestoreImpl
@@ -20,6 +21,7 @@ internal class TripExpenseNetworkSource(
             currencyCode = map.get("currencyCode")?.toString().orEmpty(),
             timestamp = map.get("timestamp")?.toString()?.toLong(),
             date = map.get("date")?.toString(),
+            category = map.get("category")?.toString() ?: TripExpenseCategory.Other.name
         )
     }
 }

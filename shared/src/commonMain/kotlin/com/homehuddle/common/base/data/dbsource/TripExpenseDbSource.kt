@@ -24,6 +24,7 @@ internal class TripExpenseDbSource(
             description = model.description,
             date = model.date,
             timestamp = model.timestamp,
+            category = model.category,
         )
     }
 

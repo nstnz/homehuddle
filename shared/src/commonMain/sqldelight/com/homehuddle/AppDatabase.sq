@@ -157,12 +157,13 @@ sum REAL,
 description TEXT,
 currencyCode TEXT,
 date TEXT,
-timestamp INTEGER
+timestamp INTEGER,
+category TEXT
 );
 
 createOrUpdateTripExpense:
-INSERT OR REPLACE INTO TripExpensesDao(id, ownerId, tripPostId, sum, description, currencyCode, date, timestamp)
-VALUES(?,?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO TripExpensesDao(id, ownerId, tripPostId, sum, description, currencyCode, date, timestamp, category)
+VALUES(?,?,?,?,?,?,?,?, ?);
 
 getTripExpense:
 SELECT * FROM TripExpensesDao WHERE id = ?;

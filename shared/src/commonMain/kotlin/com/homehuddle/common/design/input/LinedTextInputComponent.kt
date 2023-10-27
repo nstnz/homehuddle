@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
@@ -42,7 +43,9 @@ internal fun LinedTextInputComponent(
     label: String = "",
     singleLine: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        capitalization = KeyboardCapitalization.Sentences
+    ),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     textFieldState: TextInputState = TextInputState.Default,
     hasClearButton: Boolean = false,
@@ -54,11 +57,11 @@ internal fun LinedTextInputComponent(
     enabled: Boolean = true,
     style: TextStyle = AppTheme.typography.body2,
     colors: TextFieldColors = getTextColorsLight(),
-    innerPadding: Dp = AppTheme.indents.x1
+    innerPadding: Dp = AppTheme.indents.x1,
 ) {
 
     val interactionSource = remember { MutableInteractionSource() }
-    Column {
+    Column(modifier) {
         val error = when (textFieldState) {
             TextInputState.Default -> null
             is TextInputState.Error -> textFieldState.error
@@ -68,7 +71,7 @@ internal fun LinedTextInputComponent(
 
         if (label.isNotEmpty()) {
             Text(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 text = label,
                 style = AppTheme.typography.body3,
                 color = colors
@@ -96,7 +99,7 @@ internal fun LinedTextInputComponent(
                 )
             },
             isError = textFieldState is TextInputState.Error,
-            modifier = modifier
+            modifier = Modifier
                 .ignoreHorizontalParentPadding(AppTheme.indents.x1)
                 .fillMaxWidth()
                 .defaultMinSize(
@@ -124,13 +127,15 @@ internal fun LinedTextInputComponent(
         )
 
         Spacer(
-            modifier.fillMaxWidth()
+            Modifier.fillMaxWidth()
                 .height(AppTheme.indents.x0_25)
-                .background(colors.labelColor(
-                    enabled = true,
-                    error = hasError,
-                    interactionSource = interactionSource
-                ).value, RoundedCornerShape(50))
+                .background(
+                    colors.labelColor(
+                        enabled = true,
+                        error = hasError,
+                        interactionSource = interactionSource
+                    ).value, RoundedCornerShape(50)
+                )
         )
 
         ErrorContent(

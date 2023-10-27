@@ -1,5 +1,6 @@
 package com.homehuddle.common.design.mocks
 
+import com.homehuddle.common.base.domain.general.model.TripExpenseCategory
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPointModel
@@ -56,7 +57,8 @@ fun mockTripExpense() = TripExpenseModel(
     currencyCode = "USD",
     tripPostId = "",
     date = "10.10.1010",
-    timestamp = 10000231L
+    timestamp = 10000231L,
+    category = TripExpenseCategory.Train
 )
 
 fun mockTripPoint() = TripPointModel(

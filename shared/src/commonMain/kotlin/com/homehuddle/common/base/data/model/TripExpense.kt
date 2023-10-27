@@ -11,5 +11,6 @@ data class TripExpense(
     val currencyCode: String,
     val description: String,
     val date: String?,
-    val timestamp: Long?
+    val timestamp: Long?,
+    val category: String,
 ) : BaseDataModel<TripExpense>
