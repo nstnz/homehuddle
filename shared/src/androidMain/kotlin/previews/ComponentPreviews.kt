@@ -46,6 +46,7 @@ private fun TripPostCompactCardPreview() {
         TripPostCompactCardComponent(
             trip = mockTrip(),
             tripPost = mockTripPost(),
+            showSocialHeader = true
         )
     }
 }

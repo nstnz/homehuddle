@@ -23,20 +23,6 @@ internal class CreateTripPostUseCase(
         tripPostModel: TripPostModel,
     ): Unit = withContext(dispatcher) {
         val tripPostId = uuid4().toString()
-        repository.create(
-            TripPost(
-                id = tripPostId,
-                tripId = tripId,
-                ownerId = repository.getOwnerId(),
-                name = tripPostModel.name,
-                description = tripPostModel.description,
-                dateStart = tripPostModel.dateStart,
-                dateEnd = tripPostModel.dateEnd,
-                timestampStart = tripPostModel.timestampStart,
-                timestampEnd = tripPostModel.timestampEnd,
-                countries = tripPostModel.countries.toJsonString(json).orEmpty()
-            )
-        )
         tripPostModel.expenses.forEach {
             expenseRepository.create(
                 TripExpense(
@@ -52,5 +38,19 @@ internal class CreateTripPostUseCase(
                 )
             )
         }
+        repository.create(
+            TripPost(
+                id = tripPostId,
+                tripId = tripId,
+                ownerId = repository.getOwnerId(),
+                name = tripPostModel.name,
+                description = tripPostModel.description,
+                dateStart = tripPostModel.dateStart,
+                dateEnd = tripPostModel.dateEnd,
+                timestampStart = tripPostModel.timestampStart,
+                timestampEnd = tripPostModel.timestampEnd,
+                countries = tripPostModel.countries.toJsonString(json).orEmpty()
+            )
+        )
     }
 }

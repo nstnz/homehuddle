@@ -206,7 +206,8 @@ private fun AllPostsComponent(trip: TripModel) {
                 )
                 else -> TripPostCompactCardComponent(
                     trip = trip,
-                    tripPost = it
+                    tripPost = it,
+                    showTrip = false
                 )
             }
             DividerComponent()

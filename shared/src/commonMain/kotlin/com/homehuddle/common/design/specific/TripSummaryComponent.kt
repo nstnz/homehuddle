@@ -20,6 +20,7 @@ import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent1
+import com.homehuddle.common.design.theme.accent4
 import com.homehuddle.common.design.theme.textDarkDisabled
 
 @Composable
@@ -66,7 +67,7 @@ internal fun TripSummaryComponent(
 internal fun TripInfoComponent(
     icon: ImageVector,
     text: String,
-    iconColor: Color = AppTheme.colors.accent1(),
+    iconColor: Color = AppTheme.colors.accent4(),
     textColor: Color = AppTheme.colors.textDarkDisabled()
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {

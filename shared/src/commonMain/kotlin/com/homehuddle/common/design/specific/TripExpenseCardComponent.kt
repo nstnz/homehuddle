@@ -37,11 +37,12 @@ internal fun TripExpensesCardComponent(
                 trip = trip,
                 tripPost = tripPost
             )
-            SpacerComponent { x2 }
         }
-        tripPost.expenses.forEach {
-            ExpenseComponent(model = it, userModel = trip.user)
-            SpacerComponent { x2 }
+        tripPost.expenses.forEachIndexed { index, model ->
+            if (showSocialHeader || index != 0) {
+                SpacerComponent { x2 }
+            }
+            ExpenseComponent(model = model, userModel = trip.user)
         }
 
         TripSocialComponent(
@@ -84,7 +85,7 @@ internal fun ExpenseComponent(
             Row(Modifier.fillMaxWidth()) {
                 Text(
                     text = model.description.takeIf { it.isNotEmpty() } ?: "New expense",
-                    style = AppTheme.typography.body2,
+                    style = AppTheme.typography.body2Bold,
                     color = AppTheme.colors.textDarkDefault(),
                     modifier = Modifier.weight(1f),
                     maxLines = 1,
