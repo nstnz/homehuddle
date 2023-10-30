@@ -158,7 +158,7 @@ private fun PhotosComponent(
     ) {
         tripPost.photos.forEach {
             TripPhotoComponent(
-                64.dp, AppTheme.indents.x1
+                64.dp, AppTheme.indents.x1, url = it
             )
         }
     }

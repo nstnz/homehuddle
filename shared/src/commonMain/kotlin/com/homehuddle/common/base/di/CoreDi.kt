@@ -191,7 +191,7 @@ internal val coreDi = DI.Module(name = "Core") {
 
     bind<GetTripPostUseCase>() with provider { GetTripPostUseCase(instance(), instance()) }
     bind<UpdateTripPostUseCase>() with provider { UpdateTripPostUseCase(instance(), instance(), instance()) }
-    bind<CreateTripPostUseCase>() with provider { CreateTripPostUseCase(instance(), instance(), instance(), instance()) }
+    bind<CreateTripPostUseCase>() with provider { CreateTripPostUseCase(instance(), instance(), instance(), instance(), instance()) }
     bind<DeleteTripPostUseCase>() with provider { DeleteTripPostUseCase(instance(), instance()) }
 
     bind<GetTripExpenseUseCase>() with provider { GetTripExpenseUseCase(instance(), instance()) }

@@ -16,6 +16,12 @@ import com.homehuddle.common.base.ui.collectAsStateLifecycleAware
 import com.homehuddle.common.design.snackbar.SnackbarHostState
 import com.homehuddle.common.design.theme.SetBottomSheetListener
 import com.homehuddle.common.router.OnLifecycleEvent
+import dev.icerock.moko.media.compose.BindMediaPickerEffect
+import dev.icerock.moko.media.compose.rememberMediaPickerControllerFactory
+import dev.icerock.moko.media.picker.MediaSource
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -38,6 +44,15 @@ internal class CreatePostScreenHolder(
             initialValue = ModalBottomSheetValue.Hidden,
             skipHalfExpanded = true
         )
+
+        val mediaFactory = rememberMediaPickerControllerFactory()
+        val picker = remember(mediaFactory) { mediaFactory.createMediaPickerController() }
+        val coroutineScope = rememberCoroutineScope()
+        val permissionFactory = rememberPermissionsControllerFactory()
+        val permissionController =
+            remember(permissionFactory) { permissionFactory.createPermissionsController() }
+        BindEffect(permissionController)
+        BindMediaPickerEffect(picker)
 
         LaunchedEffect(Unit) {
             viewModel.singleEvent.onEach { event ->
@@ -87,7 +102,17 @@ internal class CreatePostScreenHolder(
             onToDateClick = { viewModel.sendIntent(CreatePostScreenIntent.OnToDateClick) },
             onAddNewCountry = { viewModel.sendIntent(CreatePostScreenIntent.OnAddNewCountry) },
             onAddNewExpense = { viewModel.sendIntent(CreatePostScreenIntent.OnAddNewExpense) },
-            onAddPhotoClick = { viewModel.sendIntent(CreatePostScreenIntent.OnAddPhotoClick) },
+            onAddPhotoClick = {
+                coroutineScope.launch {
+                    try {
+                        permissionController.providePermission(Permission.GALLERY)
+                        val result = picker.pickImage(MediaSource.GALLERY)
+                        viewModel.sendIntent(CreatePostScreenIntent.OnAddPhoto(result))
+                    } catch (_: Exception) {
+
+                    }
+                }
+            },
             onTripClick = { viewModel.sendIntent(CreatePostScreenIntent.OnTripClick) },
             onChangeTrip = { viewModel.sendIntent(CreatePostScreenIntent.OnChangeTrip(it)) },
             onDeleteCountry = { viewModel.sendIntent(CreatePostScreenIntent.OnDeleteCountry(it)) },

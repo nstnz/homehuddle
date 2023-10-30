@@ -4,6 +4,8 @@ import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.domain.utils.formatSum
 import io.ktor.util.date.getTimeMillis
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 
 @Serializable
 data class TripPostModel(
@@ -62,8 +64,16 @@ data class TripPostModel(
             dateStart = getTimeMillis().formatDate(),
             timestampStart = getTimeMillis(),
             dateEnd = getTimeMillis().formatDate(),
-            timestampEnd =getTimeMillis(),
+            timestampEnd = getTimeMillis(),
             countries = emptyList()
         )
     }
 }
+
+fun List<String>?.photosToJsonString(json: Json) =
+    this?.let { json.encodeToJsonElement(this).toString() }
+
+fun String?.photosFromJsonString(json: Json) =
+    this.orEmpty().takeIf { it.isNotEmpty() }?.let {
+        json.decodeFromString<Array<String>>(it).toList()
+    }.orEmpty()

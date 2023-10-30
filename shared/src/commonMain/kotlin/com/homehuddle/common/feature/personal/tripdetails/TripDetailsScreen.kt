@@ -185,7 +185,7 @@ private fun AllPhotosComponent(trip: TripModel) {
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5),
     ) {
         items(trip.photos) {
-            TripPhotoComponent(160.dp, AppTheme.indents.x1_5)
+            TripPhotoComponent(160.dp, AppTheme.indents.x1_5, url = it)
         }
     }
 }

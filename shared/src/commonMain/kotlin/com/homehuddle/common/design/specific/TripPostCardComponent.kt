@@ -89,7 +89,7 @@ private fun PhotosComponent(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5)
     ) {
         tripPost.photos.forEach {
-            TripPhotoComponent(160.dp, AppTheme.indents.x1_5)
+            TripPhotoComponent(160.dp, AppTheme.indents.x1_5, url = it)
         }
     }
 }

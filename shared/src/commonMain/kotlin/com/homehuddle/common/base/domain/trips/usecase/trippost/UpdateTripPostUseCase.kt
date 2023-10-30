@@ -29,7 +29,8 @@ internal class UpdateTripPostUseCase(
                 dateEnd = tripPostModel.dateEnd,
                 timestampStart = tripPostModel.timestampStart,
                 timestampEnd = tripPostModel.timestampEnd,
-                countries = tripPostModel.countries.toJsonString(json).orEmpty()
+                countries = tripPostModel.countries.toJsonString(json).orEmpty(),
+                photos = ""
             )
         )
     }

@@ -68,6 +68,7 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 import com.homehuddle.common.design.theme.textDarkSecondary
 import com.homehuddle.common.design.theme.textLightDefault
 import com.homehuddle.common.design.topbar.DefaultNavComponent
+import dev.icerock.moko.media.Bitmap
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -93,7 +94,7 @@ internal fun CreatePostScreen(
     onSelectCountry: (CountryModel) -> Unit = {},
     onDeleteCountry: (CountryModel) -> Unit = {},
     onAddPhotoClick: () -> Unit = {},
-    onDeletePhotoClick: (String) -> Unit = {},
+    onDeletePhotoClick: (Bitmap) -> Unit = {},
     onChangeTrip: (TripModel) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -348,7 +349,7 @@ private fun PostBlock(
     state: CreatePostScreenState,
     onDescriptionChanged: (TextFieldValue) -> Unit = {},
     onAddPhotoClick: () -> Unit = {},
-    onDeletePhotoClick: (String) -> Unit = {},
+    onDeletePhotoClick: (Bitmap) -> Unit = {},
 ) {
     TextInputComponent(
         modifier = Modifier.fillMaxWidth(),
@@ -373,7 +374,8 @@ private fun PostBlock(
     SpacerComponent { x1 }
     val size = AppTheme.indents.x11
     Row(
-        Modifier.fillMaxWidth().height(size).horizontalScroll(rememberScrollState()),
+        Modifier.fillMaxWidth()
+            .height(size).horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5)
     ) {
         Column(
@@ -408,10 +410,12 @@ private fun PostBlock(
             )
             Spacer(Modifier.weight(1f))
         }
-        state.model?.photos?.forEach {
+        state.bitmaps.forEach {
             Box {
                 TripPhotoComponent(
-                    size, AppTheme.indents.x1_5
+                    size,
+                    AppTheme.indents.x1_5,
+                    it
                 )
                 Image(
                     Icons.Rounded.Cancel,

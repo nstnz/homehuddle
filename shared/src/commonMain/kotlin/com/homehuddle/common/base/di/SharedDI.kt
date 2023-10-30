@@ -2,6 +2,7 @@ package com.homehuddle.common.base.di
 
 import FirebaseFirestoreImpl
 import FirebaseRemoteConfigImpl
+import FirebaseStorageImpl
 import com.homehuddle.AppDatabase
 import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.common.router.Router
@@ -40,6 +41,7 @@ object SharedDI {
         bind<FirebaseFirestore>() with singleton { Firebase.firestore }
         bind<FirebaseFirestoreImpl>() with singleton { FirebaseFirestoreImpl() }
         bind<FirebaseRemoteConfigImpl>() with singleton { FirebaseRemoteConfigImpl() }
+        bind<FirebaseStorageImpl>() with singleton { FirebaseStorageImpl() }
         bind<Router>() with singleton { Router() }
         bind<CoroutineDispatcher>() with singleton { Dispatchers.Default }
         bind<CoroutineScope>() with singleton {

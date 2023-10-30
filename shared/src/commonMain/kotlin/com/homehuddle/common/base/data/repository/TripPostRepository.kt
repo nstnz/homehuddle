@@ -8,6 +8,8 @@ import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.data.networksource.TripPostNetworkSource
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.domain.general.model.fromJsonString
+import com.homehuddle.common.base.domain.general.model.photosFromJsonString
+import com.homehuddle.common.base.domain.general.model.photosToJsonString
 import com.homehuddle.common.base.domain.general.model.toJsonString
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
@@ -43,7 +45,8 @@ internal class TripPostRepository(
             dateEnd = it.dateEnd,
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
-            countries = it.countries
+            countries = it.countries,
+            photos = it.photos
         )
     }
 
@@ -58,7 +61,8 @@ internal class TripPostRepository(
             dateEnd = it.dateEnd,
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
-            countries = it.countries.toJsonString(json)
+            countries = it.countries.toJsonString(json),
+            photos = it.photos.photosToJsonString(json)
         )
     }
 
@@ -77,7 +81,7 @@ internal class TripPostRepository(
                 timestampStart = it.timestampStart,
                 timestampEnd = it.timestampEnd,
                 expenses = tripExpenseRepository.getByParent(it.id),
-                photos = emptyList(),
+                photos = it.photos.photosFromJsonString(json),
                 points = tripPointRepository.getByParent(model.id),
                 countries = it.countries.fromJsonString(json, localCountries)
             )

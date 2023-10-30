@@ -9,6 +9,7 @@ import com.homehuddle.common.base.domain.general.model.UserModel
 import com.homehuddle.common.base.ui.Intent
 import com.homehuddle.common.base.ui.SingleEvent
 import com.homehuddle.common.base.ui.State
+import dev.icerock.moko.media.Bitmap
 
 internal data class CreatePostScreenState(
     val isCreateMode: Boolean = true,
@@ -19,7 +20,8 @@ internal data class CreatePostScreenState(
     val bottomSheet: BottomSheetType? = null,
     val trips: List<TripModel> = emptyList(),
     val userModel: UserModel? = null,
-    val updateTs: Long? = 0
+    val updateTs: Long? = 0,
+    val bitmaps: MutableList<Bitmap> = mutableListOf()
 ) : State
 
 internal sealed interface CreatePostScreenIntent : Intent {
@@ -35,7 +37,7 @@ internal sealed interface CreatePostScreenIntent : Intent {
     data class OnSelectCountry(val item: CountryModel) : CreatePostScreenIntent
     data class OnDeleteCountry(val item: CountryModel) : CreatePostScreenIntent
     data class OnDeleteExpense(val item: TripExpenseModel) : CreatePostScreenIntent
-    data class OnDeletePhotoClick(val item: String) : CreatePostScreenIntent
+    data class OnDeletePhotoClick(val item: Bitmap) : CreatePostScreenIntent
     object OnSaveClick : CreatePostScreenIntent
     object GoBack : CreatePostScreenIntent
     object OnResume : CreatePostScreenIntent
@@ -44,7 +46,7 @@ internal sealed interface CreatePostScreenIntent : Intent {
     object OnToDateClick : CreatePostScreenIntent
     object OnAddNewCountry : CreatePostScreenIntent
     object OnAddNewExpense : CreatePostScreenIntent
-    object OnAddPhotoClick : CreatePostScreenIntent
+    data class OnAddPhoto(val bitmap: Bitmap?) : CreatePostScreenIntent
     object OnTripClick : CreatePostScreenIntent
 }
 

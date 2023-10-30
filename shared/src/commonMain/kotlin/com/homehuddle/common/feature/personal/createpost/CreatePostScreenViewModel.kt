@@ -60,7 +60,12 @@ internal class CreatePostScreenViewModel(
             name = TextFieldValue(intent.model?.name.orEmpty()),
             description = TextFieldValue(intent.model?.description.orEmpty()),
             trip = intent.trip,
-            model = intent.model
+            model = intent.model,
+            bitmaps = if (prevState.isCreateMode) {
+                mutableListOf()
+            } else {
+                mutableListOf() //todo
+            }
         )
         is CreatePostScreenIntent.UpdateUser -> prevState.copy(
             userModel = intent.userModel
@@ -124,13 +129,6 @@ internal class CreatePostScreenViewModel(
                     .apply { this.remove(intent.item) }
             )
         )
-        is CreatePostScreenIntent.OnDeletePhotoClick -> prevState.copy(
-            updateTs = getTimeMillis(),
-            model = prevState.model?.copy(
-                photos = prevState.model.photos.toMutableList()
-                    .apply { this.remove(intent.item) }
-            )
-        )
         is CreatePostScreenIntent.OnFromDateSelected -> prevState.copy(
             updateTs = getTimeMillis(),
             model = prevState.model?.copy(
@@ -154,6 +152,22 @@ internal class CreatePostScreenViewModel(
                     .apply { this.add(intent.item) }
             )
         )
+        is CreatePostScreenIntent.OnAddPhoto -> prevState.copy(
+            updateTs = getTimeMillis(),
+            bitmaps = prevState.bitmaps.apply {
+                if (prevState.bitmaps.size < 10) {
+                    intent.bitmap?.let {
+                        this.add(intent.bitmap)
+                    }
+                }
+            }
+        )
+        is CreatePostScreenIntent.OnDeletePhotoClick -> prevState.copy(
+            updateTs = getTimeMillis(),
+            bitmaps = prevState.bitmaps.apply {
+                this.remove(intent.item)
+            }
+        )
         else -> prevState
     }
 
@@ -173,7 +187,7 @@ internal class CreatePostScreenViewModel(
             if (!error) {
                 model?.let {
                     if (state.isCreateMode) {
-                        createTripPostUseCase(state.trip?.id.orEmpty(), model)
+                        createTripPostUseCase(state.trip?.id.orEmpty(), model, state.bitmaps)
                     } else {
                         updateTripPostUseCase(state.trip?.id.orEmpty(), model)
                     }

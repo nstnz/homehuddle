@@ -85,12 +85,13 @@ dateStart TEXT,
 timestampStart INTEGER,
 dateEnd TEXT,
 timestampEnd INTEGER,
-countries TEXT
+countries TEXT,
+photos TEXT
 );
 
 createOrUpdateTripPost:
-INSERT OR REPLACE INTO TripPostsDao(id, ownerId, tripId, name, description, dateStart, timestampStart, dateEnd, timestampEnd, countries)
-VALUES(?,?,?,?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO TripPostsDao(id, ownerId, tripId, name, description, dateStart, timestampStart, dateEnd, timestampEnd, countries, photos)
+VALUES(?,?,?,?,?,?,?,?,?,?,?);
 
 getTripPost:
 SELECT * FROM TripPostsDao WHERE id = ?;

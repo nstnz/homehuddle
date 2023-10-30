@@ -66,7 +66,7 @@ private fun PhotosComponent(
     ) {
         SpacerComponent { x0_5 }
         trip.photos.forEach {
-            TripPhotoComponent(160.dp, AppTheme.indents.x1_5)
+            TripPhotoComponent(160.dp, AppTheme.indents.x1_5, url = it)
         }
         SpacerComponent { x0_5 }
     }

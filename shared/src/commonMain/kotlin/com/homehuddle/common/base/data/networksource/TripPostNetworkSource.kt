@@ -23,6 +23,7 @@ internal class TripPostNetworkSource(
             dateEnd = map.get("dateEnd")?.toString(),
             timestampEnd = map.get("timestampEnd")?.toString()?.toLongOrNull(),
             countries = map.get("countries")?.toString().orEmpty(),
+            photos = map.get("photos")?.toString().orEmpty(),
         )
     }
 }

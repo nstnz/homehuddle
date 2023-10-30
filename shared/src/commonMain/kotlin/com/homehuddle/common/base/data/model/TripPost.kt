@@ -13,5 +13,6 @@ data class TripPost(
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
     val timestampEnd: Long? = null,
-    val countries: String
+    val countries: String,
+    val photos: String
 ): BaseDataModel<TripPost>

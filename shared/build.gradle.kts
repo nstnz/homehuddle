@@ -69,7 +69,10 @@ kotlin {
 
                 api("moe.tlaster:precompose:$Precompose")
                 api("moe.tlaster:precompose-viewmodel:$Precompose")
+                implementation("media.kamel:kamel-image:0.8.2")
 
+                implementation("dev.icerock.moko:media-compose:0.11.0")
+                implementation("dev.icerock.moko:permissions-compose:0.16.0")
                 implementation("com.russhwolf:multiplatform-settings:$Storage")
 
                 api("com.mohamedrejeb.calf:calf-ui:0.2.0")
@@ -96,6 +99,7 @@ kotlin {
                 implementation("com.google.firebase:firebase-auth")
                 implementation("com.google.firebase:firebase-firestore")
                 implementation("com.google.firebase:firebase-config")
+                implementation("com.google.firebase:firebase-storage")
 
                 implementation("org.kodein.di:kodein-di-framework-android-x:$Kodein")
             }

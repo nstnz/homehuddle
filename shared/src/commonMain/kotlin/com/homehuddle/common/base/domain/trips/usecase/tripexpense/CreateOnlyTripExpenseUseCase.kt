@@ -31,7 +31,8 @@ internal class CreateOnlyTripExpenseUseCase(
                 dateEnd = null,
                 timestampStart = expense.timestamp,
                 timestampEnd = null,
-                countries = ""
+                countries = "",
+                photos = ""
             )
         )
         expenseRepository.create(
