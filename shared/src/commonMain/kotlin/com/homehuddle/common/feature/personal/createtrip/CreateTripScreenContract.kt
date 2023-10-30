@@ -10,12 +10,9 @@ import com.homehuddle.common.base.ui.SingleEvent
 import com.homehuddle.common.base.ui.State
 
 internal data class CreateTripScreenState(
+    val model: TripModel? = null,
     val name: TextFieldValue = TextFieldValue(""),
     val description: TextFieldValue = TextFieldValue(""),
-    val dateStart: String? = null,
-    val timestampStart: Long? = null,
-    val dateEnd: String? = null,
-    val timestampEnd: Long? = null,
     val currencyModel: CurrencyModel? = null,
     val userModel: UserModel? = null,
     val selectedCountries: MutableList<CountryModel> = mutableListOf(),

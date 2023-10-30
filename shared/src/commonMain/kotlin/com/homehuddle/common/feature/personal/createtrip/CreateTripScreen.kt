@@ -142,8 +142,8 @@ internal fun CreateTripScreen(
                     } else {
                         SpacerComponent { x3 }
                         SelectDatesComponent(
-                            from = state.dateStart.orEmpty(),
-                            to = state.dateEnd.orEmpty(),
+                            from = state.model?.dateStart.orEmpty(),
+                            to = state.model?.dateEnd.orEmpty(),
                             onFromClick = onFromDateClick,
                             onToClick = onToDateClick
                         )

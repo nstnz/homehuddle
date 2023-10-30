@@ -1,6 +1,8 @@
 package com.homehuddle.common.base.domain.general.model
 
 import com.homehuddle.common.base.domain.utils.flatten
+import com.homehuddle.common.base.domain.utils.formatDate
+import io.ktor.util.date.getTimeMillis
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -39,4 +41,22 @@ data class TripModel(
 
     val end: String?
         get() = dateEnd ?: posts.maxBy { it.timestampEnd ?: 0L }.dateEnd
+
+    companion object {
+
+        fun createEmpty(currency: CurrencyModel?): TripModel = TripModel(
+            id = null,
+            ownerId = null,
+            user = null,
+            name = "",
+            description = "",
+            dateStart = getTimeMillis().formatDate(),
+            timestampStart = getTimeMillis(),
+            dateEnd = getTimeMillis().formatDate(),
+            timestampEnd = getTimeMillis(),
+            countries = emptyList(),
+            posts = emptyList(),
+            currency = currency
+        )
+    }
 }

@@ -4,6 +4,7 @@ import com.homehuddle.common.base.data.model.Trip
 import com.homehuddle.common.base.data.repository.TripRepository
 import com.homehuddle.common.base.domain.general.model.CountryModel
 import com.homehuddle.common.base.domain.general.model.CurrencyModel
+import com.homehuddle.common.base.domain.general.model.TripModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -16,27 +17,21 @@ internal class UpdateTripUseCase(
 ) {
 
     suspend operator fun invoke(
-        id: String?,
-        name: String,
-        description: String?,
-        dateStart: String?,
-        dateEnd: String?,
-        timestampStart: Long?,
-        timestampEnd: Long?,
-        currencyModel: CurrencyModel,
+        tripModel: TripModel,
+        currencyModel: CurrencyModel?,
         countries: List<CountryModel>
     ): Unit = withContext(dispatcher) {
         repository.update(
             Trip(
-                id = id,
+                id = tripModel.id,
                 ownerId = repository.getOwnerId(),
-                name = name,
-                description = description.orEmpty(),
-                dateStart = dateStart,
-                dateEnd = dateEnd,
-                timestampStart = timestampStart,
-                timestampEnd = timestampEnd,
-                currencyCode = currencyModel.id,
+                name = tripModel.name,
+                description = tripModel.description,
+                dateStart = tripModel.dateStart,
+                dateEnd = tripModel.dateEnd,
+                timestampStart = tripModel.timestampStart,
+                timestampEnd = tripModel.timestampEnd,
+                currencyCode = currencyModel?.id,
                 countries = json.encodeToJsonElement(countries.map { it.id.orEmpty() }).toString()
             )
         )

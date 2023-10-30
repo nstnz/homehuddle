@@ -2,6 +2,7 @@ package com.homehuddle.common.feature.personal.createtrip
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.homehuddle.common.base.di.createTripScope
+import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
@@ -30,7 +31,9 @@ internal class CreateTripScreenViewModel(
             userModel = intent.userModel
         )
         is CreateTripScreenIntent.OnCountryDeleted -> prevState.copy(
-            selectedCountries = prevState.selectedCountries.apply { this.remove(intent.countryModel) },
+            selectedCountries = prevState.selectedCountries.apply {
+                this.remove(intent.countryModel)
+            },
             updateTs = getTimeMillis()
         )
         is CreateTripScreenIntent.OnCountrySelected -> prevState.copy(
@@ -48,10 +51,6 @@ internal class CreateTripScreenViewModel(
         is CreateTripScreenIntent.Update -> prevState.copy(
             name = TextFieldValue(intent.tripModel?.name.orEmpty()),
             description = TextFieldValue(intent.tripModel?.description.orEmpty()),
-            dateStart = intent.tripModel?.dateStart ?: getTimeMillis().formatDate(),
-            dateEnd = intent.tripModel?.dateEnd ?: getTimeMillis().formatDate(),
-            timestampStart = intent.tripModel?.timestampStart ?: getTimeMillis(),
-            timestampEnd = intent.tripModel?.timestampEnd ?: getTimeMillis(),
             currencyModel = intent.tripModel?.currency ?: prevState.currencyModel,
             selectedCountries = intent.tripModel?.countries.orEmpty().toMutableList()
         )
@@ -65,23 +64,27 @@ internal class CreateTripScreenViewModel(
             name = intent.text
         )
         is CreateTripScreenIntent.OnFromDateSelected -> prevState.copy(
-            timestampStart = intent.date,
-            dateStart = intent.date.formatDate(),
+            model = prevState.model?.copy(
+                timestampStart = intent.date,
+                dateStart = intent.date.formatDate(),
+            ),
             bottomSheet = null
         )
         is CreateTripScreenIntent.OnFromDateClick -> prevState.copy(
             bottomSheet = BottomSheetType.SelectFromDate(
-                prevState.timestampStart
+                prevState.model?.timestampStart
             )
         )
         is CreateTripScreenIntent.OnToDateClick -> prevState.copy(
             bottomSheet = BottomSheetType.SelectToDate(
-                prevState.timestampEnd
+                prevState.model?.timestampEnd
             )
         )
         is CreateTripScreenIntent.OnToDateSelected -> prevState.copy(
-            timestampEnd = intent.date,
-            dateEnd = intent.date.formatDate(),
+            model = prevState.model?.copy(
+                timestampEnd = intent.date,
+                dateEnd = intent.date.formatDate(),
+            ),
             bottomSheet = null
         )
         is CreateTripScreenIntent.OnCurrencyClick -> prevState.copy(
@@ -108,37 +111,32 @@ internal class CreateTripScreenViewModel(
             tripId.takeIf { !it.isNullOrEmpty() }?.let {
                 val trip = getTripUseCase(it)
                 sendIntent(CreateTripScreenIntent.Update(trip))
+            } ?: run {
+                sendIntent(CreateTripScreenIntent.Update(TripModel.createEmpty(user?.currency)))
             }
             null
         }
 
         CreateTripScreenIntent.OnSaveClick -> {
+            val model = state.model?.copy(
+                description = state.description.text,
+                name = state.name.text
+            )
             val error = when {
                 state.name.text.isEmpty() -> true
                 else -> false
             }
-            if (!error) {
+            if (!error && model != null) {
                 if (tripId.isNullOrEmpty()) {
                     createTripUseCase(
-                        name = state.name.text,
-                        description = state.description.text,
-                        dateStart = state.dateStart,
-                        dateEnd = state.dateEnd,
-                        timestampStart = state.timestampStart,
-                        timestampEnd = state.timestampEnd,
-                        currencyModel = state.currencyModel!!,
+                        tripModel = model,
+                        currencyModel = state.currencyModel,
                         countries = state.selectedCountries
                     )
                 } else {
                     updateTripUseCase(
-                        id = tripId,
-                        name = state.name.text,
-                        description = state.description.text,
-                        dateStart = state.dateStart,
-                        dateEnd = state.dateEnd,
-                        timestampStart = state.timestampStart,
-                        timestampEnd = state.timestampEnd,
-                        currencyModel = state.currencyModel!!,
+                        tripModel = model,
+                        currencyModel = state.currencyModel,
                         countries = state.selectedCountries
                     )
                 }
