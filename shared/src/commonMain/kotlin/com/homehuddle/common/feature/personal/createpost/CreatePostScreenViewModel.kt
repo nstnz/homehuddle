@@ -15,6 +15,8 @@ import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
 import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
 internal class CreatePostScreenViewModel(
     private val tripPostId: String?,
@@ -27,6 +29,24 @@ internal class CreatePostScreenViewModel(
     private val getLastTripUseCase: GetLastTripUseCase,
     private val updateTripPostUseCase: UpdateTripPostUseCase
 ) : CoroutinesViewModel<CreatePostScreenState, CreatePostScreenIntent, CreatePostScreenSingleEvent>() {
+
+    init {
+        viewModelScope.launch {
+            val user = getMeUseCase()
+            val trips = getUserTripsFlowUseCase().firstOrNull().orEmpty()
+            sendIntent(CreatePostScreenIntent.UpdateUser(user))
+            sendIntent(CreatePostScreenIntent.UpdateTrips(trips))
+            tripPostId.takeIf { !it.isNullOrEmpty() }?.let {
+                val post = getTripPostUseCase(it)
+                val trip = post?.let { getTripUseCase(it.tripId.orEmpty()) }
+                sendIntent(CreatePostScreenIntent.Update(post, trip))
+            } ?: run {
+                val lastTrip = getLastTripUseCase()
+                val post = TripPostModel.createEmpty()
+                sendIntent(CreatePostScreenIntent.Update(post, lastTrip))
+            }
+        }
+    }
 
     override fun initialState(): CreatePostScreenState = CreatePostScreenState(
         isCreateMode = tripPostId.isNullOrEmpty()
@@ -127,6 +147,13 @@ internal class CreatePostScreenViewModel(
             ),
             bottomSheet = null
         )
+        is CreatePostScreenIntent.OnAddExpense -> prevState.copy(
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                expenses = prevState.model.expenses.toMutableList()
+                    .apply { this.add(intent.item) }
+            )
+        )
         else -> prevState
     }
 
@@ -134,22 +161,6 @@ internal class CreatePostScreenViewModel(
         intent: CreatePostScreenIntent,
         state: CreatePostScreenState
     ): CreatePostScreenIntent? = when (intent) {
-        CreatePostScreenIntent.OnResume -> {
-            val user = getMeUseCase()
-            val trips = getUserTripsFlowUseCase().firstOrNull().orEmpty()
-            sendIntent(CreatePostScreenIntent.UpdateUser(user))
-            sendIntent(CreatePostScreenIntent.UpdateTrips(trips))
-            tripPostId.takeIf { !it.isNullOrEmpty() }?.let {
-                val post = getTripPostUseCase(it)
-                val trip = post?.let { getTripUseCase(it.tripId.orEmpty()) }
-                sendIntent(CreatePostScreenIntent.Update(post, trip))
-            } ?: run {
-                val lastTrip = getLastTripUseCase()
-                val post = TripPostModel.createEmpty()
-                sendIntent(CreatePostScreenIntent.Update(post, lastTrip))
-            }
-            null
-        }
         CreatePostScreenIntent.OnSaveClick -> {
             val model = state.model?.copy(
                 description = state.description.text,
@@ -174,7 +185,9 @@ internal class CreatePostScreenViewModel(
             null
         }
         CreatePostScreenIntent.OnAddNewExpense -> {
-            router.navigateToAddExpenses()
+            router.navigateToAddExpenses { expense ->
+                expense?.let { sendIntent(CreatePostScreenIntent.OnAddExpense(it)) }
+            }
             null
         }
         CreatePostScreenIntent.GoBack -> {

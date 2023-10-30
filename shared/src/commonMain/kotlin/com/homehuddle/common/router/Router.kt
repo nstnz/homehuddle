@@ -1,6 +1,7 @@
 package com.homehuddle.common.router
 
 import cafe.adriel.voyager.navigator.Navigator
+import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.feature.general.login.LoginScreenHolder
@@ -54,8 +55,10 @@ internal class Router() {
         navigator.push(CreatePostScreenHolder(null))
     }
 
-    fun navigateToAddExpenses() {
-        navigator.push(CreateExpenseScreenHolder(null))
+    fun navigateToAddExpenses(
+        onCustomExpenseCreation: ((TripExpenseModel?) -> Unit)? = null,
+    ) {
+        navigator.push(CreateExpenseScreenHolder(null, onCustomExpenseCreation))
     }
 
     fun navigateToAddLocations() {

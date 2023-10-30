@@ -138,7 +138,7 @@ internal class CreateExpenseScreenViewModel(
             }
             null
         }
-        CreateExpenseScreenIntent.OnSaveClick -> {
+        is CreateExpenseScreenIntent.OnSaveClick -> {
             val model = state.model?.copy(
                 description = state.description.text,
                 sum = state.formattedSum.text.formatSum()
@@ -149,7 +149,11 @@ internal class CreateExpenseScreenViewModel(
             }
             if (!error) {
                 model?.let {
-                    createOnlyTripExpenseUseCase(model, state.trip?.id.orEmpty())
+                    if (intent.onCustomExpenseCreation != null) {
+                        intent.onCustomExpenseCreation.invoke(model)
+                    } else {
+                        createOnlyTripExpenseUseCase(model, state.trip?.id.orEmpty())
+                    }
                 }
                 router.back(createExpenseScope)
             } else {

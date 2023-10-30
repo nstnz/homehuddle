@@ -31,6 +31,7 @@ internal sealed interface CreatePostScreenIntent : Intent {
     data class OnFromDateSelected(val date: Long?) : CreatePostScreenIntent
     data class OnToDateSelected(val date: Long?) : CreatePostScreenIntent
     data class OnChangeTrip(val item: TripModel) : CreatePostScreenIntent
+    data class OnAddExpense(val item: TripExpenseModel) : CreatePostScreenIntent
     data class OnSelectCountry(val item: CountryModel) : CreatePostScreenIntent
     data class OnDeleteCountry(val item: CountryModel) : CreatePostScreenIntent
     data class OnDeleteExpense(val item: TripExpenseModel) : CreatePostScreenIntent

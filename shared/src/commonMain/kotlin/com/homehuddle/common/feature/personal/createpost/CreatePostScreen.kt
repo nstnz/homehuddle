@@ -196,7 +196,7 @@ internal fun CreatePostScreen(
 
                         PointsBlock()
                         ExpensesBlock(state.model, onAddNewExpense, onDeleteExpense)
-                        SpacerComponent { x3 }
+                        SpacerComponent { x10 }
                     }
                     PrimaryButtonComponent(
                         text = Texts.Save,

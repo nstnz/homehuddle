@@ -25,7 +25,7 @@ internal sealed interface CreateExpenseScreenIntent : Intent {
     object CloseBottomSheet : CreateExpenseScreenIntent
     object OnResume : CreateExpenseScreenIntent
     object GoBack : CreateExpenseScreenIntent
-    object OnSaveClick : CreateExpenseScreenIntent
+    class OnSaveClick(val onCustomExpenseCreation: ((TripExpenseModel) -> Unit)?) : CreateExpenseScreenIntent
     data class Update(val model: TripExpenseModel?, val trip: TripModel?) :
         CreateExpenseScreenIntent
 

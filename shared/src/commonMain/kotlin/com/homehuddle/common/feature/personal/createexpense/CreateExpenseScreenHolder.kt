@@ -24,6 +24,7 @@ import org.kodein.di.instance
 
 internal class CreateExpenseScreenHolder(
     private val tripExpense: TripExpenseModel?,
+    private val onCustomExpenseCreation: ((TripExpenseModel?) -> Unit)? = null,
 ) : Screen {
 
     @OptIn(ExperimentalMaterialApi::class)
@@ -72,7 +73,13 @@ internal class CreateExpenseScreenHolder(
             bottomSheetState = bottomSheetState,
             snackbarHostState = snackbarHostState,
             onBackClick = { viewModel.sendIntent(CreateExpenseScreenIntent.GoBack) },
-            onSaveClick = { viewModel.sendIntent(CreateExpenseScreenIntent.OnSaveClick) },
+            onSaveClick = {
+                viewModel.sendIntent(
+                    CreateExpenseScreenIntent.OnSaveClick(
+                        onCustomExpenseCreation
+                    )
+                )
+            },
             onCategoryClick = { viewModel.sendIntent(CreateExpenseScreenIntent.OnCategoryChanged(it)) },
             onDescriptionChanged = {
                 viewModel.sendIntent(
