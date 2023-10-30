@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.homehuddle.common.design.button.PrimaryButtonComponent
 import com.homehuddle.common.design.button.SecondaryButtonComponent
@@ -26,6 +28,7 @@ internal fun BottomSheetComponent(
     description: String? = null,
     topButton: String? = null,
     bottomButton: String? = null,
+    fixedHeight: Dp? = null,
     topButtonClick: () -> Unit = {},
     bottomButtonClick: () -> Unit = {},
     customContent: @Composable (ColumnScope.() -> Unit)? = null
@@ -57,9 +60,15 @@ internal fun BottomSheetComponent(
 
         if (customContent != null) {
             Column(
-                modifier = Modifier.fillMaxWidth()
-                    .heightIn(max = 500.dp)
-                    .verticalScroll(rememberScrollState())
+                modifier = if (fixedHeight != null) {
+                    Modifier.fillMaxWidth()
+                        .height(fixedHeight)
+                        .verticalScroll(rememberScrollState())
+                } else {
+                    Modifier.fillMaxWidth()
+                        .heightIn(max = 500.dp)
+                        .verticalScroll(rememberScrollState())
+                }
             ) {
                 customContent.invoke(this)
                 SpacerComponent { x3 }

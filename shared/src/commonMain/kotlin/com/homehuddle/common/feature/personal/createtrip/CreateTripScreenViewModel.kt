@@ -29,13 +29,18 @@ internal class CreateTripScreenViewModel(
         is CreateTripScreenIntent.UpdateUser -> prevState.copy(
             userModel = intent.userModel
         )
+        is CreateTripScreenIntent.OnCountryDeleted -> prevState.copy(
+            selectedCountries = prevState.selectedCountries.apply { this.remove(intent.countryModel) },
+            updateTs = getTimeMillis()
+        )
         is CreateTripScreenIntent.OnCountrySelected -> prevState.copy(
-            selectedCountries = if (intent.selected) {
+            selectedCountries = if (!prevState.selectedCountries.contains(intent.countryModel)) {
                 prevState.selectedCountries.apply { this.add(intent.countryModel) }
             } else {
-                prevState.selectedCountries.apply { this.remove(intent.countryModel) }
+                prevState.selectedCountries
             },
-            updateTs = getTimeMillis()
+            updateTs = getTimeMillis(),
+            bottomSheet = null
         )
         is CreateTripScreenIntent.UpdateCurrency -> prevState.copy(
             currencyModel = intent.currencyModel
@@ -43,15 +48,18 @@ internal class CreateTripScreenViewModel(
         is CreateTripScreenIntent.Update -> prevState.copy(
             name = TextFieldValue(intent.tripModel?.name.orEmpty()),
             description = TextFieldValue(intent.tripModel?.description.orEmpty()),
-            dateStart = intent.tripModel?.dateStart,
-            dateEnd = intent.tripModel?.dateEnd,
-            timestampStart = intent.tripModel?.timestampStart,
-            timestampEnd = intent.tripModel?.timestampEnd,
+            dateStart = intent.tripModel?.dateStart ?: getTimeMillis().formatDate(),
+            dateEnd = intent.tripModel?.dateEnd ?: getTimeMillis().formatDate(),
+            timestampStart = intent.tripModel?.timestampStart ?: getTimeMillis(),
+            timestampEnd = intent.tripModel?.timestampEnd ?: getTimeMillis(),
             currencyModel = intent.tripModel?.currency ?: prevState.currencyModel,
             selectedCountries = intent.tripModel?.countries.orEmpty().toMutableList()
         )
         is CreateTripScreenIntent.OnChangeDescription -> prevState.copy(
             description = intent.text
+        )
+        CreateTripScreenIntent.OnAddCountry -> prevState.copy(
+            bottomSheet = BottomSheetType.SelectCountry
         )
         is CreateTripScreenIntent.OnChangeName -> prevState.copy(
             name = intent.text

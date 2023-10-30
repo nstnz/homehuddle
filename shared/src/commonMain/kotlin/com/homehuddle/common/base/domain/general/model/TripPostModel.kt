@@ -1,5 +1,7 @@
 package com.homehuddle.common.base.domain.general.model
 
+import com.homehuddle.common.base.domain.utils.formatDate
+import io.ktor.util.date.getTimeMillis
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,7 +18,8 @@ data class TripPostModel(
     val dateStart: String? = null,
     val timestampStart: Long? = null,
     val dateEnd: String? = null,
-    val timestampEnd: Long? = null
+    val timestampEnd: Long? = null,
+    val countries: List<CountryModel>
 ) : BaseDomainModel<TripPostModel> {
 
     val isMine: Boolean
@@ -39,4 +42,24 @@ data class TripPostModel(
 
     val isOnlyExpenses: Boolean
         get() = !hasPoints && !hasPhotos && hasExpenses && description.isEmpty()
+
+    companion object {
+
+        fun createEmpty(): TripPostModel = TripPostModel(
+            id = null,
+            ownerId = null,
+            tripId = null,
+            user = null,
+            name = "",
+            description = "",
+            photos = emptyList(),
+            expenses = emptyList(),
+            points = emptyList(),
+            dateStart = getTimeMillis().formatDate(),
+            timestampStart = getTimeMillis(),
+            dateEnd = getTimeMillis().formatDate(),
+            timestampEnd =getTimeMillis(),
+            countries = emptyList()
+        )
+    }
 }

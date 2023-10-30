@@ -2,22 +2,35 @@ package com.homehuddle.common.feature.personal.createpost
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.homehuddle.common.base.di.createPostScope
-import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
+import com.homehuddle.common.base.domain.general.model.TripPostModel
+import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.GetLastTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trip.GetUserTripsFlowUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trippost.CreateTripPostUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.GetTripPostUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trippost.UpdateTripPostUseCase
 import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
+import io.ktor.util.date.getTimeMillis
+import kotlinx.coroutines.flow.firstOrNull
 
 internal class CreatePostScreenViewModel(
     private val tripPostId: String?,
     private val router: Router,
+    private val getMeUseCase: GetMeUseCase,
     private val getTripUseCase: GetTripUseCase,
     private val getTripPostUseCase: GetTripPostUseCase,
-    private val createTripUseCase: CreateTripUseCase,
+    private val createTripPostUseCase: CreateTripPostUseCase,
+    private val getUserTripsFlowUseCase: GetUserTripsFlowUseCase,
+    private val getLastTripUseCase: GetLastTripUseCase,
+    private val updateTripPostUseCase: UpdateTripPostUseCase
 ) : CoroutinesViewModel<CreatePostScreenState, CreatePostScreenIntent, CreatePostScreenSingleEvent>() {
 
-    override fun initialState(): CreatePostScreenState = CreatePostScreenState()
+    override fun initialState(): CreatePostScreenState = CreatePostScreenState(
+        isCreateMode = tripPostId.isNullOrEmpty()
+    )
 
     override fun reduce(
         intent: CreatePostScreenIntent,
@@ -26,30 +39,94 @@ internal class CreatePostScreenViewModel(
         is CreatePostScreenIntent.Update -> prevState.copy(
             name = TextFieldValue(intent.model?.name.orEmpty()),
             description = TextFieldValue(intent.model?.description.orEmpty()),
-            dateStart = intent.model?.dateStart,
-            dateEnd = intent.model?.dateEnd,
-            timestampStart = intent.model?.timestampStart,
-            timestampEnd = intent.model?.timestampEnd,
+            trip = intent.trip,
+            model = intent.model
         )
-
+        is CreatePostScreenIntent.UpdateUser -> prevState.copy(
+            userModel = intent.userModel
+        )
+        is CreatePostScreenIntent.UpdateTrips -> prevState.copy(
+            trips = intent.trips
+        )
         is CreatePostScreenIntent.OnChangeDescription -> prevState.copy(
             description = intent.text
         )
-
         is CreatePostScreenIntent.OnChangeName -> prevState.copy(
             name = intent.text
         )
-
+        CreatePostScreenIntent.CloseBottomSheet -> prevState.copy(
+            bottomSheet = null
+        )
+        CreatePostScreenIntent.OnFromDateClick -> prevState.copy(
+            bottomSheet = BottomSheetType.SelectFromDate(
+                timestamp = prevState.model?.timestampEnd
+            )
+        )
+        CreatePostScreenIntent.OnToDateClick -> prevState.copy(
+            bottomSheet = BottomSheetType.SelectToDate(
+                timestamp = prevState.model?.timestampStart
+            )
+        )
+        CreatePostScreenIntent.OnTripClick -> prevState.copy(
+            bottomSheet = BottomSheetType.SelectTrip(
+                trips = prevState.trips,
+                selected = prevState.trip
+            )
+        )
+        CreatePostScreenIntent.OnAddNewCountry -> prevState.copy(
+            bottomSheet = BottomSheetType.SelectCountry
+        )
+        is CreatePostScreenIntent.OnChangeTrip -> prevState.copy(
+            trip = intent.item,
+            bottomSheet = null
+        )
+        is CreatePostScreenIntent.OnDeleteCountry -> prevState.copy(
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                countries = prevState.model.countries.toMutableList()
+                    .apply { this.remove(intent.item) }
+            )
+        )
+        is CreatePostScreenIntent.OnSelectCountry -> prevState.copy(
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                countries = prevState.model.countries.toMutableList()
+                    .apply {
+                        if (!this.contains(intent.item)) this.add(intent.item)
+                    }
+            ),
+            bottomSheet = null
+        )
+        is CreatePostScreenIntent.OnDeleteExpense -> prevState.copy(
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                expenses = prevState.model.expenses.toMutableList()
+                    .apply { this.remove(intent.item) }
+            )
+        )
+        is CreatePostScreenIntent.OnDeletePhotoClick -> prevState.copy(
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                photos = prevState.model.photos.toMutableList()
+                    .apply { this.remove(intent.item) }
+            )
+        )
         is CreatePostScreenIntent.OnFromDateSelected -> prevState.copy(
-            timestampStart = intent.date,
-            dateStart = intent.date.formatDate()
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                timestampStart = intent.date,
+                dateStart = intent.date.formatDate(),
+            ),
+            bottomSheet = null
         )
-
         is CreatePostScreenIntent.OnToDateSelected -> prevState.copy(
-            timestampEnd = intent.date,
-            dateEnd = intent.date.formatDate()
+            updateTs = getTimeMillis(),
+            model = prevState.model?.copy(
+                timestampEnd = intent.date,
+                dateEnd = intent.date.formatDate(),
+            ),
+            bottomSheet = null
         )
-
         else -> prevState
     }
 
@@ -58,30 +135,52 @@ internal class CreatePostScreenViewModel(
         state: CreatePostScreenState
     ): CreatePostScreenIntent? = when (intent) {
         CreatePostScreenIntent.OnResume -> {
+            val user = getMeUseCase()
+            val trips = getUserTripsFlowUseCase().firstOrNull().orEmpty()
+            sendIntent(CreatePostScreenIntent.UpdateUser(user))
+            sendIntent(CreatePostScreenIntent.UpdateTrips(trips))
             tripPostId.takeIf { !it.isNullOrEmpty() }?.let {
-                sendIntent(CreatePostScreenIntent.Update(getTripPostUseCase(it)))
+                val post = getTripPostUseCase(it)
+                val trip = post?.let { getTripUseCase(it.tripId.orEmpty()) }
+                sendIntent(CreatePostScreenIntent.Update(post, trip))
+            } ?: run {
+                val lastTrip = getLastTripUseCase()
+                val post = TripPostModel.createEmpty()
+                sendIntent(CreatePostScreenIntent.Update(post, lastTrip))
             }
             null
         }
-
         CreatePostScreenIntent.OnSaveClick -> {
+            val model = state.model?.copy(
+                description = state.description.text,
+                name = state.name.text
+            )
             val error = when {
-                state.name.text.isEmpty() -> true
+                model?.name.isNullOrEmpty() -> true
                 else -> false
             }
             if (!error) {
+                model?.let {
+                    if (state.isCreateMode) {
+                        createTripPostUseCase(state.trip?.id.orEmpty(), model)
+                    } else {
+                        updateTripPostUseCase(state.trip?.id.orEmpty(), model)
+                    }
+                }
                 router.back(createPostScope)
             } else {
                 triggerSingleEvent(CreatePostScreenSingleEvent.ShowError)
             }
             null
         }
-
+        CreatePostScreenIntent.OnAddNewExpense -> {
+            router.navigateToAddExpenses()
+            null
+        }
         CreatePostScreenIntent.GoBack -> {
             router.back(createPostScope)
             null
         }
-
         else -> null
     }
 }

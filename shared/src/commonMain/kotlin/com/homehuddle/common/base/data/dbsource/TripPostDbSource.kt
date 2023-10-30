@@ -25,6 +25,7 @@ internal class TripPostDbSource(
             dateEnd = model.dateEnd,
             timestampStart = model.timestampStart,
             timestampEnd = model.timestampEnd,
+            countries = model.countries
         )
     }
 

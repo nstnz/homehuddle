@@ -50,7 +50,7 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
         CreateTripScreenViewModel(id, instance(), instance(), instance(), instance(), instance())
     }
     bind<CreatePostScreenViewModel>() with scoped(createPostScope).multiton { id: String? ->
-        CreatePostScreenViewModel(id, instance(), instance(), instance(), instance())
+        CreatePostScreenViewModel(id, instance(), instance(), instance(), instance(), instance(), instance(), instance(), instance())
     }
     bind<CreateExpenseScreenViewModel>() with scoped(createExpenseScope).multiton { id: String? ->
         CreateExpenseScreenViewModel(

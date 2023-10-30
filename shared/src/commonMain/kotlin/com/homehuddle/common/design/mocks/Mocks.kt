@@ -66,6 +66,9 @@ fun mockTripPost() = TripPostModel(
     ),
     dateStart = "10.10.1010",
     timestampStart = 10000231L,
+    dateEnd = "10.10.1010",
+    timestampEnd = 10000231L,
+    countries = listOf(mockCountry())
 )
 
 fun mockTripExpense() = TripExpenseModel(

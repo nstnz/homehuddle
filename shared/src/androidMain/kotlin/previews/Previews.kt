@@ -104,6 +104,7 @@ private fun CreateTripScreenPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 private fun CreatePostScreenPreview() {
@@ -112,7 +113,8 @@ private fun CreatePostScreenPreview() {
             CreatePostScreenState(
                 name = TextFieldValue("kjsdflj"),
                 description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
-                fromDateSelected = true
+                trip = mockTrip(),
+                model = mockTripPost()
             )
         )
     }

@@ -25,12 +25,13 @@ internal class CreateOnlyTripExpenseUseCase(
                 id = tripPostId,
                 tripId = tripId,
                 ownerId = repository.getOwnerId(),
-                name = "New expense",
+                name = "",
                 description = "",
                 dateStart = expense.date,
                 dateEnd = null,
                 timestampStart = expense.timestamp,
                 timestampEnd = null,
+                countries = ""
             )
         )
         expenseRepository.create(

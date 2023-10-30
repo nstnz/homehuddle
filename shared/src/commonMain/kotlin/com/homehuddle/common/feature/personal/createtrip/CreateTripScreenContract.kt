@@ -32,9 +32,8 @@ internal sealed interface CreateTripScreenIntent : Intent {
     data class OnFromDateSelected(val date: Long?) : CreateTripScreenIntent
     data class OnToDateSelected(val date: Long?) : CreateTripScreenIntent
     data class OnChangeCurrency(val value: CurrencyModel) : CreateTripScreenIntent
-    data class OnCountrySelected(val countryModel: CountryModel, val selected: Boolean) :
-        CreateTripScreenIntent
-
+    data class OnCountrySelected(val countryModel: CountryModel) : CreateTripScreenIntent
+    data class OnCountryDeleted(val countryModel: CountryModel) : CreateTripScreenIntent
     object OnSaveClick : CreateTripScreenIntent
     object GoBack : CreateTripScreenIntent
     object OnResume : CreateTripScreenIntent
@@ -42,6 +41,7 @@ internal sealed interface CreateTripScreenIntent : Intent {
     object OnFromDateClick : CreateTripScreenIntent
     object OnToDateClick : CreateTripScreenIntent
     object OnCurrencyClick : CreateTripScreenIntent
+    object OnAddCountry : CreateTripScreenIntent
 }
 
 internal sealed interface CreateTripScreenSingleEvent : SingleEvent {
@@ -55,4 +55,5 @@ internal sealed interface BottomSheetType {
 
     data class SelectFromDate(val timestamp: Long?) : BottomSheetType
     data class SelectToDate(val timestamp: Long?) : BottomSheetType
+    object SelectCountry : BottomSheetType
 }

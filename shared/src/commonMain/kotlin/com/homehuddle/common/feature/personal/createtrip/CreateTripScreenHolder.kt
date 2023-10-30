@@ -91,14 +91,9 @@ internal class CreateTripScreenHolder(
             onToDateClick = { viewModel.sendIntent(CreateTripScreenIntent.OnToDateClick) },
             onCurrencyClick = { viewModel.sendIntent(CreateTripScreenIntent.OnCurrencyClick) },
             onChangeCurrency = { viewModel.sendIntent(CreateTripScreenIntent.OnChangeCurrency(it)) },
-            onCountrySelected = { model, selected ->
-                viewModel.sendIntent(
-                    CreateTripScreenIntent.OnCountrySelected(
-                        model,
-                        selected
-                    )
-                )
-            }
+            onSelectCountry = { viewModel.sendIntent(CreateTripScreenIntent.OnCountrySelected(it)) },
+            onDeleteCountry = { viewModel.sendIntent(CreateTripScreenIntent.OnCountryDeleted(it)) },
+            onAddCountry = { viewModel.sendIntent(CreateTripScreenIntent.OnAddCountry) }
         )
     }
 }

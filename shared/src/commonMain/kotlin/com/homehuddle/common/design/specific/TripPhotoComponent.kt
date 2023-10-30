@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.homehuddle.common.design.theme.AppTheme
-import com.homehuddle.common.design.theme.textDarkDisabled
+import com.homehuddle.common.design.theme.textDarkBorder
 
 @Composable
 internal fun TripPhotoComponent(
@@ -18,7 +18,7 @@ internal fun TripPhotoComponent(
     Box(
         Modifier.size(size)
             .background(
-                AppTheme.colors.textDarkDisabled(),
+                AppTheme.colors.textDarkBorder(),
                 RoundedCornerShape(radius)
             )
     )
