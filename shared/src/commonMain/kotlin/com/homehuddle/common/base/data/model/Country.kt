@@ -8,4 +8,6 @@ data class Country(
     override val ownerId: String?,
     val name: String,
     val emoji: String,
+    override val createTs: Long? = null,
+    override val editTs: Long? = null,
 ) : BaseDataModel<Country>

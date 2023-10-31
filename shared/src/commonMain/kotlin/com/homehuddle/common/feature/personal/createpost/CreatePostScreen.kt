@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,6 +60,7 @@ import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.design.theme.accent4
 import com.homehuddle.common.design.theme.background2
 import com.homehuddle.common.design.theme.dashedBorder
+import com.homehuddle.common.design.theme.ignoreHorizontalParentPadding
 import com.homehuddle.common.design.theme.noEffectsClickable
 import com.homehuddle.common.design.theme.textDarkBorder
 import com.homehuddle.common.design.theme.textDarkDefault
@@ -374,10 +374,13 @@ private fun PostBlock(
     SpacerComponent { x1 }
     val size = AppTheme.indents.x11
     Row(
-        Modifier.fillMaxWidth()
-            .height(size).horizontalScroll(rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5)
+        Modifier
+            .fillMaxWidth()
+            .height(size)
+            .ignoreHorizontalParentPadding(AppTheme.indents.x3)
+            .horizontalScroll(rememberScrollState()),
     ) {
+        SpacerComponent { x3 }
         Column(
             Modifier
                 .size(size)
@@ -410,6 +413,7 @@ private fun PostBlock(
             )
             Spacer(Modifier.weight(1f))
         }
+        SpacerComponent { x1_5 }
         state.bitmaps.forEach {
             Box {
                 TripPhotoComponent(
@@ -429,11 +433,12 @@ private fun PostBlock(
                     )
                 )
             }
+            SpacerComponent { x1_5 }
         }
+        SpacerComponent { x1_5 }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SelectCountriesComponent(
     countries: List<CountryModel>,

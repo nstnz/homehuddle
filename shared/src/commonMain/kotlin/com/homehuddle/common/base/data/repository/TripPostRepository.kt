@@ -46,7 +46,9 @@ internal class TripPostRepository(
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
             countries = it.countries,
-            photos = it.photos
+            photos = it.photos,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -62,7 +64,9 @@ internal class TripPostRepository(
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
             countries = it.countries.toJsonString(json),
-            photos = it.photos.photosToJsonString(json)
+            photos = it.photos.photosToJsonString(json),
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -83,7 +87,9 @@ internal class TripPostRepository(
                 expenses = tripExpenseRepository.getByParent(it.id),
                 photos = it.photos.photosFromJsonString(json),
                 points = tripPointRepository.getByParent(model.id),
-                countries = it.countries.fromJsonString(json, localCountries)
+                countries = it.countries.fromJsonString(json, localCountries),
+                createTs = it.createTs,
+                editTs = it.editTs
             )
         }
     }

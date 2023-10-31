@@ -6,6 +6,7 @@ import com.homehuddle.common.base.data.repository.TripRepository
 import com.homehuddle.common.base.domain.general.model.CountryModel
 import com.homehuddle.common.base.domain.general.model.CurrencyModel
 import com.homehuddle.common.base.domain.general.model.TripModel
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -26,6 +27,7 @@ internal class CreateTripUseCase(
             Trip(
                 id = uuid4().toString(),
                 ownerId = repository.getOwnerId(),
+                createTs = getTimeMillis(),
                 name = tripModel.name,
                 description = tripModel.description,
                 dateStart = tripModel.dateStart,

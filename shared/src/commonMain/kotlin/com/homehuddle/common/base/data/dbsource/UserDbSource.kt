@@ -4,6 +4,7 @@ import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.UsersDao
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.Flow
 
 internal class UserDbSource(
@@ -22,7 +23,9 @@ internal class UserDbSource(
             name = model.name,
             currencyCode = model.currencyCode,
             ownerId = model.ownerId,
-            visitedCountries = model.visitedCountries
+            visitedCountries = model.visitedCountries,
+            createTs = getTimeMillis(),
+            editTs = null
         )
     }
 

@@ -51,6 +51,7 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
             .distinctUntilChanged()
             .mapNotNull { list ->
                 list.mapNotNull { mapToDomainModel(it) }
+                    .sortedByDescending { it.createTs }
             }
     }
 
@@ -59,6 +60,7 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
             .distinctUntilChanged()
             .mapNotNull { list ->
                 list.mapNotNull { mapToDomainModel(mapToDbModel(it)) }
+                    .sortedByDescending { it.createTs }
             }
     }
 

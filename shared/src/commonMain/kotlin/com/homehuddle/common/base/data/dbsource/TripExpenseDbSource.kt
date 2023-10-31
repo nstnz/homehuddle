@@ -4,6 +4,7 @@ import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.TripExpensesDao
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.Flow
 
 internal class TripExpenseDbSource(
@@ -25,6 +26,8 @@ internal class TripExpenseDbSource(
             date = model.date,
             timestamp = model.timestamp,
             category = model.category,
+            createTs = getTimeMillis(),
+            editTs = null
         )
     }
 

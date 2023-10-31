@@ -9,4 +9,6 @@ data class Currency(
     val name: String,
     val code: String,
     val rate: Double,
+    override val createTs: Long? = null,
+    override val editTs: Long? = null,
 ) : BaseDataModel<Currency>

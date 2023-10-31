@@ -73,6 +73,8 @@ kotlin {
 
                 implementation("dev.icerock.moko:media-compose:0.11.0")
                 implementation("dev.icerock.moko:permissions-compose:0.16.0")
+                //implementation("dev.icerock.moko:maps:0.6.0")
+                //implementation("dev.icerock.moko:maps-google:0.6.0")
                 implementation("com.russhwolf:multiplatform-settings:$Storage")
 
                 api("com.mohamedrejeb.calf:calf-ui:0.2.0")
@@ -116,6 +118,25 @@ kotlin {
         }
     }
 }
+
+kotlin.targets
+    .matching { it is org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget }
+    .configureEach {
+        val target = this as org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
+        target.binaries
+            .matching { it is org.jetbrains.kotlin.gradle.plugin.mpp.Framework }
+            .configureEach {
+                val framework = this as org.jetbrains.kotlin.gradle.plugin.mpp.Framework
+                val frameworks = listOf("Base", "Maps").map { frameworkPath ->
+                    project.file("../ios-app/Pods/GoogleMaps/$frameworkPath/Frameworks").path.let { "-F$it" }
+                }.plus(
+                    project.file("../ios-app/Pods/Mapbox-iOS-SDK/dynamic").path.let { "-F$it" }
+                )
+
+                framework.linkerOpts(frameworks)
+            }
+    }
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()

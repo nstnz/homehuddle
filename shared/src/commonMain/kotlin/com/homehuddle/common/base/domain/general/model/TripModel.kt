@@ -9,6 +9,8 @@ import kotlinx.serialization.Serializable
 data class TripModel(
     override val id: String?,
     override val ownerId: String?,
+    override val createTs: Long? = null,
+    override val editTs: Long? = null,
     val name: String,
     val user: UserModel?,
     val currency: CurrencyModel?,

@@ -6,6 +6,7 @@ import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.data.repository.TripExpenseRepository
 import com.homehuddle.common.base.data.repository.TripPostRepository
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -25,6 +26,7 @@ internal class CreateOnlyTripExpenseUseCase(
                 id = tripPostId,
                 tripId = tripId,
                 ownerId = repository.getOwnerId(),
+                createTs = getTimeMillis(),
                 name = "",
                 description = "",
                 dateStart = expense.date,
@@ -40,6 +42,7 @@ internal class CreateOnlyTripExpenseUseCase(
                 id = uuid4().toString(),
                 tripPostId = tripPostId,
                 ownerId = repository.getOwnerId(),
+                createTs = getTimeMillis(),
                 description = expense.description,
                 date = expense.date,
                 sum = expense.sum,

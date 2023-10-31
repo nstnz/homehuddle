@@ -12,6 +12,8 @@ import com.homehuddle.common.base.domain.general.model.UserModel
 fun mockTrip() = TripModel(
     "sdfsdf",
     "sdfsdf",
+    createTs = null,
+    editTs = null,
     "Name",
     user = mockUser(),
     currency = mockCurrency(),
@@ -27,14 +29,20 @@ fun mockTrip() = TripModel(
 )
 
 fun mockUser() = UserModel(
-    "", "", "User", isMe = true, currency = mockCurrency(),
+    "", "",
+    createTs = null,
+    editTs = null,
+    "User", isMe = true, currency = mockCurrency(),
     allCurrencies = emptyList(),
     allCountries = listOf(mockCountry()),
     visitedCountries = listOf(mockCountry()),
 )
 
 fun mockCountry() = CountryModel(
-    "sdlksdflsd", "", "Ascension Island", "\uD83C\uDDE6\uD83C\uDDE8"
+    "sdlksdflsd", "",
+    createTs = null,
+    editTs = null,
+    "Ascension Island", "\uD83C\uDDE6\uD83C\uDDE8"
 )
 
 fun mockCurrency() = CurrencyModel(
@@ -48,6 +56,8 @@ fun mockCurrency() = CurrencyModel(
 fun mockTripPost() = TripPostModel(
     "sdfsdf",
     "",
+    createTs = null,
+    editTs = null,
     "",
     user = mockUser(),
     name = "sdfalskds",

@@ -8,6 +8,8 @@ import kotlinx.serialization.json.encodeToJsonElement
 data class CountryModel(
     override val id: String?,
     override val ownerId: String?,
+    override val createTs: Long? = null,
+    override val editTs: Long? = null,
     val name: String,
     val emoji: String,
 ) : BaseDomainModel<CountryModel>

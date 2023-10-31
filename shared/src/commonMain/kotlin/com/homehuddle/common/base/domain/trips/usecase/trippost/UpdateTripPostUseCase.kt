@@ -4,6 +4,7 @@ import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.data.repository.TripPostRepository
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.domain.general.model.toJsonString
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -22,6 +23,8 @@ internal class UpdateTripPostUseCase(
             TripPost(
                 id = tripPostModel.id,
                 tripId = tripId,
+                createTs = tripPostModel.createTs,
+                editTs = getTimeMillis(),
                 ownerId = repository.getOwnerId(),
                 name = tripPostModel.name,
                 description = tripPostModel.description,

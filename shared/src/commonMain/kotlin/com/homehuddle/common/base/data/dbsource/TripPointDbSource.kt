@@ -4,6 +4,7 @@ import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.TripPointsDao
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.Flow
 
 internal class TripPointDbSource(
@@ -21,7 +22,9 @@ internal class TripPointDbSource(
             tripPostId = model.tripPostId,
             description = model.description,
             lat = model.lat,
-            lon = model.lon
+            lon = model.lon,
+            createTs = getTimeMillis(),
+            editTs = null
         )
     }
 

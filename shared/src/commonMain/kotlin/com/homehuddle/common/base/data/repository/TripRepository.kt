@@ -43,7 +43,9 @@ internal class TripRepository(
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
             currencyCode = it.currencyCode,
-            countries = it.countries
+            countries = it.countries,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -58,7 +60,9 @@ internal class TripRepository(
             timestampStart = it.timestampStart,
             timestampEnd = it.timestampEnd,
             currencyCode = it.currency?.id,
-            countries = it.countries.toJsonString(json)
+            countries = it.countries.toJsonString(json),
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -77,7 +81,9 @@ internal class TripRepository(
                 dateEnd = it.dateEnd,
                 timestampStart = it.timestampStart,
                 timestampEnd = it.timestampEnd,
-                countries = it.countries.fromJsonString(json, localCountries)
+                countries = it.countries.fromJsonString(json, localCountries),
+                createTs = it.createTs,
+                editTs = it.editTs
             )
         }
     }

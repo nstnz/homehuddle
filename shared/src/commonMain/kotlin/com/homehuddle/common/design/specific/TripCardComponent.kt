@@ -1,10 +1,12 @@
 package com.homehuddle.common.design.specific
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -61,13 +63,16 @@ private fun PhotosComponent(
 ) {
     Row(
         modifier = Modifier
-            .ignoreHorizontalParentPadding(AppTheme.indents.x2),
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.indents.x1_5)
+            .fillMaxWidth()
+            .height(160.dp)
+            .ignoreHorizontalParentPadding(AppTheme.indents.x3)
+            .horizontalScroll(rememberScrollState()),
     ) {
-        SpacerComponent { x0_5 }
+        SpacerComponent { x3 }
         trip.photos.forEach {
             TripPhotoComponent(160.dp, AppTheme.indents.x1_5, url = it)
+            SpacerComponent { x1_5 }
         }
-        SpacerComponent { x0_5 }
+        SpacerComponent { x1_5 }
     }
 }

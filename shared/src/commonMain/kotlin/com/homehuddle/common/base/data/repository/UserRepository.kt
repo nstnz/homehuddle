@@ -44,7 +44,9 @@ internal class UserRepository(
             name = it.name,
             currencyCode = it.currencyCode,
             ownerId = it.ownerId.orEmpty(),
-            visitedCountries = it.visitedCountries
+            visitedCountries = it.visitedCountries,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -59,7 +61,9 @@ internal class UserRepository(
                 ownerId = it.ownerId,
                 allCurrencies = currencyRepository.getUserItemsFlow().firstOrNull().orEmpty(),
                 allCountries = countries,
-                visitedCountries = it.visitedCountries.fromJsonString(json, countries)
+                visitedCountries = it.visitedCountries.fromJsonString(json, countries),
+                createTs = it.createTs,
+                editTs = it.editTs
             )
         }
     }
@@ -70,7 +74,9 @@ internal class UserRepository(
             name = it.name,
             currencyCode = it.currency?.id,
             ownerId = it.ownerId,
-            visitedCountries = it.visitedCountries.toJsonString(json)
+            visitedCountries = it.visitedCountries.toJsonString(json),
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 

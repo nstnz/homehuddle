@@ -10,6 +10,7 @@ import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.base.domain.general.model.photosToJsonString
 import com.homehuddle.common.base.domain.general.model.toJsonString
 import dev.icerock.moko.media.Bitmap
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -33,6 +34,7 @@ internal class CreateTripPostUseCase(
                 TripExpense(
                     id = uuid4().toString(),
                     tripPostId = tripPostId,
+                    createTs = getTimeMillis(),
                     ownerId = repository.getOwnerId(),
                     description = it.description,
                     date = it.date,

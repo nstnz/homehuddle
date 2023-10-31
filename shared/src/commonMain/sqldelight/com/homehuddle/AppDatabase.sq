@@ -3,12 +3,14 @@ id TEXT NOT NULL PRIMARY KEY,
 ownerId TEXT,
 name TEXT,
 currencyCode TEXT,
-visitedCountries TEXT
+visitedCountries TEXT,
+createTs INTEGER,
+editTs INTEGER
 );
 
 createOrUpdateUser:
-INSERT OR REPLACE INTO UsersDao(id, ownerId, name, currencyCode,visitedCountries)
-VALUES(?,?, ?,?,?);
+INSERT OR REPLACE INTO UsersDao(id, ownerId, name, currencyCode,visitedCountries,createTs,editTs)
+VALUES(?,?, ?,?,?,?,?);
 
 getUser:
 SELECT * FROM UsersDao WHERE id = ?;
@@ -44,12 +46,14 @@ dateStart TEXT,
 timestampStart INTEGER,
 dateEnd TEXT,
 timestampEnd INTEGER,
-countries TEXT
+countries TEXT,
+createTs INTEGER,
+editTs INTEGER
 );
 
 createOrUpdateTrip:
-INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, currencyCode, dateStart, timestampStart, dateEnd, timestampEnd,countries )
-VALUES(?,?,?,?,?,?, ?,?,?,?);
+INSERT OR REPLACE INTO TripsDao(id, ownerId, name, description, currencyCode, dateStart, timestampStart, dateEnd, timestampEnd,countries,createTs, editTs)
+VALUES(?,?,?,?,?,?,?,?, ?,?,?,?);
 
 getTrip:
 SELECT * FROM TripsDao WHERE id = ?;
@@ -86,12 +90,14 @@ timestampStart INTEGER,
 dateEnd TEXT,
 timestampEnd INTEGER,
 countries TEXT,
-photos TEXT
+photos TEXT,
+createTs INTEGER,
+editTs INTEGER
 );
 
 createOrUpdateTripPost:
-INSERT OR REPLACE INTO TripPostsDao(id, ownerId, tripId, name, description, dateStart, timestampStart, dateEnd, timestampEnd, countries, photos)
-VALUES(?,?,?,?,?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO TripPostsDao(id, ownerId, tripId, name, description, dateStart, timestampStart, dateEnd, timestampEnd, countries, photos, createTs, editTs)
+VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);
 
 getTripPost:
 SELECT * FROM TripPostsDao WHERE id = ?;
@@ -123,12 +129,14 @@ ownerId TEXT,
 tripPostId TEXT,
 description TEXT,
 lat REAL,
-lon REAL
+lon REAL,
+createTs INTEGER,
+editTs INTEGER
 );
 
 createOrUpdateTripPoint:
-INSERT OR REPLACE INTO TripPointsDao(id, ownerId, tripPostId, description, lat, lon)
-VALUES(?,?,?,?,?,?);
+INSERT OR REPLACE INTO TripPointsDao(id, ownerId, tripPostId, description, lat, lon, createTs, editTs)
+VALUES(?,?,?,?,?,?,?,?);
 
 getTripPoint:
 SELECT * FROM TripPointsDao WHERE id = ?;
@@ -163,12 +171,14 @@ description TEXT,
 currencyCode TEXT,
 date TEXT,
 timestamp INTEGER,
-category TEXT
+category TEXT,
+createTs INTEGER,
+editTs INTEGER
 );
 
 createOrUpdateTripExpense:
-INSERT OR REPLACE INTO TripExpensesDao(id, ownerId, tripPostId, sum, description, currencyCode, date, timestamp, category)
-VALUES(?,?,?,?,?,?,?,?, ?);
+INSERT OR REPLACE INTO TripExpensesDao(id, ownerId, tripPostId, sum, description, currencyCode, date, timestamp, category, createTs, editTs)
+VALUES(?,?,?,?,?,?,?,?,?,?, ?);
 
 getTripExpense:
 SELECT * FROM TripExpensesDao WHERE id = ?;

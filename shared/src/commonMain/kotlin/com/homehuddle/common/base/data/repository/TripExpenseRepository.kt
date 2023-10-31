@@ -36,6 +36,8 @@ internal class TripExpenseRepository(
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
             category = it.category,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -50,7 +52,9 @@ internal class TripExpenseRepository(
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
             category = it.category?.let { TripExpenseCategory.valueOf(it) }
-                ?: TripExpenseCategory.Other
+                ?: TripExpenseCategory.Other,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -64,7 +68,9 @@ internal class TripExpenseRepository(
             description = it.description,
             date = it.date.orEmpty(),
             timestamp = it.timestamp,
-            category = it.category.name
+            category = it.category.name,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 }

@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 data class TripPointModel(
     override val id: String?,
     override val ownerId: String?,
+    override val createTs: Long? = null,
+    override val editTs: Long? = null,
     val description: String,
     val lat: Double,
     val lon: Double,

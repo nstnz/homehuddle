@@ -31,6 +31,8 @@ internal class TripPointRepository(
             lat = it.lat,
             lon = it.lon,
             description = it.description,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -42,6 +44,8 @@ internal class TripPointRepository(
             lat = it.lat ?: 0.0,
             lon = it.lon ?: 0.0,
             description = it.description.orEmpty(),
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 
@@ -53,6 +57,8 @@ internal class TripPointRepository(
             lat = it.lat,
             lon = it.lon,
             description = it.description,
+            createTs = it.createTs,
+            editTs = it.editTs
         )
     }
 }
