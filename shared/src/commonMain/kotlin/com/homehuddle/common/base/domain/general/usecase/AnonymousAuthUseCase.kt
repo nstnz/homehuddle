@@ -2,6 +2,7 @@ package com.homehuddle.common.base.domain.general.usecase
 
 import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.data.repository.UserRepository
+import com.homehuddle.common.base.domain.general.model.UserModel
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,9 +16,9 @@ internal class AnonymousAuthUseCase(
     private val refreshDataUseCase: RefreshDataUseCase,
 ) {
 
-    suspend operator fun invoke(): Boolean = withContext(dispatcher) {
+    suspend operator fun invoke(): UserModel? = withContext(dispatcher) {
         val user = Firebase.auth.signInAnonymously().user
-        val result = user != null
+        user != null
 
         Firebase.auth.currentUser?.let {
             val existingUser = repository.get(it.uid)
@@ -31,13 +32,18 @@ internal class AnonymousAuthUseCase(
                 )
                 repository.create(newUser)
                 repository.saveCurrentUser(newUser)
+                GlobalScope.launch {
+                    refreshDataUseCase()
+                }
+                return@withContext null
             } else {
                 repository.saveCurrentUser(existingUser)
+                GlobalScope.launch {
+                    refreshDataUseCase()
+                }
+                return@withContext existingUser
             }
         }
-        GlobalScope.launch {
-            refreshDataUseCase()
-        }
-        return@withContext result
+        return@withContext null
     }
 }

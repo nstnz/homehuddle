@@ -5,6 +5,7 @@ import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.feature.general.login.LoginScreenHolder
+import com.homehuddle.common.feature.general.setup.SetupScreenHolder
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenHolder
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreenHolder
 import com.homehuddle.common.feature.personal.createpost.CreatePostScreenHolder
@@ -37,6 +38,10 @@ internal class Router() {
 
     fun navigateToLogin() {
         navigator.replace(LoginScreenHolder)
+    }
+
+    fun navigateToSetup() {
+        navigator.replace(SetupScreenHolder)
     }
 
     fun navigateToAddTrip() {

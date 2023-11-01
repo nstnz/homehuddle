@@ -34,6 +34,7 @@ import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.general.usecase.GetUserUseCase
 import com.homehuddle.common.base.domain.general.usecase.IsSignedInUseCase
 import com.homehuddle.common.base.domain.general.usecase.RefreshDataUseCase
+import com.homehuddle.common.base.domain.general.usecase.SaveMeUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.CreateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.DeleteTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetLastTripUseCase
@@ -181,6 +182,7 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<AnonymousAuthUseCase>() with provider { AnonymousAuthUseCase(instance(), instance(), instance()) }
     bind<IsSignedInUseCase>() with provider { IsSignedInUseCase(instance()) }
     bind<GetMeUseCase>() with provider { GetMeUseCase(instance(), instance()) }
+    bind<SaveMeUseCase>() with provider { SaveMeUseCase(instance(), instance(), instance()) }
     bind<GetUserUseCase>() with provider { GetUserUseCase(instance(), instance()) }
 
     bind<GetTripUseCase>() with provider { GetTripUseCase(instance(), instance()) }

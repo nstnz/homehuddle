@@ -8,6 +8,8 @@ import com.homehuddle.common.design.mocks.mockTripPost
 import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.theme.AppTheme
 import com.homehuddle.common.feature.general.login.LoginScreen
+import com.homehuddle.common.feature.general.setup.SetupScreen
+import com.homehuddle.common.feature.general.setup.SetupScreenState
 import com.homehuddle.common.feature.general.splash.SplashScreen
 import com.homehuddle.common.feature.general.welcome.WelcomeScreen
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreen
@@ -46,6 +48,15 @@ private fun WelcomeScreenPreview() {
 private fun LoginScreenPreview() {
     AppTheme {
         LoginScreen({ })
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Preview
+@Composable
+private fun SetupScreenPreview() {
+    AppTheme {
+        SetupScreen(SetupScreenState(mockUser()))
     }
 }
 

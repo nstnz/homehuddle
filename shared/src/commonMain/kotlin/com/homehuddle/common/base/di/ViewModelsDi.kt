@@ -1,6 +1,7 @@
 package com.homehuddle.common.base.di
 
 import com.homehuddle.common.feature.general.login.LoginScreenViewModel
+import com.homehuddle.common.feature.general.setup.SetupScreenViewModel
 import com.homehuddle.common.feature.general.splash.SplashScreenViewModel
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenViewModel
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreenViewModel
@@ -21,6 +22,7 @@ internal val splashScope = object : UnboundedScope() {}
 internal val mainScope = object : UnboundedScope() {}
 internal val welcomeScope = object : UnboundedScope() {}
 internal val loginScope = object : UnboundedScope() {}
+internal val setupScope = object : UnboundedScope() {}
 internal val tripPostScope = object : UnboundedScope() {}
 internal val tripDetailsScope = object : UnboundedScope() {}
 internal val createTripScope = object : UnboundedScope() {}
@@ -36,6 +38,9 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
     }
     bind<LoginScreenViewModel>() with scoped(loginScope).multiton {
         LoginScreenViewModel(instance(), instance())
+    }
+    bind<SetupScreenViewModel>() with scoped(setupScope).multiton {
+        SetupScreenViewModel(instance(), instance(), instance())
     }
     bind<MainScreenViewModel>() with scoped(mainScope).multiton {
         MainScreenViewModel(instance(), instance(), instance(), instance())

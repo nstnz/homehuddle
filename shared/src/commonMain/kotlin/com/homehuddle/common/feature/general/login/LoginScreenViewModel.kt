@@ -25,8 +25,11 @@ internal class LoginScreenViewModel(
             null
         }
         LoginScreenIntent.MakeLogin -> {
-            if (authUseCase()) {
+            val existingUser = authUseCase()
+            if (existingUser != null) {
                 router.navigateToMainScreen()
+            } else {
+                router.navigateToSetup()
             }
             null
         }
