@@ -13,6 +13,7 @@ import com.homehuddle.common.base.domain.trips.usecase.trippost.UpdateTripPostUs
 import com.homehuddle.common.base.domain.utils.formatDate
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
+import dev.icerock.moko.media.Bitmap
 import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -187,9 +188,16 @@ internal class CreatePostScreenViewModel(
             if (!error) {
                 model?.let {
                     if (state.isCreateMode) {
-                        createTripPostUseCase(state.trip?.id.orEmpty(), model, state.bitmaps)
+                        createTripPostUseCase(
+                            state.trip?.id.orEmpty(), model,
+                            state.bitmaps.filterIsInstance<Bitmap>()
+                        )
                     } else {
-                        updateTripPostUseCase(state.trip?.id.orEmpty(), model)
+                        updateTripPostUseCase(
+                            state.trip?.id.orEmpty(),
+                            model,
+                            state.bitmaps
+                        )
                     }
                 }
                 router.back(createPostScope)

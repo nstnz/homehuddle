@@ -17,13 +17,18 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
+import com.homehuddle.common.design.bottomsheet.BottomSheetComponent
 import com.homehuddle.common.design.button.SecondaryButtonComponent
 import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.spacer.DividerComponent
@@ -43,11 +48,16 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 import com.homehuddle.common.design.theme.textLightDefault
 import com.homehuddle.common.design.theme.textLightSecondary
 import com.homehuddle.common.design.topbar.DefaultNavComponent
+import com.homehuddle.common.feature.personal.main.AddNewItemBottomSheet
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun TripDetailsScreen(
     state: TripDetailsScreenState,
+    bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
+    ),
     onAllFilterSelected: () -> Unit = {},
     onPhotosFilterSelected: () -> Unit = {},
     onMapFilterSelected: () -> Unit = {},
@@ -55,9 +65,37 @@ internal fun TripDetailsScreen(
     onOverviewFilterSelected: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onEditClick: (TripModel?) -> Unit = {},
-    onDeleteClick: (TripModel?) -> Unit = {}
+    onDeleteClick: (TripModel?) -> Unit = {},
+    onAddClick: (TripModel?) -> Unit = {},
+    onAddTripClick: () -> Unit = {},
+    onAddTripPostClick: () -> Unit = {},
+    onAddExpensesClick: () -> Unit = {},
+    onAddLocationsClick: () -> Unit = {},
+    onConfirmDeleteClick: (TripModel?) -> Unit = {},
+    onCloseBottomSheet: () -> Unit = {},
+    onPostClick: (TripPostModel) -> Unit = {},
 ) {
     GradientScaffold(
+        bottomSheetState = bottomSheetState,
+        bottomSheet = {
+            when (state.bottomSheet) {
+                BottomSheetType.AddNewItem -> AddNewItemBottomSheet(
+                    onAddTripClick,
+                    onAddTripPostClick,
+                    onAddExpensesClick,
+                    onAddLocationsClick
+                )
+                BottomSheetType.ConfirmDelete -> BottomSheetComponent(
+                    title = "Are you sure you want to delete trip?",
+                    description = "This cant be undone",
+                    topButton = "Delete",
+                    bottomButton = "Cancel",
+                    topButtonClick = { onConfirmDeleteClick(state.trip) },
+                    bottomButtonClick = { onCloseBottomSheet() }
+                )
+                null -> {}
+            }
+        },
         topBar = {
             DefaultNavComponent(
                 showBackButton = true,
@@ -65,7 +103,7 @@ internal fun TripDetailsScreen(
                 showEditButton = true,
                 elementsColor = AppTheme.colors.textLightDefault(),
                 onBackClick = onBackClick,
-                onAddClick = {},
+                onAddClick = { onAddClick(state.trip) },
                 onEditClick = { onEditClick(state.trip) },
             )
         }
@@ -120,7 +158,7 @@ internal fun TripDetailsScreen(
                     )
                     state.trip?.let {
                         when (state.selectedTab) {
-                            TripDetailsTab.All -> AllPostsComponent(state.trip)
+                            TripDetailsTab.All -> AllPostsComponent(state.trip, onPostClick)
                             TripDetailsTab.Photos -> AllPhotosComponent(state.trip)
                             TripDetailsTab.Map -> {}
                             TripDetailsTab.Expenses -> AllExpensesComponent(state.trip)
@@ -191,7 +229,10 @@ private fun AllPhotosComponent(trip: TripModel) {
 }
 
 @Composable
-private fun AllPostsComponent(trip: TripModel) {
+private fun AllPostsComponent(
+    trip: TripModel,
+    onPostClick: (TripPostModel) -> Unit = {},
+) {
     LazyColumn(
         Modifier.fillMaxSize()
             .padding(horizontal = AppTheme.indents.x3),
@@ -203,11 +244,13 @@ private fun AllPostsComponent(trip: TripModel) {
                     trip = trip,
                     tripPost = it,
                     showSocialHeader = false,
+                    onClick = onPostClick
                 )
                 else -> TripPostCompactCardComponent(
                     trip = trip,
                     tripPost = it,
-                    showTrip = false
+                    showTrip = false,
+                    onClick = onPostClick
                 )
             }
             DividerComponent()

@@ -21,7 +21,7 @@ internal data class CreatePostScreenState(
     val trips: List<TripModel> = emptyList(),
     val userModel: UserModel? = null,
     val updateTs: Long? = 0,
-    val bitmaps: MutableList<Bitmap> = mutableListOf()
+    val bitmaps: MutableList<Any> = mutableListOf()
 ) : State
 
 internal sealed interface CreatePostScreenIntent : Intent {
@@ -37,7 +37,7 @@ internal sealed interface CreatePostScreenIntent : Intent {
     data class OnSelectCountry(val item: CountryModel) : CreatePostScreenIntent
     data class OnDeleteCountry(val item: CountryModel) : CreatePostScreenIntent
     data class OnDeleteExpense(val item: TripExpenseModel) : CreatePostScreenIntent
-    data class OnDeletePhotoClick(val item: Bitmap) : CreatePostScreenIntent
+    data class OnDeletePhotoClick(val item: Any) : CreatePostScreenIntent
     object OnSaveClick : CreatePostScreenIntent
     object GoBack : CreatePostScreenIntent
     object OnResume : CreatePostScreenIntent

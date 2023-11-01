@@ -52,7 +52,10 @@ internal class CreateTripScreenViewModel(
             name = TextFieldValue(intent.tripModel?.name.orEmpty()),
             description = TextFieldValue(intent.tripModel?.description.orEmpty()),
             currencyModel = intent.tripModel?.currency ?: prevState.currencyModel,
-            selectedCountries = intent.tripModel?.countries.orEmpty().toMutableList()
+            selectedCountries = intent.tripModel?.countries.orEmpty().toMutableList(),
+            model = intent.tripModel ?: TripModel.createEmpty(
+                intent.tripModel?.currency ?: prevState.currencyModel
+            )
         )
         is CreateTripScreenIntent.OnChangeDescription -> prevState.copy(
             description = intent.text

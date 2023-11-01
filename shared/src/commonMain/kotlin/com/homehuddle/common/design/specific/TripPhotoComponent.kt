@@ -36,7 +36,7 @@ internal fun TripPhotoComponent(
                 contentScale = ContentScale.Crop
             )
         }
-        url?.let {
+        url?.takeIf { it.isNotEmpty() }?.let {
             val painterResource = asyncPainterResource(it)
             KamelImage(
                 resource = painterResource,

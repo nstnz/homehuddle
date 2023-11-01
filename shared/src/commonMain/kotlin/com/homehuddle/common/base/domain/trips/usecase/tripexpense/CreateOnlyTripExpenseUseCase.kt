@@ -27,7 +27,7 @@ internal class CreateOnlyTripExpenseUseCase(
                 tripId = tripId,
                 ownerId = repository.getOwnerId(),
                 createTs = getTimeMillis(),
-                name = "",
+                name = "New expense",
                 description = "",
                 dateStart = expense.date,
                 dateEnd = null,

@@ -50,7 +50,6 @@ internal class CreateTripScreenHolder(
             }.collect()
         }
 
-
         SetBottomSheetListener(bottomSheetState, onHide = {
             viewModel.sendIntent(CreateTripScreenIntent.CloseBottomSheet)
         })

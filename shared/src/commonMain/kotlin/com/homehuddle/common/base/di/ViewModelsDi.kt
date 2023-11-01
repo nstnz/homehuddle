@@ -41,7 +41,7 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
         MainScreenViewModel(instance(), instance(), instance(), instance())
     }
     bind<TripPostScreenViewModel>() with scoped(tripPostScope).multiton { id: String? ->
-        TripPostScreenViewModel(id.orEmpty(), instance())
+        TripPostScreenViewModel(id.orEmpty(), instance(), instance(), instance(), instance())
     }
     bind<TripDetailsScreenViewModel>() with scoped(tripDetailsScope).multiton { id: String? ->
         TripDetailsScreenViewModel(id.orEmpty(), instance(), instance(), instance())

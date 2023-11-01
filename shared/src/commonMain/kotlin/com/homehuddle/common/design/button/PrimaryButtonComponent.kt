@@ -13,7 +13,7 @@ internal fun PrimaryButtonComponent(
     state: ButtonState = ButtonState.DEFAULT,
 ) {
     ButtonComponent(
-        text = text.uppercase(),
+        text = text,
         onClick = onClick,
         modifier = modifier,
         state = state,

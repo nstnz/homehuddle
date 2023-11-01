@@ -2,6 +2,7 @@ package com.homehuddle.common.base.domain.general.model
 
 import com.homehuddle.common.base.domain.utils.flatten
 import com.homehuddle.common.base.domain.utils.formatDate
+import com.homehuddle.common.base.domain.utils.formatSum
 import io.ktor.util.date.getTimeMillis
 import kotlinx.serialization.Serializable
 
@@ -33,7 +34,10 @@ data class TripModel(
         get() = 100500.0
 
     val totalSpent: Double
-        get() = expenses.sumOf { it.sum }
+        get() = expenses.sumOf { it.convertedSum }
+
+    val formattedTotalSpent: String
+        get() = totalSpent.formatSum() + user?.currency?.code
 
     val expenses: List<TripExpenseModel>
         get() = posts.flatten { it.expenses }

@@ -24,7 +24,6 @@ import com.homehuddle.common.feature.personal.tripdetails.TripDetailsScreenState
 import com.homehuddle.common.feature.personal.tripdetails.TripDetailsTab
 import com.homehuddle.common.feature.personal.trippost.TripPostScreen
 import com.homehuddle.common.feature.personal.trippost.TripPostScreenState
-import com.homehuddle.common.feature.personal.trippost.TripPostTab
 
 @Preview
 @Composable
@@ -59,6 +58,7 @@ private fun MainScreenPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 private fun TripDetailsScreenPreview() {
@@ -69,6 +69,7 @@ private fun TripDetailsScreenPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 private fun TripPostScreenPreview() {
@@ -76,7 +77,6 @@ private fun TripPostScreenPreview() {
         TripPostScreen(
             TripPostScreenState(
                 mockTrip(), mockTripPost(),
-                selectedTab = TripPostTab.All
             )
         )
     }

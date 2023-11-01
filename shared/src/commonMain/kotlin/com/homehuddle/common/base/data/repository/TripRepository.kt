@@ -87,4 +87,9 @@ internal class TripRepository(
             )
         }
     }
+
+    override suspend fun delete(id: String?) {
+        tripPostRepository.deleteByParent(id)
+        super.delete(id)
+    }
 }

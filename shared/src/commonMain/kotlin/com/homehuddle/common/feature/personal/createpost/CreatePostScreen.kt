@@ -94,7 +94,7 @@ internal fun CreatePostScreen(
     onSelectCountry: (CountryModel) -> Unit = {},
     onDeleteCountry: (CountryModel) -> Unit = {},
     onAddPhotoClick: () -> Unit = {},
-    onDeletePhotoClick: (Bitmap) -> Unit = {},
+    onDeletePhotoClick: (Any) -> Unit = {},
     onChangeTrip: (TripModel) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -150,7 +150,7 @@ internal fun CreatePostScreen(
                         onNameChanged(it)
                     },
                     placeholder = Texts.TripPostName,
-                    label = Texts.TripPostLabel + state.trip?.name,
+                    label = Texts.TripPostLabel,
                     style = AppTheme.typography.body1Bold
                 )
                 SpacerComponent { x3 }
@@ -349,7 +349,7 @@ private fun PostBlock(
     state: CreatePostScreenState,
     onDescriptionChanged: (TextFieldValue) -> Unit = {},
     onAddPhotoClick: () -> Unit = {},
-    onDeletePhotoClick: (Bitmap) -> Unit = {},
+    onDeletePhotoClick: (Any) -> Unit = {},
 ) {
     TextInputComponent(
         modifier = Modifier.fillMaxWidth(),
@@ -419,7 +419,8 @@ private fun PostBlock(
                 TripPhotoComponent(
                     size,
                     AppTheme.indents.x1_5,
-                    it
+                    it as? Bitmap,
+                    it as? String,
                 )
                 Image(
                     Icons.Rounded.Cancel,

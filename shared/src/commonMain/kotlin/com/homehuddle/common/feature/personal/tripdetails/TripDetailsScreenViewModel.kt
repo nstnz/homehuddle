@@ -22,13 +22,19 @@ internal class TripDetailsScreenViewModel(
         is TripDetailsScreenIntent.UpdateTrip -> prevState.copy(
             trip = intent.trip
         )
-
         TripDetailsScreenIntent.AllFilterSelected -> prevState.copy(selectedTab = TripDetailsTab.All)
         TripDetailsScreenIntent.MapFilterSelected -> prevState.copy(selectedTab = TripDetailsTab.Map)
         TripDetailsScreenIntent.ExpensesFilterSelected -> prevState.copy(selectedTab = TripDetailsTab.Expenses)
         TripDetailsScreenIntent.PhotosFilterSelected -> prevState.copy(selectedTab = TripDetailsTab.Photos)
         TripDetailsScreenIntent.OverviewFilterSelected -> prevState.copy(selectedTab = TripDetailsTab.Overview)
-
+        is TripDetailsScreenIntent.AddItemClick -> prevState.copy(bottomSheet = BottomSheetType.AddNewItem)
+        is TripDetailsScreenIntent.TryDeleteTrip -> prevState.copy(bottomSheet = BottomSheetType.ConfirmDelete)
+        TripDetailsScreenIntent.CloseBottomSheet -> prevState.copy(bottomSheet = null)
+        is TripDetailsScreenIntent.ConfirmDeleteTrip -> prevState.copy(bottomSheet = null)
+        TripDetailsScreenIntent.AddTripClick -> prevState.copy(bottomSheet = null)
+        TripDetailsScreenIntent.AddExpensesClick -> prevState.copy(bottomSheet = null)
+        TripDetailsScreenIntent.AddTripPostClick -> prevState.copy(bottomSheet = null)
+        TripDetailsScreenIntent.AddLocationsClick -> prevState.copy(bottomSheet = null)
         else -> prevState
     }
 
@@ -40,23 +46,39 @@ internal class TripDetailsScreenViewModel(
             val trip = getTripUseCase(id)
             TripDetailsScreenIntent.UpdateTrip(trip)
         }
-
         TripDetailsScreenIntent.GoBack -> {
             router.back(tripDetailsScope)
             null
         }
-
-        is TripDetailsScreenIntent.DeleteTrip -> {
+        is TripDetailsScreenIntent.ConfirmDeleteTrip -> {
             deleteTripUseCase(id)
             router.back(tripDetailsScope)
             null
         }
-
         is TripDetailsScreenIntent.EditTrip -> {
             router.navigateToEditTrip(intent.trip)
             null
         }
-
+        TripDetailsScreenIntent.AddTripClick -> {
+            router.navigateToAddTrip()
+            null
+        }
+        TripDetailsScreenIntent.AddTripPostClick -> {
+            router.navigateToAddTripPost()
+            null
+        }
+        TripDetailsScreenIntent.AddExpensesClick -> {
+            router.navigateToAddExpenses()
+            null
+        }
+        TripDetailsScreenIntent.AddLocationsClick -> {
+            router.navigateToAddLocations()
+            null
+        }
+        is TripDetailsScreenIntent.OnPostClick -> {
+            router.navigateToTripPost(intent.post)
+            null
+        }
         else -> null
     }
 }

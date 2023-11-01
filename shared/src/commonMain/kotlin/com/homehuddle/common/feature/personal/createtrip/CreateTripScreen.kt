@@ -103,7 +103,8 @@ internal fun CreateTripScreen(
                 showBackButton = true,
                 showAddButton = false,
                 elementsColor = AppTheme.colors.textLightDefault(),
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                title = "Add trip"
             )
         }
     ) {

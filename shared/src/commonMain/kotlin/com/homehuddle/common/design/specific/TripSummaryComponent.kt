@@ -39,7 +39,7 @@ internal fun TripSummaryComponent(
                 textColor = textColor
             )
             TripInfoComponent(
-                text = "${trip.totalSpent} ${trip.user?.currency?.code}",
+                text = trip.formattedTotalSpent,
                 icon = Icons.Rounded.CreditCard,
                 iconColor = iconColor,
                 textColor = textColor

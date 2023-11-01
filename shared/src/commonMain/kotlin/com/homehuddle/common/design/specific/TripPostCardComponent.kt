@@ -34,7 +34,7 @@ import com.homehuddle.common.design.theme.textDarkDisabled
 internal fun TripPostCardComponent(
     trip: TripModel,
     tripPost: TripPostModel,
-    user: UserModel,
+    user: UserModel?,
     onClick: (TripPostModel) -> Unit = {},
     modifier: Modifier = Modifier,
     showFullInfo: Boolean = false
