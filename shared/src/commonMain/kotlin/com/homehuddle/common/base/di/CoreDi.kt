@@ -29,7 +29,7 @@ import com.homehuddle.common.base.data.repository.TripPointRepository
 import com.homehuddle.common.base.data.repository.TripPostRepository
 import com.homehuddle.common.base.data.repository.TripRepository
 import com.homehuddle.common.base.data.repository.UserRepository
-import com.homehuddle.common.base.domain.general.usecase.AnonymousAuthUseCase
+import com.homehuddle.common.base.domain.general.usecase.AuthUseCase
 import com.homehuddle.common.base.domain.general.usecase.GetMeUseCase
 import com.homehuddle.common.base.domain.general.usecase.GetUserUseCase
 import com.homehuddle.common.base.domain.general.usecase.IsSignedInUseCase
@@ -179,7 +179,7 @@ internal val coreDi = DI.Module(name = "Core") {
             instance()
         )
     }
-    bind<AnonymousAuthUseCase>() with provider { AnonymousAuthUseCase(instance(), instance(), instance()) }
+    bind<AuthUseCase>() with provider { AuthUseCase(instance(), instance(), instance()) }
     bind<IsSignedInUseCase>() with provider { IsSignedInUseCase(instance()) }
     bind<GetMeUseCase>() with provider { GetMeUseCase(instance(), instance()) }
     bind<SaveMeUseCase>() with provider { SaveMeUseCase(instance(), instance(), instance()) }

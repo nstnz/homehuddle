@@ -9,6 +9,7 @@ internal object LoginScreenState : State
 internal sealed interface LoginScreenIntent : Intent {
     object Load : LoginScreenIntent
     object MakeLogin : LoginScreenIntent
+    data class Login(val token: String) : LoginScreenIntent
 }
 
 internal sealed class LoginScreenSingleEvent : SingleEvent

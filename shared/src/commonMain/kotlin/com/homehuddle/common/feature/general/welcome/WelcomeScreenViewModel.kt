@@ -1,8 +1,7 @@
 package com.homehuddle.common.feature.general.welcome
 
-import com.homehuddle.common.base.domain.general.usecase.AnonymousAuthUseCase
-import com.homehuddle.common.router.Router
 import com.homehuddle.common.base.ui.CoroutinesViewModel
+import com.homehuddle.common.router.Router
 
 internal class WelcomeScreenViewModel(
     private val router: Router,

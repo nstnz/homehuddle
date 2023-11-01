@@ -4,29 +4,28 @@ import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.data.repository.UserRepository
 import com.homehuddle.common.base.domain.general.model.UserModel
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.GoogleAuthProvider
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal class AnonymousAuthUseCase(
+internal class AuthUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
     private val refreshDataUseCase: RefreshDataUseCase,
 ) {
 
-    suspend operator fun invoke(): UserModel? = withContext(dispatcher) {
-        val user = Firebase.auth.signInAnonymously().user
-        user != null
-
-        Firebase.auth.currentUser?.let {
+    suspend operator fun invoke(token: String): UserModel? = withContext(dispatcher) {
+        val authResult = Firebase.auth.signInWithCredential(GoogleAuthProvider.credential(token, null))
+        authResult.user?.let {
             val existingUser = repository.get(it.uid)
             if (existingUser == null) {
                 val newUser = User(
                     id = it.uid,
                     ownerId = it.uid,
-                    name = "Pupa",
+                    name = it.displayName.orEmpty(),
                     currencyCode = "USD",
                     visitedCountries = ""
                 )
@@ -44,6 +43,5 @@ internal class AnonymousAuthUseCase(
                 return@withContext existingUser
             }
         }
-        return@withContext null
     }
 }

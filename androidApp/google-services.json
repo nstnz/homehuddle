@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "554504042887",
+    "firebase_url": "https://homehuddle-d248d-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "homehuddle-d248d",
     "storage_bucket": "homehuddle-d248d.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.homehuddle"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "554504042887-l6lu4ciuo6ognk9s9uiu2vuhirg4qvbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homehuddle",
+            "certificate_hash": "5384685260c0a9bc4c9c3cb8697608e57ce19b4f"
+          }
+        },
+        {
+          "client_id": "554504042887-oicvmi4sevlgpn8j9et6rsvnsts07fgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDZlqnH5BrsTUPqj248XBggIBLfvQ7VR2A"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554504042887-oicvmi4sevlgpn8j9et6rsvnsts07fgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

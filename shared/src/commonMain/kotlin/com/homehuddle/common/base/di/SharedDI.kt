@@ -3,6 +3,7 @@ package com.homehuddle.common.base.di
 import FirebaseFirestoreImpl
 import FirebaseRemoteConfigImpl
 import FirebaseStorageImpl
+import GoogleAuthApi
 import com.homehuddle.AppDatabase
 import com.homehuddle.AppDatabaseQueries
 import com.homehuddle.common.router.Router
@@ -33,13 +34,14 @@ object SharedDI {
         this.databaseDriver = databaseDriver
     }
 
-    internal val di = DI {
+    val di = DI {
         bind<AppDatabaseQueries>() with singleton {
             val database = AppDatabase(databaseDriver)
             database.appDatabaseQueries
         }
         bind<FirebaseFirestore>() with singleton { Firebase.firestore }
         bind<FirebaseFirestoreImpl>() with singleton { FirebaseFirestoreImpl() }
+        bind<GoogleAuthApi>() with singleton { GoogleAuthApi() }
         bind<FirebaseRemoteConfigImpl>() with singleton { FirebaseRemoteConfigImpl() }
         bind<FirebaseStorageImpl>() with singleton { FirebaseStorageImpl() }
         bind<Router>() with singleton { Router() }
