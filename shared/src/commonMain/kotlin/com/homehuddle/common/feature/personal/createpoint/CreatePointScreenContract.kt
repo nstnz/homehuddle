@@ -1,6 +1,7 @@
 package com.homehuddle.common.feature.personal.createpoint
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.homehuddle.common.base.domain.general.model.LocationModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPointModel
 import com.homehuddle.common.base.domain.general.model.UserModel
@@ -35,7 +36,7 @@ internal sealed interface CreatePointScreenIntent : Intent {
     data class OnTripChanged(val value: TripModel) : CreatePointScreenIntent
     data class OnDescriptionChanged(val value: TextFieldValue) : CreatePointScreenIntent
     data class OnChangeLocation(val value: TripPointModel) : CreatePointScreenIntent
-    data class OnLocationChanged(val value: TripPointModel) : CreatePointScreenIntent
+    data class OnLocationChanged(val value: LocationModel) : CreatePointScreenIntent
     object OnChangeTripClick : CreatePointScreenIntent
 }
 

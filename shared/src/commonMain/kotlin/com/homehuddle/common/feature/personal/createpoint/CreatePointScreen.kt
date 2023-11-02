@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
+import com.homehuddle.common.base.domain.general.model.LocationModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPointModel
 import com.homehuddle.common.base.domain.utils.Texts
@@ -27,6 +28,7 @@ import com.homehuddle.common.design.scaffold.GradientScaffold
 import com.homehuddle.common.design.snackbar.SnackbarHostState
 import com.homehuddle.common.design.spacer.SpacerComponent
 import com.homehuddle.common.design.specific.PointComponent
+import com.homehuddle.common.design.specific.SelectLocationBottomSheet
 import com.homehuddle.common.design.specific.SelectTripBottomSheet
 import com.homehuddle.common.design.specific.SelectTripComponent
 import com.homehuddle.common.design.theme.AppTheme
@@ -50,13 +52,24 @@ internal fun CreatePointScreen(
     onTripClick: () -> Unit = {},
     onChangeTrip: (TripModel) -> Unit = {},
     onChangeLocation: (TripPointModel) -> Unit = {},
+    onLocationChanged: (LocationModel) -> Unit = {},
 ) {
     GradientScaffold(
         snackbarHostState = snackbarHostState,
         bottomSheetState = bottomSheetState,
         bottomSheet = {
             when (state.bottomSheet) {
-                is BottomSheetType.SelectLocation -> {}
+                is BottomSheetType.SelectLocation -> SelectLocationBottomSheet(
+                    title = "Select location",
+                    selectedLocation = LocationModel(
+                        name = state.model?.name.orEmpty(),
+                        description = state.model?.description.orEmpty(),
+                        address = state.model?.address.orEmpty(),
+                        lat = state.model?.lat ?: 0.0,
+                        lon = state.model?.lon ?: 0.0,
+                    ),
+                    onSelect = onLocationChanged
+                )
                 is BottomSheetType.SelectTrip -> SelectTripBottomSheet(
                     title = "Select trip",
                     trips = state.bottomSheet.trips,

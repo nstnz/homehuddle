@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
+import com.homehuddle.common.base.domain.general.model.LocationModel
 import com.homehuddle.common.base.domain.general.model.TripModel
 import com.homehuddle.common.base.domain.general.model.TripPointModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
@@ -66,7 +67,24 @@ internal fun PointComponent(
     model: TripPointModel,
     onClick: (TripPointModel) -> Unit = {}
 ) {
-    Row(Modifier.fillMaxWidth().noEffectsClickable { onClick(model) }) {
+    PointComponent(
+        model = LocationModel(
+            address = model.address,
+            lat = model.lat,
+            lon = model.lon,
+            name = model.name,
+            description = model.description,
+        ),
+        onClick = { onClick(model) }
+    )
+}
+
+@Composable
+internal fun PointComponent(
+    model: LocationModel,
+    onClick: () -> Unit = {}
+) {
+    Row(Modifier.fillMaxWidth().noEffectsClickable { onClick() }) {
         val size = AppTheme.indents.x6
         Box(
             Modifier

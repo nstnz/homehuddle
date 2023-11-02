@@ -1,5 +1,6 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.homehuddle.common.base.domain.general.model.LocationModel
 import com.homehuddle.common.design.mocks.mockCountry
 import com.homehuddle.common.design.mocks.mockCurrency
 import com.homehuddle.common.design.mocks.mockTrip
@@ -9,6 +10,7 @@ import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.specific.CalendarBottomSheet
 import com.homehuddle.common.design.specific.CountriesSelectorComponent
 import com.homehuddle.common.design.specific.SelectCurrencyBottomSheet
+import com.homehuddle.common.design.specific.SelectLocationBottomSheet
 import com.homehuddle.common.design.specific.SelectTripBottomSheet
 import com.homehuddle.common.design.specific.TripCardComponent
 import com.homehuddle.common.design.specific.TripDailyExpensesComponent
@@ -136,6 +138,19 @@ private fun CountriesSelectorComponentPreview() {
                 mockCountry(),
             ),
             selectedCountries = emptyList()
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SelectLocationBottomSheetPreview() {
+    AppTheme {
+        SelectLocationBottomSheet(
+            title = "Select location",
+            selectedLocation = LocationModel("slf",
+                "", "",
+                0.0, 1.0),
         )
     }
 }
