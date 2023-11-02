@@ -54,6 +54,7 @@ class TripPostScreenHolder(
 
         TripPostScreen(
             state = viewState,
+            bottomSheetState = bottomSheetState,
             onBackClick = { viewModel.sendIntent(TripPostScreenIntent.GoBack) },
             onEditClick = { viewModel.sendIntent(TripPostScreenIntent.OnEditClick) },
             onDeleteClick = { viewModel.sendIntent(TripPostScreenIntent.OnDeleteClick) },

@@ -189,12 +189,12 @@ internal class CreatePostScreenViewModel(
                 model?.let {
                     if (state.isCreateMode) {
                         createTripPostUseCase(
-                            state.trip?.id.orEmpty(), model,
+                            state.trip, model,
                             state.bitmaps.filterIsInstance<Bitmap>()
                         )
                     } else {
                         updateTripPostUseCase(
-                            state.trip?.id.orEmpty(),
+                            state.trip,
                             model,
                             state.bitmaps
                         )

@@ -8,10 +8,15 @@ import com.homehuddle.common.base.data.networksource.BaseNetworkSource
 import com.homehuddle.common.base.domain.general.model.BaseDomainModel
 import io.github.aakira.napier.Napier
 import io.ktor.util.date.getTimeMillis
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSource, DbSource, MemSource>(
     private val networkSource: NetSource,
@@ -24,11 +29,15 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
         MemSource : BaseMemorySource<NetworkModel>,
         DomainModel : BaseDomainModel<DomainModel> {
 
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     abstract suspend fun mapToDbModel(model: NetworkModel?): DbModel?
 
     abstract suspend fun mapToDomainModel(model: DbModel?): DomainModel?
 
     abstract suspend fun mapToDbModel(model: DomainModel?): DbModel?
+
+    abstract suspend fun mapToNetworkModel(model: DbModel): NetworkModel
 
     abstract val refreshTimestampsDiff: Long
 
@@ -64,22 +73,26 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
             }
     }
 
-    suspend fun create(model: NetworkModel): Boolean {
+    open suspend fun create(model: DomainModel): Boolean {
         Napier.d(tag = this::class.simpleName, message = "create")
         return try {
-            mapToDbModel(model)?.let { dbSource.create(it) }
-            networkSource.create(model)
+            mapToDbModel(model)?.let {
+                dbSource.create(it)
+                networkSource.create(mapToNetworkModel(it))
+            }
             true
         } catch (e: Exception) {
             false
         }
     }
 
-    suspend fun update(model: NetworkModel): Boolean {
+    open suspend fun update(model: DomainModel): Boolean {
         Napier.d(tag = this::class.simpleName, message = "update")
         return try {
-            mapToDbModel(model)?.let { dbSource.update(it) }
-            networkSource.update(model)
+            mapToDbModel(model)?.let {
+                dbSource.update(it)
+                networkSource.update(mapToNetworkModel(it))
+            }
             true
         } catch (e: Exception) {
             false
@@ -118,21 +131,26 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
 
     suspend fun getByParent(id: String?): List<DomainModel> {
         Napier.d(tag = this::class.simpleName, message = "getByParent: $id")
-        val networkModels = networkSource.getByParent(id)
-        return networkModels.map { networkModel ->
-            val dbModel = mapToDbModel(networkModel)
-            if (networkModel.ownerId == getOwnerId()) {
-                dbModel?.let {
-                    dbSource.create(dbModel)
-                    mapToDomainModel(dbModel)
-                }
-            } else {
-                networkModel.let {
-                    memorySource.create(networkModel)
-                    mapToDomainModel(mapToDbModel(it))
+        val localModels = dbSource.getByParent(id)
+        return localModels.mapNotNull { mapToDomainModel(it) }.also {
+            scope.launch {
+                val networkModels = networkSource.getByParent(id)
+                networkModels.mapNotNull { networkModel ->
+                    val dbModel = mapToDbModel(networkModel)
+                    if (networkModel.ownerId == getOwnerId()) {
+                        dbModel?.let {
+                            dbSource.create(dbModel)
+                            mapToDomainModel(dbModel)
+                        }
+                    } else {
+                        networkModel.let {
+                            memorySource.create(networkModel)
+                            mapToDomainModel(mapToDbModel(it))
+                        }
+                    }
                 }
             }
-        }.filterNotNull()
+        }
     }
 
     suspend fun deleteByParent(id: String?) {
@@ -142,7 +160,7 @@ internal abstract class BaseRepository<NetworkModel, DomainModel, DbModel, NetSo
         dbSource.deleteByParent(id)
     }
 
-    suspend open fun clear() {
+    open suspend fun clear() {
         Napier.d(tag = this::class.simpleName, message = "clear")
         memorySource.clear()
         dbSource.clear()

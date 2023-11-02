@@ -11,4 +11,16 @@ data class CurrencyModel(
     val name: String,
     val code: String,
     val rate: Double
-) : BaseDomainModel<CurrencyModel>
+) : BaseDomainModel<CurrencyModel> {
+
+    companion object {
+
+        fun createEmpty(): CurrencyModel = CurrencyModel(
+            id = "USD",
+            ownerId = "",
+            name = "USD",
+            code = "USD",
+            rate = 1.0
+        )
+    }
+}

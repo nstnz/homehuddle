@@ -10,6 +10,6 @@ internal class DeleteTripUseCase(
 ) {
 
     suspend operator fun invoke(id: String): Unit = withContext(dispatcher) {
-        return@withContext repository.delete(id)
+        repository.delete(id)
     }
 }

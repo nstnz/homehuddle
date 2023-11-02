@@ -1,6 +1,6 @@
 package com.homehuddle.common.base.domain.trips.usecase.trip
 
-import com.homehuddle.common.base.data.model.Trip
+import com.benasher44.uuid.uuid4
 import com.homehuddle.common.base.data.repository.TripRepository
 import com.homehuddle.common.base.domain.general.model.CountryModel
 import com.homehuddle.common.base.domain.general.model.CurrencyModel
@@ -9,7 +9,6 @@ import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 
 internal class UpdateTripUseCase(
     private val dispatcher: CoroutineDispatcher,
@@ -23,19 +22,12 @@ internal class UpdateTripUseCase(
         countries: List<CountryModel>
     ): Unit = withContext(dispatcher) {
         repository.update(
-            Trip(
-                id = tripModel.id,
+            tripModel.copy(
+                id = uuid4().toString(),
                 ownerId = repository.getOwnerId(),
-                createTs = tripModel.createTs,
                 editTs = getTimeMillis(),
-                name = tripModel.name,
-                description = tripModel.description,
-                dateStart = tripModel.dateStart,
-                dateEnd = tripModel.dateEnd,
-                timestampStart = tripModel.timestampStart,
-                timestampEnd = tripModel.timestampEnd,
-                currencyCode = currencyModel?.id,
-                countries = json.encodeToJsonElement(countries.map { it.id.orEmpty() }).toString()
+                currency = currencyModel,
+                countries = countries
             )
         )
     }

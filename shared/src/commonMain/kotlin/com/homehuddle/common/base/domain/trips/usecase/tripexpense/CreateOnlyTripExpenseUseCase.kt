@@ -1,11 +1,12 @@
 package com.homehuddle.common.base.domain.trips.usecase.tripexpense
 
 import com.benasher44.uuid.uuid4
-import com.homehuddle.common.base.data.model.TripExpense
-import com.homehuddle.common.base.data.model.TripPost
 import com.homehuddle.common.base.data.repository.TripExpenseRepository
 import com.homehuddle.common.base.data.repository.TripPostRepository
+import com.homehuddle.common.base.data.repository.TripRepository
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
+import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPostModel
 import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -14,42 +15,41 @@ internal class CreateOnlyTripExpenseUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val repository: TripPostRepository,
     private val expenseRepository: TripExpenseRepository,
+    private val tripRepository: TripRepository,
 ) {
 
     suspend operator fun invoke(
         expense: TripExpenseModel,
-        tripId: String,
+        trip: TripModel?,
     ): Unit = withContext(dispatcher) {
         val tripPostId = uuid4().toString()
         repository.create(
-            TripPost(
+            TripPostModel.createEmpty().copy(
                 id = tripPostId,
-                tripId = tripId,
+                tripId = trip?.id.orEmpty(),
                 ownerId = repository.getOwnerId(),
                 createTs = getTimeMillis(),
-                name = "New expense",
-                description = "",
                 dateStart = expense.date,
-                dateEnd = null,
                 timestampStart = expense.timestamp,
-                timestampEnd = null,
-                countries = "",
-                photos = ""
+                name = "New expense",
             )
         )
+
         expenseRepository.create(
-            TripExpense(
+            expense.copy(
                 id = uuid4().toString(),
                 tripPostId = tripPostId,
-                ownerId = repository.getOwnerId(),
                 createTs = getTimeMillis(),
-                description = expense.description,
-                date = expense.date,
-                sum = expense.sum,
-                timestamp = expense.timestamp,
-                category = expense.category.name,
-                currencyCode = expense.currency?.id.orEmpty()
+                ownerId = repository.getOwnerId(),
             )
         )
+
+        trip?.let {
+            tripRepository.update(
+                it.copy(
+                    editTs = getTimeMillis()
+                )
+            )
+        }
     }
 }

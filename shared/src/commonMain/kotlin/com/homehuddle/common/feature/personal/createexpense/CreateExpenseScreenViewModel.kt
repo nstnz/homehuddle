@@ -152,7 +152,7 @@ internal class CreateExpenseScreenViewModel(
                     if (intent.onCustomExpenseCreation != null) {
                         intent.onCustomExpenseCreation.invoke(model)
                     } else {
-                        createOnlyTripExpenseUseCase(model, state.trip?.id.orEmpty())
+                        createOnlyTripExpenseUseCase(model, state.trip)
                     }
                 }
                 router.back(createExpenseScope)

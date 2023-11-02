@@ -73,4 +73,20 @@ internal class TripExpenseRepository(
             editTs = it.editTs
         )
     }
+
+    override suspend fun mapToNetworkModel(model: TripExpensesDao): TripExpense = model.let {
+        TripExpense(
+            id = it.id,
+            ownerId = it.ownerId,
+            tripPostId = it.tripPostId.orEmpty(),
+            sum = it.sum ?: 0.0,
+            currencyCode = it.currencyCode.orEmpty(),
+            description = it.description.orEmpty(),
+            date = it.date.orEmpty(),
+            timestamp = it.timestamp,
+            category = it.category.orEmpty(),
+            createTs = it.createTs,
+            editTs = it.editTs
+        )
+    }
 }

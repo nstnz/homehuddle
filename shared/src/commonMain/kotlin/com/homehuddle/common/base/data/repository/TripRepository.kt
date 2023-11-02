@@ -88,6 +88,23 @@ internal class TripRepository(
         }
     }
 
+    override suspend fun mapToNetworkModel(model: TripsDao): Trip = model.let {
+        Trip(
+            id = it.id,
+            ownerId = it.ownerId,
+            name = it.name.orEmpty(),
+            description = it.description.orEmpty(),
+            dateStart = it.dateStart,
+            dateEnd = it.dateEnd,
+            timestampStart = it.timestampStart,
+            timestampEnd = it.timestampEnd,
+            currencyCode = it.currencyCode,
+            countries = it.countries.orEmpty(),
+            createTs = it.createTs,
+            editTs = it.editTs
+        )
+    }
+
     override suspend fun delete(id: String?) {
         tripPostRepository.deleteByParent(id)
         super.delete(id)

@@ -61,4 +61,17 @@ internal class TripPointRepository(
             editTs = it.editTs
         )
     }
+
+    override suspend fun mapToNetworkModel(model: TripPointsDao): TripPoint = model.let {
+        TripPoint(
+            id = it.id,
+            ownerId = it.ownerId,
+            tripPostId = it.tripPostId.orEmpty(),
+            lat = it.lat ?: 0.0,
+            lon = it.lon ?: 0.0,
+            description = it.description.orEmpty(),
+            createTs = it.createTs,
+            editTs = it.editTs
+        )
+    }
 }

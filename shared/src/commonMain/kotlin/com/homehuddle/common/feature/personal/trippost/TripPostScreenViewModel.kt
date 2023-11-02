@@ -48,7 +48,7 @@ internal class TripPostScreenViewModel(
             null
         }
         TripPostScreenIntent.OnConfirmDelete -> {
-            deleteTripPostUseCase(id)
+            deleteTripPostUseCase(state.trip, id)
             router.back(tripPostScope)
             null
         }

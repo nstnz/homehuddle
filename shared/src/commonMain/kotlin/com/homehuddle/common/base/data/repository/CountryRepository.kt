@@ -49,4 +49,13 @@ internal class CountryRepository(
             emoji = it.emoji,
         )
     }
+
+    override suspend fun mapToNetworkModel(model: CountriesDao): Country = model.let {
+        Country(
+            id = it.id,
+            ownerId = it.ownerId,
+            name = it.name.orEmpty(),
+            emoji = it.emoji.orEmpty(),
+        )
+    }
 }

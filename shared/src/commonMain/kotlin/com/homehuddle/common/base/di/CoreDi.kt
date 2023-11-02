@@ -188,14 +188,14 @@ internal val coreDi = DI.Module(name = "Core") {
     bind<GetTripUseCase>() with provider { GetTripUseCase(instance(), instance()) }
     bind<GetLastTripUseCase>() with provider { GetLastTripUseCase(instance(), instance()) }
     bind<UpdateTripUseCase>() with provider { UpdateTripUseCase(instance(), instance(), instance()) }
-    bind<CreateTripUseCase>() with provider { CreateTripUseCase(instance(), instance(), instance()) }
+    bind<CreateTripUseCase>() with provider { CreateTripUseCase(instance(), instance()) }
     bind<DeleteTripUseCase>() with provider { DeleteTripUseCase(instance(), instance()) }
 
     bind<GetTripPostUseCase>() with provider { GetTripPostUseCase(instance(), instance()) }
     bind<UpdateTripPostUseCase>() with provider { UpdateTripPostUseCase(instance(), instance(), instance(), instance(), instance()) }
     bind<CreateTripPostUseCase>() with provider { CreateTripPostUseCase(instance(), instance(), instance(), instance(), instance()) }
-    bind<DeleteTripPostUseCase>() with provider { DeleteTripPostUseCase(instance(), instance()) }
+    bind<DeleteTripPostUseCase>() with provider { DeleteTripPostUseCase(instance(), instance(), instance()) }
 
     bind<GetTripExpenseUseCase>() with provider { GetTripExpenseUseCase(instance(), instance()) }
-    bind<CreateOnlyTripExpenseUseCase>() with provider { CreateOnlyTripExpenseUseCase(instance(), instance(), instance()) }
+    bind<CreateOnlyTripExpenseUseCase>() with provider { CreateOnlyTripExpenseUseCase(instance(), instance(), instance(), instance()) }
 }

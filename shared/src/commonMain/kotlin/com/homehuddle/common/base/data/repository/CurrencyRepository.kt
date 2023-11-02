@@ -52,4 +52,14 @@ internal class CurrencyRepository(
             rate = it.rate
         )
     }
+
+    override suspend fun mapToNetworkModel(model: CurrenciesDao): Currency = model.let {
+        Currency(
+            id = it.id,
+            ownerId = it.ownerId,
+            name = it.name.orEmpty(),
+            code = it.code.orEmpty(),
+            rate = it.rate ?: 1.0
+        )
+    }
 }

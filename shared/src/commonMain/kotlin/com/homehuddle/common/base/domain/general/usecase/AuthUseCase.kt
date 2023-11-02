@@ -1,7 +1,7 @@
 package com.homehuddle.common.base.domain.general.usecase
 
-import com.homehuddle.common.base.data.model.User
 import com.homehuddle.common.base.data.repository.UserRepository
+import com.homehuddle.common.base.domain.general.model.CurrencyModel
 import com.homehuddle.common.base.domain.general.model.UserModel
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.GoogleAuthProvider
@@ -18,16 +18,20 @@ internal class AuthUseCase(
 ) {
 
     suspend operator fun invoke(token: String): UserModel? = withContext(dispatcher) {
-        val authResult = Firebase.auth.signInWithCredential(GoogleAuthProvider.credential(token, null))
+        val authResult =
+            Firebase.auth.signInWithCredential(GoogleAuthProvider.credential(token, null))
         authResult.user?.let {
             val existingUser = repository.get(it.uid)
             if (existingUser == null) {
-                val newUser = User(
+                val newUser = UserModel(
                     id = it.uid,
                     ownerId = it.uid,
                     name = it.displayName.orEmpty(),
-                    currencyCode = "USD",
-                    visitedCountries = ""
+                    currency = CurrencyModel.createEmpty(),
+                    visitedCountries = emptyList(),
+                    allCountries = emptyList(),
+                    allCurrencies = emptyList(),
+                    isMe = true
                 )
                 repository.create(newUser)
                 repository.saveCurrentUser(newUser)

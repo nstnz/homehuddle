@@ -80,6 +80,18 @@ internal class UserRepository(
         )
     }
 
+    override suspend fun mapToNetworkModel(model: UsersDao): User = model.let {
+        User(
+            id = it.id,
+            name = it.name.orEmpty(),
+            currencyCode = it.currencyCode.orEmpty(),
+            ownerId = it.ownerId,
+            visitedCountries = it.visitedCountries.orEmpty(),
+            createTs = it.createTs,
+            editTs = it.editTs
+        )
+    }
+
     override suspend fun clear() {
         userLocalSource.clear()
         super.clear()
