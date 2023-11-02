@@ -82,6 +82,7 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
             instance(),
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }

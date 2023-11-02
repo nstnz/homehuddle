@@ -84,6 +84,7 @@ internal class CreatePointScreenHolder(
             onChangeTrip = { viewModel.sendIntent(CreatePointScreenIntent.OnTripChanged(it)) },
             onChangeLocation = { viewModel.sendIntent(CreatePointScreenIntent.OnChangeLocation(it)) },
             onLocationChanged = { viewModel.sendIntent(CreatePointScreenIntent.OnLocationChanged(it)) },
+            onSearchTextChanged = { viewModel.sendIntent(CreatePointScreenIntent.OnSearchTextChanged(it)) },
         )
     }
 }

@@ -28,6 +28,7 @@ internal fun BottomSheetComponent(
     description: String? = null,
     topButton: String? = null,
     bottomButton: String? = null,
+    scrollable: Boolean = true,
     fixedHeight: Dp? = null,
     topButtonClick: () -> Unit = {},
     bottomButtonClick: () -> Unit = {},
@@ -63,12 +64,13 @@ internal fun BottomSheetComponent(
                 modifier = if (fixedHeight != null) {
                     Modifier.fillMaxWidth()
                         .height(fixedHeight)
-                        .verticalScroll(rememberScrollState())
                 } else {
                     Modifier.fillMaxWidth()
                         .heightIn(max = 500.dp)
-                        .verticalScroll(rememberScrollState())
-                }
+                }.then(
+                    if (scrollable) Modifier.verticalScroll(rememberScrollState())
+                    else Modifier
+                )
             ) {
                 customContent.invoke(this)
                 SpacerComponent { x3 }

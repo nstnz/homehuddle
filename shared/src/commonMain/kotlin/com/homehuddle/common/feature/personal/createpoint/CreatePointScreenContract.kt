@@ -17,7 +17,11 @@ internal data class CreatePointScreenState(
     val name: TextFieldValue = TextFieldValue(""),
     val description: TextFieldValue = TextFieldValue(""),
     val bottomSheet: BottomSheetType? = null,
-    val trips: List<TripModel> = emptyList()
+    val trips: List<TripModel> = emptyList(),
+    val searchedLocations: List<LocationModel> = emptyList(),
+    val updateTs: Long? = 0,
+    val currentLat: Double = 0.0,
+    val currentLon: Double = 0.0,
 ) : State
 
 internal sealed interface CreatePointScreenIntent : Intent {
@@ -37,6 +41,8 @@ internal sealed interface CreatePointScreenIntent : Intent {
     data class OnDescriptionChanged(val value: TextFieldValue) : CreatePointScreenIntent
     data class OnChangeLocation(val value: TripPointModel) : CreatePointScreenIntent
     data class OnLocationChanged(val value: LocationModel) : CreatePointScreenIntent
+    data class OnSearchTextChanged(val value: String) : CreatePointScreenIntent
+    data class OnLocationsFound(val searchedLocations: List<LocationModel>) : CreatePointScreenIntent
     object OnChangeTripClick : CreatePointScreenIntent
 }
 

@@ -53,6 +53,7 @@ internal fun CreatePointScreen(
     onChangeTrip: (TripModel) -> Unit = {},
     onChangeLocation: (TripPointModel) -> Unit = {},
     onLocationChanged: (LocationModel) -> Unit = {},
+    onSearchTextChanged: (String) -> Unit = { },
 ) {
     GradientScaffold(
         snackbarHostState = snackbarHostState,
@@ -68,7 +69,9 @@ internal fun CreatePointScreen(
                         lat = state.model?.lat ?: 0.0,
                         lon = state.model?.lon ?: 0.0,
                     ),
-                    onSelect = onLocationChanged
+                    searchedLocations = state.searchedLocations,
+                    onSelect = onLocationChanged,
+                    onSearchTextChanged = onSearchTextChanged
                 )
                 is BottomSheetType.SelectTrip -> SelectTripBottomSheet(
                     title = "Select trip",

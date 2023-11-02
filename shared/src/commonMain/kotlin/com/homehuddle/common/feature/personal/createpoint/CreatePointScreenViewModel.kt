@@ -7,10 +7,12 @@ import com.homehuddle.common.base.domain.trips.usecase.trip.GetLastTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trip.GetUserTripsFlowUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippoint.CreateOnlyTripPointUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trippoint.GetLocationsByStringUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippoint.GetTripPointUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.GetTripPostUseCase
 import com.homehuddle.common.base.ui.CoroutinesViewModel
 import com.homehuddle.common.router.Router
+import io.ktor.util.date.getTimeMillis
 import kotlinx.coroutines.flow.firstOrNull
 
 internal class CreatePointScreenViewModel(
@@ -22,7 +24,8 @@ internal class CreatePointScreenViewModel(
     private val getTripPointUseCase: GetTripPointUseCase,
     private val getTripPostUseCase: GetTripPostUseCase,
     private val getUserTripsFlowUseCase: GetUserTripsFlowUseCase,
-    private val createOnlyTripPointUseCase: CreateOnlyTripPointUseCase
+    private val createOnlyTripPointUseCase: CreateOnlyTripPointUseCase,
+    private val getLocationsByStringUseCase: GetLocationsByStringUseCase,
 ) : CoroutinesViewModel<CreatePointScreenState, CreatePointScreenIntent, CreatePointScreenSingleEvent>() {
 
     override fun initialState(): CreatePointScreenState = CreatePointScreenState(
@@ -68,6 +71,10 @@ internal class CreatePointScreenViewModel(
         is CreatePointScreenIntent.OnTripChanged -> prevState.copy(
             trip = intent.value,
             bottomSheet = null
+        )
+        is CreatePointScreenIntent.OnLocationsFound -> prevState.copy(
+            searchedLocations = intent.searchedLocations,
+            updateTs = getTimeMillis()
         )
         else -> prevState
     }
@@ -119,6 +126,11 @@ internal class CreatePointScreenViewModel(
         CreatePointScreenIntent.GoBack -> {
             router.back(createPointScope)
             null
+        }
+        is CreatePointScreenIntent.OnSearchTextChanged -> {
+            val locations =
+                getLocationsByStringUseCase(intent.value, state.currentLat, state.currentLon)
+            CreatePointScreenIntent.OnLocationsFound(locations)
         }
         else -> null
     }

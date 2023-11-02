@@ -17,6 +17,7 @@ import com.homehuddle.common.base.data.memorysource.TripPostMemorySource
 import com.homehuddle.common.base.data.memorysource.UserMemorySource
 import com.homehuddle.common.base.data.networksource.CountryNetworkSource
 import com.homehuddle.common.base.data.networksource.CurrencyNetworkSource
+import com.homehuddle.common.base.data.networksource.LocationsNetworkSource
 import com.homehuddle.common.base.data.networksource.TripExpenseNetworkSource
 import com.homehuddle.common.base.data.networksource.TripNetworkSource
 import com.homehuddle.common.base.data.networksource.TripPointNetworkSource
@@ -24,6 +25,7 @@ import com.homehuddle.common.base.data.networksource.TripPostNetworkSource
 import com.homehuddle.common.base.data.networksource.UserNetworkSource
 import com.homehuddle.common.base.data.repository.CountryRepository
 import com.homehuddle.common.base.data.repository.CurrencyRepository
+import com.homehuddle.common.base.data.repository.LocationsRepository
 import com.homehuddle.common.base.data.repository.TripExpenseRepository
 import com.homehuddle.common.base.data.repository.TripPointRepository
 import com.homehuddle.common.base.data.repository.TripPostRepository
@@ -44,6 +46,7 @@ import com.homehuddle.common.base.domain.trips.usecase.trip.UpdateTripUseCase
 import com.homehuddle.common.base.domain.trips.usecase.tripexpense.CreateOnlyTripExpenseUseCase
 import com.homehuddle.common.base.domain.trips.usecase.tripexpense.GetTripExpenseUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippoint.CreateOnlyTripPointUseCase
+import com.homehuddle.common.base.domain.trips.usecase.trippoint.GetLocationsByStringUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippoint.GetTripPointUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.CreateTripPostUseCase
 import com.homehuddle.common.base.domain.trips.usecase.trippost.DeleteTripPostUseCase
@@ -239,6 +242,15 @@ internal val coreDi = DI.Module(name = "Core") {
             instance()
         )
     }
+
+    bind<GetLocationsByStringUseCase>() with provider {
+        GetLocationsByStringUseCase(
+            instance(),
+            instance()
+        )
+    }
+    bind<LocationsRepository>() with provider { LocationsRepository(instance()) }
+    bind<LocationsNetworkSource>() with provider { LocationsNetworkSource(instance(), instance()) }
 
     bind<GetTripExpenseUseCase>() with provider { GetTripExpenseUseCase(instance(), instance()) }
     bind<CreateOnlyTripExpenseUseCase>() with provider {
