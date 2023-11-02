@@ -127,7 +127,9 @@ CREATE TABLE TripPointsDao(
 id TEXT NOT NULL PRIMARY KEY,
 ownerId TEXT,
 tripPostId TEXT,
+name TEXT,
 description TEXT,
+address TEXT,
 lat REAL,
 lon REAL,
 createTs INTEGER,
@@ -135,8 +137,8 @@ editTs INTEGER
 );
 
 createOrUpdateTripPoint:
-INSERT OR REPLACE INTO TripPointsDao(id, ownerId, tripPostId, description, lat, lon, createTs, editTs)
-VALUES(?,?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO TripPointsDao(id, ownerId, tripPostId, name, description, address, lat, lon, createTs, editTs)
+VALUES(?,?,?,?,?,?,?,?,?,?);
 
 getTripPoint:
 SELECT * FROM TripPointsDao WHERE id = ?;

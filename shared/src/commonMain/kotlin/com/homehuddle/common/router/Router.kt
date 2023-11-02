@@ -3,11 +3,13 @@ package com.homehuddle.common.router
 import cafe.adriel.voyager.navigator.Navigator
 import com.homehuddle.common.base.domain.general.model.TripExpenseModel
 import com.homehuddle.common.base.domain.general.model.TripModel
+import com.homehuddle.common.base.domain.general.model.TripPointModel
 import com.homehuddle.common.base.domain.general.model.TripPostModel
 import com.homehuddle.common.feature.general.login.LoginScreenHolder
 import com.homehuddle.common.feature.general.setup.SetupScreenHolder
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenHolder
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreenHolder
+import com.homehuddle.common.feature.personal.createpoint.CreatePointScreenHolder
 import com.homehuddle.common.feature.personal.createpost.CreatePostScreenHolder
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenHolder
 import com.homehuddle.common.feature.personal.main.MainScreenHolder
@@ -66,8 +68,10 @@ internal class Router() {
         navigator.push(CreateExpenseScreenHolder(null, onCustomExpenseCreation))
     }
 
-    fun navigateToAddLocations() {
-        navigator.push(CreatePostScreenHolder(null))
+    fun navigateToAddLocations(
+        onCustomExpenseCreation: ((TripPointModel?) -> Unit)? = null,
+    ) {
+        navigator.push(CreatePointScreenHolder(null, onCustomExpenseCreation))
     }
 
     fun navigateToTripPost(tripPost: TripPostModel) {

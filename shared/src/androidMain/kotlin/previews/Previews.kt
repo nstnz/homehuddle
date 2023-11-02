@@ -4,6 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.homehuddle.common.design.mocks.mockTrip
 import com.homehuddle.common.design.mocks.mockTripExpense
+import com.homehuddle.common.design.mocks.mockTripPoint
 import com.homehuddle.common.design.mocks.mockTripPost
 import com.homehuddle.common.design.mocks.mockUser
 import com.homehuddle.common.design.theme.AppTheme
@@ -14,6 +15,8 @@ import com.homehuddle.common.feature.general.splash.SplashScreen
 import com.homehuddle.common.feature.general.welcome.WelcomeScreen
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreen
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreenState
+import com.homehuddle.common.feature.personal.createpoint.CreatePointScreen
+import com.homehuddle.common.feature.personal.createpoint.CreatePointScreenState
 import com.homehuddle.common.feature.personal.createpost.CreatePostScreen
 import com.homehuddle.common.feature.personal.createpost.CreatePostScreenState
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreen
@@ -142,6 +145,24 @@ private fun CreateExpenseScreenPreview() {
                 description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
                 formattedSum = TextFieldValue(""),
                 model = mockTripExpense(),
+                userModel = mockUser(),
+                isCreateMode = true
+            )
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Preview
+@Composable
+private fun CreatePointScreenPreview() {
+    AppTheme {
+        CreatePointScreen(
+            CreatePointScreenState(
+                trip = mockTrip(),
+                description = TextFieldValue("kjsd ksdnlkfjf jsldkf jflj"),
+                name = TextFieldValue("sdfjhkd"),
+                model = mockTripPoint(),
                 userModel = mockUser(),
                 isCreateMode = true
             )

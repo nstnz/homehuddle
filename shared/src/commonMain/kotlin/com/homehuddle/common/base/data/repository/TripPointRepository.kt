@@ -30,7 +30,9 @@ internal class TripPointRepository(
             tripPostId = it.tripPostId,
             lat = it.lat,
             lon = it.lon,
+            name = it.name.orEmpty(),
             description = it.description,
+            address = it.address,
             createTs = it.createTs,
             editTs = it.editTs
         )
@@ -44,6 +46,8 @@ internal class TripPointRepository(
             lat = it.lat ?: 0.0,
             lon = it.lon ?: 0.0,
             description = it.description.orEmpty(),
+            address = it.address.orEmpty(),
+            name = it.name.orEmpty(),
             createTs = it.createTs,
             editTs = it.editTs
         )
@@ -57,6 +61,8 @@ internal class TripPointRepository(
             lat = it.lat,
             lon = it.lon,
             description = it.description,
+            address = it.address,
+            name = it.name.orEmpty(),
             createTs = it.createTs,
             editTs = it.editTs
         )
@@ -71,7 +77,9 @@ internal class TripPointRepository(
             lon = it.lon ?: 0.0,
             description = it.description.orEmpty(),
             createTs = it.createTs,
-            editTs = it.editTs
+            editTs = it.editTs,
+            name = it.name.orEmpty(),
+            address = it.address.orEmpty(),
         )
     }
 }

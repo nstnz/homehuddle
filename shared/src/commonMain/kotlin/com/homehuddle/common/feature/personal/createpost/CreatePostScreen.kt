@@ -373,70 +373,74 @@ private fun PostBlock(
     )
     SpacerComponent { x1 }
     val size = AppTheme.indents.x11
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(size)
-            .ignoreHorizontalParentPadding(AppTheme.indents.x3)
-            .horizontalScroll(rememberScrollState()),
-    ) {
-        SpacerComponent { x3 }
-        Column(
+    Box( Modifier
+        .fillMaxWidth()
+        .height(size)
+        .ignoreHorizontalParentPadding(AppTheme.indents.x3)) {
+        Row(
             Modifier
-                .size(size)
-                .noEffectsClickable { onAddPhotoClick() }
-                .dashedBorder(
-                    width = 1.dp,
-                    color = AppTheme.colors.textDarkBorder(),
-                    shape = AppTheme.shapes.x1_5,
-                    on = 8.dp,
-                    off = 4.dp
-                )
-                .padding(horizontal = AppTheme.indents.x1),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .height(size)
+                .horizontalScroll(rememberScrollState()),
         ) {
-            Spacer(Modifier.weight(1f))
-            Image(
-                Icons.Rounded.AddCircleOutline,
-                contentDescription = null,
-                modifier = Modifier.size(AppTheme.indents.x3),
-                colorFilter = ColorFilter.tint(
-                    AppTheme.colors.textDarkDisabled()
-                )
-            )
-            SpacerComponent { x1 }
-            Text(
-                text = "Add photo",
-                style = AppTheme.typography.body3,
-                color = AppTheme.colors.textDarkDefault(),
-                textAlign = TextAlign.Center
-            )
-            Spacer(Modifier.weight(1f))
-        }
-        SpacerComponent { x1_5 }
-        state.bitmaps.forEach {
-            Box {
-                TripPhotoComponent(
-                    size,
-                    AppTheme.indents.x1_5,
-                    it as? Bitmap,
-                    it as? String,
-                )
+            SpacerComponent { x3 }
+            Column(
+                Modifier
+                    .size(size)
+                    .noEffectsClickable { onAddPhotoClick() }
+                    .dashedBorder(
+                        width = 1.dp,
+                        color = AppTheme.colors.textDarkBorder(),
+                        shape = AppTheme.shapes.x1_5,
+                        on = 8.dp,
+                        off = 4.dp
+                    )
+                    .padding(horizontal = AppTheme.indents.x1),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(Modifier.weight(1f))
                 Image(
-                    Icons.Rounded.Cancel,
+                    Icons.Rounded.AddCircleOutline,
                     contentDescription = null,
-                    modifier = Modifier
-                        .noEffectsClickable { onDeletePhotoClick(it) }
-                        .padding(AppTheme.indents.x0_5)
-                        .size(AppTheme.indents.x3).align(Alignment.TopEnd),
+                    modifier = Modifier.size(AppTheme.indents.x3),
                     colorFilter = ColorFilter.tint(
                         AppTheme.colors.textDarkDisabled()
                     )
                 )
+                SpacerComponent { x1 }
+                Text(
+                    text = "Add photo",
+                    style = AppTheme.typography.body3,
+                    color = AppTheme.colors.textDarkDefault(),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.weight(1f))
+            }
+            SpacerComponent { x1_5 }
+            state.bitmaps.forEach {
+                Box {
+                    TripPhotoComponent(
+                        size,
+                        AppTheme.indents.x1_5,
+                        it as? Bitmap,
+                        it as? String,
+                    )
+                    Image(
+                        Icons.Rounded.Cancel,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .noEffectsClickable { onDeletePhotoClick(it) }
+                            .padding(AppTheme.indents.x0_5)
+                            .size(AppTheme.indents.x3).align(Alignment.TopEnd),
+                        colorFilter = ColorFilter.tint(
+                            AppTheme.colors.textDarkDisabled()
+                        )
+                    )
+                }
+                SpacerComponent { x1_5 }
             }
             SpacerComponent { x1_5 }
         }
-        SpacerComponent { x1_5 }
     }
 }
 

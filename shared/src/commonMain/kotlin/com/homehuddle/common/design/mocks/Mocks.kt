@@ -96,8 +96,10 @@ fun mockTripExpense() = TripExpenseModel(
 fun mockTripPoint() = TripPointModel(
     id = "",
     ownerId = "",
+    name = "Point",
     description = "Description",
-    lat = 12.0,
+    address = "Address",
+    lat = 0.0,
     lon = 1.0,
     tripPostId = ""
 )

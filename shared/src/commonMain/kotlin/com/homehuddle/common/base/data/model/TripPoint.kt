@@ -9,7 +9,9 @@ data class TripPoint(
     override val createTs: Long? = null,
     override val editTs: Long? = null,
     val tripPostId: String,
+    val name: String,
     val description: String,
+    val address: String,
     val lat: Double,
     val lon: Double,
 ): BaseDataModel<TripPoint>

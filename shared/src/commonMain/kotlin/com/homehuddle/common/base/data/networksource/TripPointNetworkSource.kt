@@ -15,7 +15,9 @@ internal class TripPointNetworkSource(
             id = map.get("id")?.toString(),
             ownerId = map.get("ownerId")?.toString(),
             tripPostId = map.get("tripPostId")?.toString().orEmpty(),
+            name = map.get("name")?.toString().orEmpty(),
             description = map.get("description")?.toString().orEmpty(),
+            address = map.get("address")?.toString().orEmpty(),
             lat = map.get("lat")?.toString()?.toDouble() ?: 0.0,
             lon = map.get("lon")?.toString()?.toDouble() ?: 0.0,
         )

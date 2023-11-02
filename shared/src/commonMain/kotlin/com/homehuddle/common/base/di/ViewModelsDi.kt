@@ -5,6 +5,7 @@ import com.homehuddle.common.feature.general.setup.SetupScreenViewModel
 import com.homehuddle.common.feature.general.splash.SplashScreenViewModel
 import com.homehuddle.common.feature.general.welcome.WelcomeScreenViewModel
 import com.homehuddle.common.feature.personal.createexpense.CreateExpenseScreenViewModel
+import com.homehuddle.common.feature.personal.createpoint.CreatePointScreenViewModel
 import com.homehuddle.common.feature.personal.createpost.CreatePostScreenViewModel
 import com.homehuddle.common.feature.personal.createtrip.CreateTripScreenViewModel
 import com.homehuddle.common.feature.personal.main.MainScreenViewModel
@@ -28,6 +29,7 @@ internal val tripDetailsScope = object : UnboundedScope() {}
 internal val createTripScope = object : UnboundedScope() {}
 internal val createPostScope = object : UnboundedScope() {}
 internal val createExpenseScope = object : UnboundedScope() {}
+internal val createPointScope = object : UnboundedScope() {}
 
 internal val viewModelsDi = DI.Module(name = "ViewModels") {
     bind<SplashScreenViewModel>() with scoped(splashScope).singleton {
@@ -59,6 +61,19 @@ internal val viewModelsDi = DI.Module(name = "ViewModels") {
     }
     bind<CreateExpenseScreenViewModel>() with scoped(createExpenseScope).multiton { id: String? ->
         CreateExpenseScreenViewModel(
+            id,
+            instance(),
+            instance(),
+            instance(),
+            instance(),
+            instance(),
+            instance(),
+            instance(),
+            instance()
+        )
+    }
+    bind<CreatePointScreenViewModel>() with scoped(createPointScope).multiton { id: String? ->
+        CreatePointScreenViewModel(
             id,
             instance(),
             instance(),
